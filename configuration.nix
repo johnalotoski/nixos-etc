@@ -14,7 +14,7 @@ in
   #system.nixos.label = "kdeEnable";
 
   # Tags to incorporate into the NixOS boot entry labels
-  system.nixos.tags = [ "kde" ];
+  system.nixos.tags = [ "kde" "woLuksDiscards" "nvme-cli" ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -78,9 +78,14 @@ in
   #
   boot.initrd.luks.devices."0lk" = { device = "/lk0.img"; };
 
+  # Discards appear to be unsupported in my current environment with NixOS as a VBox guest.
+  # `lsblk -D`, `hdparm -I <dev>`, etc, give no indication of discard support on the underlying vdevs
+  # When building in an env which supports discards, 'issue_discards=1' in lvm.conf is also
+  # a possibility although this is caveated by https://wiki.gentoo.org/wiki/SSD#LVM
+  #
   boot.initrd.luks.devices.cr0 = {
     device = "/dev/disk/by-uuid/7217a816-928c-4674-8bdf-d6ee5edde406";
-    allowDiscards = true;
+    # allowDiscards = true;
     keyFile = "/dev/mapper/0lk";
   };
 
@@ -120,6 +125,7 @@ in
   environment.systemPackages = with pkgs; [
     hdparm
     mkpasswd
+    nvme-cli
     vim
     wget
   ];
@@ -136,7 +142,7 @@ in
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
 
-  # Close the 0lk Luks volume key post boot so the unencrypted 
+  # Close the 0lk LUKS volume key post boot so the unencrypted 
   # key data cannot be accessed without unlocking again
   #
   systemd.services.closeLuksKeyVol = {
