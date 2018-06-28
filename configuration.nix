@@ -1,7 +1,5 @@
 { config, pkgs, ... }:
 
-# TODO: Enable LVM discards
-
 let
   secrets = import ./secrets.nix;
 in
@@ -20,31 +18,29 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-
-# Block device structure as seen with `lsblk -f`
-# 
-# SSD > mdadm RAID1 > LUKS > LVM
-# HDD > LUKS
-#
-# NAME            FSTYPE            LABEL   UUID                                   MOUNTPOINT
-# sda             crypto_LUKS               ab7e3713-9c6b-4a64-acfb-02c360711c87   
-# └─cr1           ext4              data    f58a6eed-1211-4fbe-8cd9-241ed6d755a9   /data
-# sr0                                                                              
-# nvme0n1                                                                          
-# ├─nvme0n1p1     vfat              boot1   8674-A421                              /boot
-# └─nvme0n1p2     linux_raid_member nixos:0 e9922866-e9b5-b0ba-ba7e-fc6bbd706cad   
-#   └─md0         crypto_LUKS               7217a816-928c-4674-8bdf-d6ee5edde406   
-#     └─cr0       LVM2_member               ba248h-fRch-fkRi-zyPF-7PX9-8M3d-UdEq2t 
-#       ├─vg0-lv0 swap              swap    440b0e6a-aafc-46ee-ba45-4ddec2ec983e   [SWAP]
-#       └─vg0-lv1 ext4              nixos   802202a4-5520-4273-9b70-3690b2376da5   /
-# nvme0n2                                                                          
-# ├─nvme0n2p1     vfat              boot2   86BC-C593                              
-# └─nvme0n2p2     linux_raid_member nixos:0 e9922866-e9b5-b0ba-ba7e-fc6bbd706cad   
-#   └─md0         crypto_LUKS               7217a816-928c-4674-8bdf-d6ee5edde406   
-#     └─cr0       LVM2_member               ba248h-fRch-fkRi-zyPF-7PX9-8M3d-UdEq2t 
-#       ├─vg0-lv0 swap              swap    440b0e6a-aafc-46ee-ba45-4ddec2ec983e   [SWAP]
-#       └─vg0-lv1 ext4              nixos   802202a4-5520-4273-9b70-3690b2376da5   /
-
+  # Block device structure as seen with `lsblk -f`
+  # 
+  # SSD > mdadm RAID1 > LUKS > LVM
+  # HDD > LUKS
+  #
+  # NAME            FSTYPE            LABEL   UUID                                   MOUNTPOINT
+  # sda             crypto_LUKS               ab7e3713-9c6b-4a64-acfb-02c360711c87   
+  # └─cr1           ext4              data    f58a6eed-1211-4fbe-8cd9-241ed6d755a9   /data
+  # sr0                                                                              
+  # nvme0n1                                                                          
+  # ├─nvme0n1p1     vfat              boot1   8674-A421                              /boot
+  # └─nvme0n1p2     linux_raid_member nixos:0 e9922866-e9b5-b0ba-ba7e-fc6bbd706cad   
+  #   └─md0         crypto_LUKS               7217a816-928c-4674-8bdf-d6ee5edde406   
+  #     └─cr0       LVM2_member               ba248h-fRch-fkRi-zyPF-7PX9-8M3d-UdEq2t 
+  #       ├─vg0-lv0 swap              swap    440b0e6a-aafc-46ee-ba45-4ddec2ec983e   [SWAP]
+  #       └─vg0-lv1 ext4              nixos   802202a4-5520-4273-9b70-3690b2376da5   /
+  # nvme0n2                                                                          
+  # ├─nvme0n2p1     vfat              boot2   86BC-C593                              
+  # └─nvme0n2p2     linux_raid_member nixos:0 e9922866-e9b5-b0ba-ba7e-fc6bbd706cad   
+  #   └─md0         crypto_LUKS               7217a816-928c-4674-8bdf-d6ee5edde406   
+  #     └─cr0       LVM2_member               ba248h-fRch-fkRi-zyPF-7PX9-8M3d-UdEq2t 
+  #       ├─vg0-lv0 swap              swap    440b0e6a-aafc-46ee-ba45-4ddec2ec983e   [SWAP]
+  #       └─vg0-lv1 ext4              nixos   802202a4-5520-4273-9b70-3690b2376da5   /
 
   # Required for the LUKS key volume to mount to the loopback device during boot
   boot.initrd.kernelModules = [ "loop" ];
@@ -111,7 +107,6 @@ in
 
   swapDevices = [ { device = "/dev/disk/by-label/swap"; } ];
 
-
   # Internationalization
   time.timeZone = "America/New_York";
   i18n = {
@@ -119,7 +114,6 @@ in
     consoleKeyMap = "us";
     defaultLocale = "en_US.UTF-8";
   };
-
 
   # Declarative system package management
   environment.systemPackages = with pkgs; [
@@ -130,10 +124,8 @@ in
     wget
   ];
 
-
   # Program declarations
   programs.bash.enableCompletion = true;
-
 
   # Services:
   services.fstrim.enable = true;
@@ -150,30 +142,29 @@ in
     serviceConfig.ExecStart = "${pkgs.cryptsetup}/bin/cryptsetup luksClose 0lk";
   };
 
-
   # Declarative user management
   users.mutableUsers = false;
+
   users.users.jlotoski = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" ];
     hashedPassword = secrets.hashedPassword;
   };
+
   users.users.backup = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" ];
     hashedPassword = secrets.hashedPassword;
   };
-  security.sudo.wheelNeedsPassword = false;
 
+  security.sudo.wheelNeedsPassword = false;
 
   # Networking
   networking.hostName = "nixos";
 
-
   # Misc
   sound.enable = true;
   hardware.pulseaudio.enable = true;
-
 
   # NixOS Versioning
   system.stateVersion = "18.03";
