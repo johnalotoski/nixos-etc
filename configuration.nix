@@ -155,7 +155,7 @@ in {
   #   Ref: https://wiki.archlinux.org/index.php/HiDPI#Linux_console
   #   Ref: https://gist.github.com/domenkozar/b3c945035af53fa816e0ac460f1df853
   #
-  #    setfont latarcyrheb-sun32
+  #   setfont latarcyrheb-sun32
   #
   #
   # Upon booting into NixOS 18.03, reboot persistent WiFi with Network Manager can be added:
@@ -294,7 +294,7 @@ in {
     
     # Following line to address: https://github.com/NixOS/nixpkgs/issues/38887
     # This is also needed on this system to prevent KOrganizer crashes.
-    # It will add entries of the form 'application/x-vnd.[akonadi.*|kde.*]
+    # It will add entries of the form 'application/x-vnd.[akonadi.*|kde.*]'
     # to the /run/current-system/sw/share/mime/types file.
     #
     kdeApplications.akonadi-mime
@@ -336,7 +336,7 @@ in {
 
   # There is a bug with the NixOS psd version in Bash 4.4
   # See: https://github.com/NixOS/nixpkgs/issues/6576
-  
+  # 
   # services.psd.enable = true;
   # services.psd.users = [ "jlotoski" "backup" ];
 
@@ -345,7 +345,7 @@ in {
   # Teamviewer still needs be added to the users autostart
   # A KDE Windows Rule to minimize "TeamViewer" Window can be added
   # Under advanced TeamViewer options uncheck "Show Computers & Contacts on startup"
-
+  #
   services.teamviewer.enable = true;
 
   services.xserver.desktopManager.plasma5.enable = true;
@@ -355,7 +355,7 @@ in {
   services.xserver.layout = "us";
 
   # Enable touchpad support
-
+  #
   services.xserver.libinput.enable = true;
 
   # Enable this mode for Hybrid with no bumblebee or with discrete
@@ -413,11 +413,11 @@ in {
     hashedPassword = secrets.hashedPassword;
   };
 
-  security.sudo.wheelNeedsPassword = false;
-  
   # Optimization parameters for xmr-stak:
   #
   security.pam.loginLimits = [ { domain = "*"; item = "memlock"; type = "hard"; value = "262144"; }  { domain = "*"; item = "memlock"; type = "soft"; value = "262144"; } ];
+
+  security.sudo.wheelNeedsPassword = false;
   #
   # --------------------------------------------------
 
@@ -425,7 +425,6 @@ in {
   # --------------------------------------------------
   # Misc
   #
-  sound.enable = true;
   hardware.bumblebee.enable = true;
   hardware.pulseaudio.enable = true;
   hardware.sane.enable = true;
@@ -435,8 +434,10 @@ in {
   # This enables the Brother DS-620 scanner to work.  The deb binary was
   # obtained from the following location after accepting the EULA:
   # http://support.brother.com/g/b/downloadend.aspx?c=us_ot&lang=en&prod=ds620_all&os=128&dlid=dlf100976_000&flang=4&type3=566&dlang=true 
-
+  #
   hardware.sane.extraBackends = [ brotherDSSeries ];
+
+  sound.enable = true;
   #
   # --------------------------------------------------
 
