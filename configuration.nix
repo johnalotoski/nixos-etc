@@ -64,20 +64,27 @@ in {
   # /dev/sdc and the HDD as sdb.
   #
   #
-  # Setup the SSDs (repeat the same for sdc):
+  # Setup the SSDs used the following gdisk parameters (repeat the same for sdc):
   #
-  #   fdisk /dev/sda
+  #   gdisk /dev/sda
   #     n (new partition)
   #     1 (default part number)
   #     2048 (default first sector)
   #     +512M (size)
   #     t (change partition type)
-  #     1 (Linux EFI system)
+  #     1 (partition number)
+  #     ef00 (Linux EFI system)
   #     n (new)
   #     2 (default new partition)
   #     <enter> (default new first sector)
   #     <enter> (default last sector)
+  #     t (change partition type)
+  #     2 (partition number)
+  #     8300 (Linux FS)
   #     w (write changes and exit)
+  #
+  # Device /dev/sdb, the HDD, will have LUKS added directly to the block device,
+  # so partitioning with fdisk or gdisk won't be done here.
   #
   #
   # Create the SSD RAID 1 (Mirrored) Array:
@@ -199,8 +206,10 @@ in {
   boot.initrd.mdadmConf = "ARRAY /dev/md0 metadata=1.2 name=nixos:0 UUID=c5cb0286:a9a92645:2a354d88:941aa36d";
   
   # Hack to allow degraded array to boot per https://github.com/NixOS/nixpkgs/issues/31840
+  # This may not work in this config since the command is run after LUKS attempts decryption
+  # at which point RAID already needs to be mounted.
   #
-  boot.initrd.preLVMCommands = "mdadm --run /dev/md127";
+  # boot.initrd.preLVMCommands = "mdadm --run /dev/md127";
 
   # Append the LUKS key image to initrd.  The nix anti-quoting in the statement below
   # of ${ ... } and enclosed in double quotes is important to make this work.
@@ -425,8 +434,10 @@ in {
   # --------------------------------------------------
   # Misc
   #
+  hardware.bluetooth.enable = true;
   hardware.bumblebee.enable = true;
   hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.package = pkgs.pulseaudioFull;
   hardware.sane.enable = true;
 
   # The sane backend defined at the top and called below is from:
