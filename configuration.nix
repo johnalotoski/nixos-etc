@@ -3,7 +3,7 @@ let
   secrets = import ./secrets.nix;
   brotherDSSeries = pkgs.callPackage ./brother-dsseries.nix { };
 in {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [ ./hardware-configuration.nix ./nginx.nix ];
 
   # --------------------------------------------------
   # Current config state labels -- overrides tags if enabled
@@ -64,7 +64,7 @@ in {
   # /dev/sdc and the HDD as sdb.
   #
   #
-  # Setup the SSDs used the following gdisk parameters (repeat the same for sdc):
+  # Setup of the SSDs used the following gdisk parameters (repeat the same for sdc):
   #
   #   gdisk /dev/sda
   #     n (new partition)
@@ -267,6 +267,12 @@ in {
   #
   networking.firewall.allowedTCPPorts = [ 631 ];
   networking.firewall.allowedUDPPorts = [ 631 ];
+  
+  # The following line to be uncommented for debugging
+  # purposes as needed and activated with `nixos-rebuild test`
+  #
+  # networking.firewall.enable = false;
+
   networking.hostName = "nixos";
   networking.nameservers = [ "8.8.8.8" "8.8.4.4" ];
   networking.networkmanager.enable = true;
@@ -314,6 +320,7 @@ in {
     mutt
     pciutils
     smartmontools
+    tcpdump
     usbutils
     vimHugeX
     wget
@@ -449,6 +456,15 @@ in {
   hardware.sane.extraBackends = [ brotherDSSeries ];
 
   sound.enable = true;
+  #
+  # --------------------------------------------------
+
+
+  # --------------------------------------------------
+  # Nix Specific Config
+  #
+  nix.binaryCaches = [ "https://hydra.iohk.io" "https://cache.nixos.org/" ];
+  nix.binaryCachePublicKeys = [ "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
   #
   # --------------------------------------------------
 
