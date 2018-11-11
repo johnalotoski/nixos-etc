@@ -407,7 +407,7 @@ in {
   # Virtualization
   #
   virtualisation.virtualbox.host.enable = true;
-  nixpkgs.config.virtualbox.enableExtensionPack = true;
+  virtualisation.virtualbox.host.enableExtensionPack = true;
   #
   # --------------------------------------------------
 
@@ -472,7 +472,7 @@ in {
   # --------------------------------------------------
   # NixOS Versioning
   #
-  system.stateVersion = "18.03";
+  system.stateVersion = "18.09";
   #
   # --------------------------------------------------
 }
