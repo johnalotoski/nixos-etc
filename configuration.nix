@@ -290,7 +290,12 @@ in {
   #
   time.timeZone = "America/New_York";
   i18n = {
+    # For high DPI screens, use the following font:
     consoleFont = "latarcyrheb-sun32";
+
+    # For regular DPI screens, use:
+    # consoleFont = "Lat2-Terminus16";
+
     consoleKeyMap = "us";
     defaultLocale = "en_US.UTF-8";
   };
