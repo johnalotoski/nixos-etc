@@ -26,6 +26,11 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # For GRUB2, use the following instead:
+  # boot.loader.grub.device = "/dev/<device>";
+  # boot.loader.grub.enable = true;
+  # boot.loader.grub.version = 2;
+
   # Optimization parameter for xmr-stak:
   #
   boot.kernel.sysctl = { "vm.nr_hugepages" = 128; };
@@ -165,7 +170,7 @@ in {
   #   setfont latarcyrheb-sun32
   #
   #
-  # Upon booting into NixOS 18.03, reboot persistent WiFi with Network Manager can be added:
+  # Upon booting into NixOS, reboot persistent WiFi with Network Manager can be added:
   #
   #   nmcli con add con-name <con-name> ifname <if> type wifi ssid <ssid>
   #   nmcli con modify <con-name> wifi-sec.key-mgmt wpa-psk
@@ -344,6 +349,8 @@ in {
   services.clamav.updater.enable = true;  
   services.fstrim.enable = true;
   services.netdata.enable = true;
+  services.nixops-dns.enable = true;
+  services.nixops-dns.user = "jlotoski";
   services.postfix.enable = true;
   services.postfix.setSendmail = true;
   services.printing.browsing = true;
