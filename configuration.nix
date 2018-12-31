@@ -270,7 +270,7 @@ in {
   # --------------------------------------------------
   # Networking
   #
-  networking.firewall.allowedTCPPorts = [ 631 ];
+  networking.firewall.allowedTCPPorts = [ 631 8080 ];
   networking.firewall.allowedUDPPorts = [ 631 ];
   
   # The following line to be uncommented for debugging
@@ -279,7 +279,8 @@ in {
   # networking.firewall.enable = false;
 
   networking.hostName = "nixos";
-  networking.nameservers = [ "8.8.8.8" "8.8.4.4" ];
+  networking.nameservers = [ "192.168.1.1" "8.8.8.8" "8.8.4.4" ];
+  networking.networkmanager.appendNameservers = [ "192.168.1.1" "8.8.8.8" "8.8.4.4" ];
   networking.networkmanager.enable = true;
   #
   # --------------------------------------------------
@@ -356,6 +357,12 @@ in {
   services.netdata.enable = true;
   services.nixops-dns.enable = true;
   services.nixops-dns.user = "jlotoski";
+  services.openssh.enable = true;
+  services.openssh.extraConfig = ''
+    AllowUsers *@192.168.1.*
+  '';
+  services.openssh.passwordAuthentication = false;
+  services.openssh.permitRootLogin = "no";
   services.postfix.enable = true;
   services.postfix.setSendmail = true;
   services.printing.browsing = true;
@@ -433,12 +440,14 @@ in {
     isNormalUser = true;
     extraGroups = [ "networkmanager" "scanner" "wheel" "vboxusers" ];
     hashedPassword = secrets.hashedPassword;
+    openssh.authorizedKeys.keys = [ secrets.sshAuthKey ];
   };
 
   users.users.backup = {
     isNormalUser = true;
     extraGroups = [ "networkmanager" "scanner" "wheel" "vboxusers" ];
     hashedPassword = secrets.hashedPassword;
+    openssh.authorizedKeys.keys = [ secrets.sshAuthKey ];
   };
 
   # Optimization parameters for xmr-stak:
