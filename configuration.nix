@@ -2,7 +2,7 @@
 let
   secrets = import ./secrets.nix;
   brotherDSSeries = pkgs.callPackage ./brother-dsseries.nix { };
-in {
+in with pkgs.lib; with builtins; {
   imports = [ ./hardware-configuration.nix ./nginx.nix ];
 
   # --------------------------------------------------
@@ -270,8 +270,16 @@ in {
   # --------------------------------------------------
   # Networking
   #
-  networking.firewall.allowedTCPPorts = [ 631 8080 ];
-  networking.firewall.allowedUDPPorts = [ 631 ];
+  networking.firewall.allowedTCPPorts = [
+    # Allow for CUPS TCP
+    (toInt (last (split ":" (head config.services.printing.listenAddresses))))
+    # Allow for temporary python webserver
+    8080
+  ];
+  networking.firewall.allowedUDPPorts = [
+    # Allow for CUPS UDP
+    (toInt (last (split ":" (head config.services.printing.listenAddresses))))
+  ];
   
   # The following line to be uncommented for debugging
   # purposes as needed and activated with `nixos-rebuild test`
@@ -368,6 +376,7 @@ in {
   services.printing.browsing = true;
   services.printing.drivers = [ pkgs.hplip ];
   services.printing.enable = true;
+  services.printing.listenAddresses = [ "localhost:631" ];
 
   # There is a bug with the NixOS psd version in Bash 4.4
   # See: https://github.com/NixOS/nixpkgs/issues/6576
