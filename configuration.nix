@@ -273,6 +273,8 @@ in with pkgs.lib; with builtins; {
   networking.firewall.allowedTCPPorts = [
     # Allow for CUPS TCP
     (toInt (last (split ":" (head config.services.printing.listenAddresses))))
+    # Allow for jekyll temporary webserver
+    4000
     # Allow for temporary python webserver
     8080
   ];
