@@ -3,7 +3,7 @@ let
   secrets = import ./secrets.nix;
   brotherDSSeries = pkgs.callPackage ./brother-dsseries.nix { };
 in with pkgs.lib; with builtins; {
-  imports = [ ./hardware-configuration.nix ./nginx.nix ];
+  imports = [ ./hardware-configuration.nix ./nginx.nix ./vim.nix ];
 
   # --------------------------------------------------
   # Current config state labels -- overrides tags if enabled
@@ -17,7 +17,7 @@ in with pkgs.lib; with builtins; {
   #
   # --------------------------------------------------
 
-  
+
   # --------------------------------------------------
   # Boot related configs
   #
@@ -36,27 +36,27 @@ in with pkgs.lib; with builtins; {
   boot.kernel.sysctl = { "vm.nr_hugepages" = 128; };
 
   # Block device structure as seen with `lsblk -f`
-  # 
+  #
   # SSD > mdadm RAID1 > LUKS > LVM
   # HDD > LUKS
   #
   # ---------------------------------------------------------------------------------------------
   #
   # NAME              FSTYPE            LABEL   UUID                                   MOUNTPOINT
-  # sda                                                                                
+  # sda
   # ├─sda1            vfat              boot1   41B8-8A40                              /boot
-  # └─sda2            linux_raid_member nixos:0 c5cb0286-a9a9-2645-2a35-4d88941aa36d   
-  #   └─md0           crypto_LUKS               a8b83540-8db1-4612-b75b-901718b34c5e   
-  #     └─cr0         LVM2_member               OWGXF9-gE0m-D1qQ-z24K-quWY-KgSH-lfM2fd 
+  # └─sda2            linux_raid_member nixos:0 c5cb0286-a9a9-2645-2a35-4d88941aa36d
+  #   └─md0           crypto_LUKS               a8b83540-8db1-4612-b75b-901718b34c5e
+  #     └─cr0         LVM2_member               OWGXF9-gE0m-D1qQ-z24K-quWY-KgSH-lfM2fd
   #       ├─vg0-nixos ext4              nixos   0f234721-a60f-4d05-bed5-3b5c8080cdb6   /
   #       └─vg0-swap  swap              swap    c8041681-4662-47a5-9ef8-0a1bc66a8bba   [SWAP]
-  # sdb               crypto_LUKS               5a321a3f-11b9-45b5-90e7-d1ebf12700d4   
+  # sdb               crypto_LUKS               5a321a3f-11b9-45b5-90e7-d1ebf12700d4
   # └─cr1             ext4              data    e73802de-ec82-4c5a-bdba-0df1d41f0fd2   /data
-  # sdc                                                                                
-  # ├─sdc1            vfat              boot2   44D0-0CCE                              
-  # └─sdc2            linux_raid_member nixos:0 c5cb0286-a9a9-2645-2a35-4d88941aa36d   
-  #   └─md0           crypto_LUKS               a8b83540-8db1-4612-b75b-901718b34c5e   
-  #     └─cr0         LVM2_member               OWGXF9-gE0m-D1qQ-z24K-quWY-KgSH-lfM2fd 
+  # sdc
+  # ├─sdc1            vfat              boot2   44D0-0CCE
+  # └─sdc2            linux_raid_member nixos:0 c5cb0286-a9a9-2645-2a35-4d88941aa36d
+  #   └─md0           crypto_LUKS               a8b83540-8db1-4612-b75b-901718b34c5e
+  #     └─cr0         LVM2_member               OWGXF9-gE0m-D1qQ-z24K-quWY-KgSH-lfM2fd
   #       ├─vg0-nixos ext4              nixos   0f234721-a60f-4d05-bed5-3b5c8080cdb6   /
   #       └─vg0-swap  swap              swap    c8041681-4662-47a5-9ef8-0a1bc66a8bba   [SWAP]
   # sr0
@@ -209,7 +209,7 @@ in with pkgs.lib; with builtins; {
   # RAID1 array configuration.  Generated after RAID creation with `mdadm --detail --scan`
   #
   boot.initrd.mdadmConf = "ARRAY /dev/md0 metadata=1.2 name=nixos:0 UUID=c5cb0286:a9a92645:2a354d88:941aa36d";
-  
+
   # Hack to allow degraded array to boot per https://github.com/NixOS/nixpkgs/issues/31840
   # This may not work in this config since the command is run after LUKS attempts decryption
   # at which point RAID already needs to be mounted.
@@ -282,7 +282,7 @@ in with pkgs.lib; with builtins; {
     # Allow for CUPS UDP
     (toInt (last (split ":" (head config.services.printing.listenAddresses))))
   ];
-  
+
   # The following line to be uncommented for debugging
   # purposes as needed and activated with `nixos-rebuild test`
   #
@@ -327,18 +327,21 @@ in with pkgs.lib; with builtins; {
     file
     hdparm
     hddtemp
-    
+    iotop
+
     # Following line to address: https://github.com/NixOS/nixpkgs/issues/38887
     # This is also needed on this system to prevent KOrganizer crashes.
     # It will add entries of the form 'application/x-vnd.[akonadi.*|kde.*]'
     # to the /run/current-system/sw/share/mime/types file.
     #
     kdeApplications.akonadi-mime
-    
+
     lm_sensors
     lsof
     mkpasswd
     mutt
+    ncat
+    noip
     pciutils
     smartmontools
     tcpdump
@@ -362,7 +365,7 @@ in with pkgs.lib; with builtins; {
   # Services
   #
   services.clamav.daemon.enable = true;
-  services.clamav.updater.enable = true;  
+  services.clamav.updater.enable = true;
   services.fstrim.enable = true;
   services.netdata.enable = true;
   services.nixops-dns.enable = true;
@@ -370,6 +373,7 @@ in with pkgs.lib; with builtins; {
   services.openssh.enable = true;
   services.openssh.extraConfig = ''
     AllowUsers *@192.168.1.*
+    # AllowUsers jlotoski@* backup@*
   '';
   services.openssh.passwordAuthentication = false;
   services.openssh.permitRootLogin = "no";
@@ -382,7 +386,7 @@ in with pkgs.lib; with builtins; {
 
   # There is a bug with the NixOS psd version in Bash 4.4
   # See: https://github.com/NixOS/nixpkgs/issues/6576
-  # 
+  #
   # services.psd.enable = true;
   # services.psd.users = [ "jlotoski" "backup" ];
 
@@ -392,7 +396,7 @@ in with pkgs.lib; with builtins; {
   # A KDE Windows Rule to minimize "TeamViewer" Window can be added
   # Under advanced TeamViewer options uncheck "Show Computers & Contacts on startup"
   #
-  services.teamviewer.enable = true;
+  # services.teamviewer.enable = true;
 
   services.xserver.desktopManager.plasma5.enable = true;
   services.xserver.displayManager.sddm.enable = true;
@@ -409,7 +413,7 @@ in with pkgs.lib; with builtins; {
   #
   # services.xserver.videoDrivers = [ "intel" "nvidia" ];
 
-  # Close the 0lk LUKS volume key post boot so the unencrypted 
+  # Close the 0lk LUKS volume key post boot so the unencrypted
   # key data cannot be accessed without unlocking again.
   # Uncomment the following systemd services section if the LUKS
   # image key described above is being used.
@@ -438,6 +442,7 @@ in with pkgs.lib; with builtins; {
   #
   virtualisation.virtualbox.host.enable = true;
   virtualisation.virtualbox.host.enableExtensionPack = true;
+  virtualisation.docker.enable = true;
   #
   # --------------------------------------------------
 
@@ -483,7 +488,7 @@ in with pkgs.lib; with builtins; {
   # https://github.com/pjones/nix-utils/blob/master/pkgs/drivers/brother-dsseries.nix
   # This enables the Brother DS-620 scanner to work.  The deb binary was
   # obtained from the following location after accepting the EULA:
-  # http://support.brother.com/g/b/downloadend.aspx?c=us_ot&lang=en&prod=ds620_all&os=128&dlid=dlf100976_000&flang=4&type3=566&dlang=true 
+  # http://support.brother.com/g/b/downloadend.aspx?c=us_ot&lang=en&prod=ds620_all&os=128&dlid=dlf100976_000&flang=4&type3=566&dlang=true
   #
   hardware.sane.extraBackends = [ brotherDSSeries ];
 
