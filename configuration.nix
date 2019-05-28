@@ -413,6 +413,11 @@ in with pkgs.lib; with builtins; {
   #
   # services.xserver.videoDrivers = [ "intel" "nvidia" ];
 
+  services.toxvpn = {
+    enable = true;
+    localip = "10.40.14.1";
+  };
+
   # Close the 0lk LUKS volume key post boot so the unencrypted
   # key data cannot be accessed without unlocking again.
   # Uncomment the following systemd services section if the LUKS

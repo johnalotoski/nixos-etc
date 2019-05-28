@@ -4,44 +4,66 @@ with lib;
 
 let
   # notPython = pkgs.writeScript "notPython" ''
-  #   #!${pkgs.stdenv.shell}
-  #   shift
-  #   shift
-  #   shift
-  #   wakatime "$@"
-  # '';
+  #  #!${pkgs.stdenv.shell}
+  #  shift
+  #  shift
+  #  shift
+  #  wakatime "$@"
+  #'';
   myVim = pkgs.vim_configurable.customize {
     name = "vim";
     vimrcConfig = {
       customRC = ''
         syntax on
-        set nu
-        set foldmethod=syntax
-        set listchars=tab:->
-        set list
-        set backspace=indent,eol,start
-        nmap <F3> :!nix-build -A default <enter>
-        map <F7> :tabp<enter>
-        map <F8> :tabn<enter>
-        set expandtab
-        set softtabstop=2
-        set shiftwidth=2
+
+        " Maps
+        inoremap jk <ESC>
+        map <space> <leader>
+        map <F7> :tabp<CR>
+        map <F8> :tabn<CR>
+        nnoremap <leader>f 1z=
+        nnoremap <leader>s :set spell!<CR>
+        nmap <F3> :!nix-build -A default<CR>
+        vnoremap . :norm.<CR>
+
+        " Sets
         set autoindent
-        set statusline+=col:\ %c,
         set background=dark
+        set backspace=indent,eol,start
+        set expandtab
+        set foldmethod=syntax
         set hlsearch
         set incsearch
+        set laststatus=2
+        set listchars=tab:->
+        set list
+        set nu
+        set shiftwidth=2
+        set nospell spelllang=en_us
+        set softtabstop=2
 
-        " remove trailing whitespace upon save
+        " Set status line
+        set statusline=%f\ %h%w%m%r
+        set statusline+=\ %#warningmsg#
+        set statusline+=%{SyntasticStatuslineFlag()}
+        set statusline+=%*
+        set statusline+=%=%(%l,%c%V\ %=\ %P%)
+
+        " Remove trailing whitespace upon save
         au BufWritePre * %s/\s\+$//e
 
-        " highlight all trailing whitespace
+        " Highlight all trailing whitespace
         highlight ExtraWhitespace ctermbg=red guibg=red
         au ColorScheme * highlight ExtraWhitespace guibg=red
         au BufEnter * match ExtraWhitespace /\s\+$/
         au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
         au InsertLeave * match ExtraWhiteSpace /\s\+$/
 
+
+        let g:syntastic_always_populate_loc_list = 1
+        let g:syntastic_auto_loc_list = 1
+        let g:syntastic_check_on_open = 1
+        let g:syntastic_check_on_wq = 0
 
         " let g:wakatime_PythonBinary = ' ''${notPython}'
         autocmd Filetype haskell set foldmethod=indent foldcolumn=2 softtabstop=2 shiftwidth=2
