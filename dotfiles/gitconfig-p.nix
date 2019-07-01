@@ -14,7 +14,7 @@
   program = gpg
 
 [github]
-  user = jalotoski
+  user = johnalotoski
 
 [color]
   ui = true
