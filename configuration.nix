@@ -3,7 +3,13 @@ let
   secrets = import ./secrets.nix;
   brotherDSSeries = pkgs.callPackage ./brother-dsseries.nix { };
 in with pkgs.lib; with builtins; {
-  imports = [ ./hardware-configuration.nix ./nginx.nix ./vim.nix ];
+  imports = [
+    ./hardware-configuration.nix
+    ./nginx.nix
+    ./vim.nix
+    ./modules/git.nix
+    ./modules/sarov.nix
+  ];
 
   # --------------------------------------------------
   # Current config state labels -- overrides tags if enabled
@@ -342,6 +348,7 @@ in with pkgs.lib; with builtins; {
     mutt
     ncat
     noip
+    nvtop
     pciutils
     smartmontools
     tcpdump
@@ -411,7 +418,7 @@ in with pkgs.lib; with builtins; {
   # Enable this mode for Hybrid with no bumblebee or with discrete
   # (not currently needed)
   #
-  # services.xserver.videoDrivers = [ "intel" "nvidia" ];
+  services.xserver.videoDrivers = [ "intel" "nvidia" ];
 
   services.toxvpn = {
     enable = true;
@@ -475,7 +482,7 @@ in with pkgs.lib; with builtins; {
   #
   security.pam.loginLimits = [ { domain = "*"; item = "memlock"; type = "hard"; value = "262144"; }  { domain = "*"; item = "memlock"; type = "soft"; value = "262144"; } ];
 
-  security.sudo.wheelNeedsPassword = false;
+  security.sudo.wheelNeedsPassword = true;
   #
   # --------------------------------------------------
 
@@ -484,7 +491,7 @@ in with pkgs.lib; with builtins; {
   # Misc
   #
   hardware.bluetooth.enable = true;
-  hardware.bumblebee.enable = true;
+  # hardware.bumblebee.enable = true;
   hardware.pulseaudio.enable = true;
   hardware.pulseaudio.package = pkgs.pulseaudioFull;
   hardware.sane.enable = true;
@@ -514,7 +521,7 @@ in with pkgs.lib; with builtins; {
   # --------------------------------------------------
   # NixOS Versioning
   #
-  system.stateVersion = "18.09";
+  system.stateVersion = "19.03";
   #
   # --------------------------------------------------
 }

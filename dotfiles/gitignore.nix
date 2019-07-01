@@ -1,0 +1,9 @@
+''
+*~
+,*
+.*.swp
+.*.swo
+result
+result-*
+*secret*
+''

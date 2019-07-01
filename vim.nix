@@ -71,8 +71,9 @@ let
       vam.pluginDictionaries = [
         {
           names = [
+            "splice-vim"
+            "syntastic"
             "vim-nix"
-            "Syntastic"
             # "vim-wakatime"
           ] ++ optional config.programs.vim.fat "youcompleteme";
         }
