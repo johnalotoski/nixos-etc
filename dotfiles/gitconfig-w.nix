@@ -32,6 +32,8 @@
 
 [alias]
 
+  alias = "!git config --get-regexp ^alias\\. | sort"
+
   # Add
   a = add                           # add
   chunkyadd = add --patch           # stage commits chunk by chunk

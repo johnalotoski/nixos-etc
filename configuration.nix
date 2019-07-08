@@ -11,6 +11,7 @@ in with pkgs.lib; with builtins; {
     ./modules/sarov.nix
   ];
 
+
   # --------------------------------------------------
   # Current config state labels -- overrides tags if enabled
   #
@@ -514,6 +515,7 @@ in with pkgs.lib; with builtins; {
   #
   nix.binaryCaches = [ "https://hydra.iohk.io" "https://cache.nixos.org/" ];
   nix.binaryCachePublicKeys = [ "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
+  nix.trustedUsers = [ "root" "jlotoski" ];
   #
   # --------------------------------------------------
 
