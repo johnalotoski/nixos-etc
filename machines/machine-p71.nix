@@ -1,14 +1,14 @@
 { config, pkgs, ... }:
 let
-  secrets = import ./secrets.nix;
-  brotherDSSeries = pkgs.callPackage ./brother-dsseries.nix { };
+  secrets = import ../secrets.nix;
+  brotherDSSeries = pkgs.callPackage ../brother-dsseries.nix { };
 in with pkgs.lib; with builtins; {
   imports = [
-    ./hardware-configuration.nix
-    ./nginx.nix
-    ./vim.nix
-    ./modules/git.nix
-    ./modules/sarov.nix
+    ../hardware-configuration.nix
+    ../nginx.nix
+    ../vim.nix
+    ../modules/git.nix
+    ../modules/sarov.nix
   ];
 
 
