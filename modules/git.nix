@@ -7,7 +7,7 @@
   environment.etc."per-user/jlotoski/gitconfig-po".text = import ../dotfiles/gitconfig-po.nix;
   environment.etc."per-user/jlotoski/gitignore".text = import ../dotfiles/gitignore.nix;
 
-  system.activationScripts.dotfiles = {
+  system.activationScripts.gitconfig = {
     text = ''
       ln -sfn /etc/per-user/jlotoski/gitconfig-w /home/jlotoski/.gitconfig;
       ln -sfn /etc/per-user/jlotoski/gitignore /home/jlotoski/.gitignore;
