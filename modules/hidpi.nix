@@ -1,5 +1,5 @@
 { config, pkgs, ... }:
 
 {
-  i18n.consoleFont = mkForce "latarcyrheb-sun32";
+  i18n.consoleFont = pkgs.lib.mkForce "latarcyrheb-sun32";
 }

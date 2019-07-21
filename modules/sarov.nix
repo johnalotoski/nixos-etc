@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 let
-  secrets = import ../secrets.nix;
+  secrets = import ../secrets/secrets.nix;
 in {
   boot.extraModulePackages = [ config.boot.kernelPackages.wireguard ];
   networking.wireguard.interfaces = {

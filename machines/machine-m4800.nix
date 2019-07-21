@@ -3,12 +3,12 @@
 {
   imports = [
     ../hw/hw-m4800.nix
+    ../modules/firewall.nix
     ../modules/git.nix
     ../modules/gnupg.nix
-    ../modules/firewall.nix
     ../modules/intl.nix
-    ../modules/networking.nix
     ../modules/nas.nix
+    ../modules/networking.nix
     ../modules/nix.nix
     ../modules/services-standard.nix
     ../modules/shell.nix

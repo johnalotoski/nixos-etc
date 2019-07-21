@@ -35,6 +35,7 @@
     mkpasswd
     mutt
     ncat
+    noip
     nix-diff
     pciutils
     pwgen
