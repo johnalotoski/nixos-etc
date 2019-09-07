@@ -73,6 +73,7 @@ let
       vam.pluginDictionaries = [
         {
           names = [
+            "fugitive"
             "splice-vim"
             "vim-nix"
             "Syntastic"

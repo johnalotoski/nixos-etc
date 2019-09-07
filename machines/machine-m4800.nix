@@ -3,7 +3,9 @@
 {
   imports = [
     ../hw/hw-m4800.nix
+    ../modules/backup.nix
     ../modules/firewall.nix
+    ../modules/flatpak.nix
     ../modules/git.nix
     ../modules/gnupg.nix
     ../modules/intl.nix

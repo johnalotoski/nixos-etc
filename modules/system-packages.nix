@@ -1,7 +1,25 @@
 { config, pkgs, ... }:
+let
+  pkgsUnstable = import <nixosunstable> {
+    config = {};
+    overlays = [];
+  };
+  x2goserver = self: super: {
+    inherit (pkgsUnstable) x2goserver;
+  };
+in {
+  imports = [
+    <nixosunstable/nixos/modules/programs/x2goserver.nix>
+  ];
 
-{
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs = {
+    config.allowUnfree = true;
+    overlays = [
+      x2goserver
+    ];
+  };
+
+  programs.x2goserver.enable = true;
 
   environment.etc."system-packages".text =
   let
