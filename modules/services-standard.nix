@@ -1,12 +1,13 @@
 { config, pkgs, ... }:
-
-{
+let
+  secrets = import ../secrets/secrets.nix;
+in {
   services.clamav.daemon.enable = true;
   services.clamav.updater.enable = true;
   services.fstrim.enable = true;
   services.netdata.enable = true;
   services.nixops-dns.enable = true;
-  services.nixops-dns.user = "jlotoski";
+  services.nixops-dns.user = "${secrets.priUsr}";
   services.openssh.enable = true;
   services.openssh.extraConfig = ''
     AllowUsers *@192.168.1.*

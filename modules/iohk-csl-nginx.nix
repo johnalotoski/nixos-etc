@@ -3,17 +3,19 @@
 # https://github.com/input-output-hk/iohk-ops/blob/master/modules/cardano-explorer.nix
 #
 #
-{
+let
+  secrets = import ../secrets/secrets.nix;
+in {
   services.nginx = {
     enable = true;
     virtualHosts = {
       "localhost" = {
-        sslCertificate = "/home/jlotoski/dev/www/nixnginx.crt";
-        sslCertificateKey = "/home/jlotoski/dev/www/nixnginx.key"; 
+        sslCertificate = "/home/${secrets.priUsr}/dev/www/nixnginx.crt";
+        sslCertificateKey = "/home/${secrets.priUsr}/dev/www/nixnginx.key";
         addSSL = true;
         locations = {
           "/" = {
-            root = "/home/jlotoski/dev/www/cardano-sl-explorer-frontend";
+            root = "/home/${secrets.priUsr}/dev/www/cardano-sl-explorer-frontend";
           };
           "/api/".proxyPass = "http://127.0.0.1:8100";
           "/socket.io/".proxyPass = "http://127.0.0.1:8110";

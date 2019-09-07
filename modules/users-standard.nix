@@ -4,7 +4,7 @@ let
 in {
   users.mutableUsers = false;
 
-  users.users.jlotoski = {
+  users.users."${secrets.priUsr}" = {
     isNormalUser = true;
     extraGroups = [ "networkmanager" "scanner" "wheel" "vboxusers" ];
     hashedPassword = secrets.hashedPassword;
@@ -12,7 +12,7 @@ in {
     shell = pkgs.zsh;
   };
 
-  users.users.backup = {
+  users.users."${secrets.secUsr}" = {
     isNormalUser = true;
     extraGroups = [ "networkmanager" "scanner" "wheel" "vboxusers" ];
     hashedPassword = secrets.hashedPassword;

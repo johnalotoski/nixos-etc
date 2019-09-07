@@ -20,6 +20,7 @@ in {
   };
 
   programs.x2goserver.enable = true;
+  systemd.coredump.enable = true;
 
   environment.etc."system-packages".text =
   let
@@ -33,6 +34,7 @@ in {
     ag
     binutils
     borgbackup
+    efibootmgr
     file
     hdparm
     hddtemp
@@ -61,6 +63,7 @@ in {
     sysstat
     tcpdump
     usbutils
+    vnstat
     wget
   ];
 }
