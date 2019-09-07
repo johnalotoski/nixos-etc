@@ -4,6 +4,7 @@ let
 in {
   imports = [
     ../hw/hw-p71.nix
+    ../modules/backup.nix
     ../modules/cuda.nix
     ../modules/firewall.nix
     ../modules/git.nix
