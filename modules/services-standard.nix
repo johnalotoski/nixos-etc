@@ -2,6 +2,7 @@
 let
   secrets = import ../secrets/secrets.nix;
 in {
+  programs.mosh.enable = true;
   services.clamav.daemon.enable = true;
   services.clamav.updater.enable = true;
   services.fstrim.enable = true;
@@ -10,7 +11,7 @@ in {
   services.nixops-dns.user = "${secrets.priUsr}";
   services.openssh.enable = true;
   services.openssh.extraConfig = ''
-    AllowUsers *@192.168.1.*
+    AllowUsers *@192.168.* ${secrets.priUsr}@*
   '';
   services.openssh.passwordAuthentication = false;
   services.openssh.permitRootLogin = "no";

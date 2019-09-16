@@ -13,6 +13,7 @@
     ../modules/networking.nix
     ../modules/nix.nix
     ../modules/services-standard.nix
+    ../modules/screen.nix
     ../modules/shell.nix
     ../modules/system-packages.nix
     ../modules/users-standard.nix

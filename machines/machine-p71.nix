@@ -17,6 +17,7 @@ in {
     ../modules/nix.nix
     ../modules/postresql.nix
     ../modules/scanner-brotherDSSeries.nix
+    ../modules/screen.nix
     ../modules/services-luksClose.nix
     ../modules/services-raid.nix
     ../modules/services-standard.nix
