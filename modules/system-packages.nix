@@ -1,26 +1,16 @@
 { config, pkgs, ... }:
 let
-  pkgsUnstable = import <nixosunstable> {
-    config = {};
-    overlays = [];
-  };
-  x2goserver = self: super: {
-    inherit (pkgsUnstable) x2goserver;
-  };
+  unstable = import <nixosunstable> {};
 in {
-  imports = [
-    <nixosunstable/nixos/modules/programs/x2goserver.nix>
-  ];
-
   nixpkgs = {
     config.allowUnfree = true;
-    overlays = [
-      x2goserver
-    ];
   };
 
   programs.x2goserver.enable = true;
   systemd.coredump.enable = true;
+  system.extraSystemBuilderCmds = ''
+    ln -sv ${pkgs.path} $out/nixpkgs
+  '';
 
   environment.etc."system-packages".text =
   let
@@ -32,14 +22,19 @@ in {
   environment.systemPackages = with pkgs; [
     acpi
     ag
+    bat
     binutils
     borgbackup
+    direnv
     efibootmgr
+    fd
     file
+    # haskellPackages.niv
     hdparm
     hddtemp
     hping
-    hwloc
+    (hwloc.override { x11Support = true; })
+    iftop
     iotop
     gitAndTools.gitFull
 
@@ -55,10 +50,13 @@ in {
     mkpasswd
     mutt
     ncat
+    nixos-container
     noip
     nix-diff
+    unstable.haskellPackages.niv
     pciutils
     pwgen
+    ripgrep
     smartmontools
     sysstat
     tcpdump

@@ -1,7 +1,5 @@
-{ config, pkgs, ... }:
-let
-  secrets = import ../secrets/secrets.nix;
-in {
+{ config, pkgs, secrets, ... }:
+{
   environment.systemPackages = with pkgs; [ gnupg pinentry ];
   programs.gnupg.agent.enable = true;
 

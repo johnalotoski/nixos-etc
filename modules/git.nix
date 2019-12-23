@@ -1,7 +1,5 @@
-{ config, pkgs, ... }:
-let
-  secrets = import ../secrets/secrets.nix;
-in {
+{ config, pkgs, secrets, ... }:
+{
   environment.etc."per-user/${secrets.priUsr}/gitconfig-w".text = import ../dotfiles/gitconfig-w.nix;
   environment.etc."per-user/${secrets.priUsr}/gitconfig-p".text = import ../dotfiles/gitconfig-p.nix;
   environment.etc."per-user/root/gitconfig-p".text = import ../dotfiles/gitconfig-p.nix;

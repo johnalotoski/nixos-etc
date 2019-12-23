@@ -1,9 +1,8 @@
 # This nginx configuration file serves a local Cardano-SL explorer frontend
 # See the IOHK production setup at:
 # https://github.com/input-output-hk/iohk-ops/blob/master/modules/cardano-explorer.nix
-let
-  secrets = import ../secrets/secrets.nix;
-in {
+{ secrets, ... }:
+{
   services.nginx = {
     enable = true;
     virtualHosts = {

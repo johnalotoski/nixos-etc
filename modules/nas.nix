@@ -1,7 +1,5 @@
-{ config, pkgs, ... }:
-let
-  secrets = import ../secrets/secrets.nix;
-in {
+{ config, pkgs, secrets, ... }:
+{
   fileSystems."/mnt/nas" = {
     device = "${secrets.nas}:/data/Backup";
     fsType = "nfs";

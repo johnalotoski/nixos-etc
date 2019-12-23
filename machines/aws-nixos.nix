@@ -1,8 +1,4 @@
-{ config, pkgs, ... }:
-
-let
-  secrets = import ./secrets.nix;
-
+{ config, pkgs, secrets, ... }:
 in with builtins; {
 
   imports = [

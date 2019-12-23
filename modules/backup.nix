@@ -1,6 +1,5 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, secrets, lib, ... }:
 let
-  secrets = import ../secrets/secrets.nix;
   hostName = config.networking.hostName;
   defaultBorgSpec = {
     compression = "auto,lzma";

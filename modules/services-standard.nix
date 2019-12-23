@@ -1,7 +1,5 @@
-{ config, pkgs, ... }:
-let
-  secrets = import ../secrets/secrets.nix;
-in {
+{ config, pkgs, secrets, ... }:
+{
   programs.mosh.enable = true;
   services.clamav.daemon.enable = true;
   services.clamav.updater.enable = true;
