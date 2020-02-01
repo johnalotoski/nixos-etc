@@ -23,12 +23,14 @@
     ../modules/services-toxvpn.nix
     ../modules/shell.nix
     ../modules/system-packages.nix
+    ../modules/testing.nix
     ../modules/users-standard.nix
     ../modules/virtualization.nix
     ../modules/vim.nix
     ../modules/wireguard.nix
-    ../modules/testing.nix
     ../modules/xrandr.nix
+    ../modules/yubikey.nix
+    ../modules/zfs.nix
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
