@@ -11,12 +11,12 @@
     ../modules/hidpi.nix
     ../modules/intl.nix
     ../modules/lorri.nix
+    ../modules/modargs.nix
     ../modules/nas.nix
     ../modules/networking.nix
     ../modules/nix.nix
     ../modules/scanner-brotherDSSeries.nix
     ../modules/screen.nix
-    ../modules/secrets.nix
     ../modules/services-luksClose.nix
     ../modules/services-raid.nix
     ../modules/services-standard.nix
