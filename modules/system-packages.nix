@@ -48,6 +48,7 @@ in {
     lm_sensors
     lsof
     mkpasswd
+    mullvad-vpn
     mutt
     ncat
     nixos-container

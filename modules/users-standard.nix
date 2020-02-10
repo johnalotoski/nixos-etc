@@ -6,7 +6,7 @@
     isNormalUser = true;
     extraGroups = [ "networkmanager" "scanner" "wheel" "vboxusers" ];
     hashedPassword = secrets.hashedPassword;
-    openssh.authorizedKeys.keys = [ secrets.sshAuthKey ];
+    openssh.authorizedKeys.keys = secrets.sshAuthKey;
     shell = pkgs.bash;
   };
 
@@ -14,7 +14,7 @@
     isNormalUser = true;
     extraGroups = [ "networkmanager" "scanner" "wheel" "vboxusers" ];
     hashedPassword = secrets.hashedPassword;
-    openssh.authorizedKeys.keys = [ secrets.sshAuthKey ];
+    openssh.authorizedKeys.keys = secrets.sshAuthKey;
   };
 
   security.sudo.wheelNeedsPassword = true;
