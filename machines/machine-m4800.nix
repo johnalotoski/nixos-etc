@@ -24,6 +24,8 @@
     ../modules/zfs.nix
   ];
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   system.nixos.tags = [ "kde" ];
   networking.hostName = "nixos-m4800";
   services.xserver.videoDrivers = [ "nvidia" ];

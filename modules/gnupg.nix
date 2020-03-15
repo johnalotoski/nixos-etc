@@ -3,7 +3,7 @@
   environment.systemPackages = with pkgs; [ gnupg pinentry ];
   programs.gnupg.agent.enable = true;
 
-  environment.etc."per-user/${secrets.priUsr}/gpg-agent.conf".text = "pinentry-program /run/current-system/sw/bin/pinentry-curses";
+  environment.etc."per-user/${secrets.priUsr}/gpg-agent.conf".text = "#pinentry-program /run/current-system/sw/bin/pinentry-curses";
   environment.etc."per-user/root/gpg-agent.conf".text = "allow-loopback-pinentry";
   environment.etc."per-user/root/gpg.conf".text = "pinentry-mode loopback";
 

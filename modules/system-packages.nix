@@ -29,6 +29,7 @@ in {
     efibootmgr
     fd
     file
+    gpgme.dev
     # haskellPackages.niv
     hdparm
     hddtemp
