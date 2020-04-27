@@ -33,7 +33,7 @@
   services.pcscd.enable = true;
   environment.systemPackages = with pkgs; [
     gnupg
-    pinentry_ncurses
+    pinentry
     paperkey
     yubioath-desktop
     yubikey-manager

@@ -6,8 +6,6 @@ in {
     config.allowUnfree = true;
   };
 
-  programs.x2goserver.enable = true;
-  systemd.coredump.enable = true;
   system.extraSystemBuilderCmds = ''
     ln -sv ${pkgs.path} $out/nixpkgs
   '';
@@ -21,49 +19,87 @@ in {
 
   environment.systemPackages = with pkgs; [
     acpi
-    ag
     bat
     binutils
     borgbackup
+    busybox
     direnv
     efibootmgr
     fd
     file
-    gpgme.dev
-    # haskellPackages.niv
+    gcc
+    gitAndTools.gitFull
+    glxinfo
+    gnumake
+    graphviz
+    haskellPackages.niv
     hdparm
     hddtemp
     hping
     (hwloc.override { x11Support = true; })
     iftop
     iotop
-    gitAndTools.gitFull
-
-    # Following line to address: https://github.com/NixOS/nixpkgs/issues/38887
-    # This is also needed on this system to prevent KOrganizer crashes.
-    # It will add entries of the form 'application/x-vnd.[akonadi.*|kde.*]'
-    # to the /run/current-system/sw/share/mime/types file.
-    #
-    kdeApplications.akonadi-mime
-
+    jq
+    kdeApplications.kate
+    kdeApplications.kolourpaint
+    kdeApplications.ksystemlog
+    kdeApplications.spectacle
+    konversation
     lm_sensors
     lsof
     mkpasswd
     mullvad-vpn
     mutt
     ncat
+    ncdu
     nixos-container
-    noip
     nix-diff
-    unstable.haskellPackages.niv
+    nix-du
+    nix-index
+    noip
+    notepadqq
+    nox
+    obs-studio
+    openssl
+    packet
+    patchelf
     pciutils
+    ps_mem
     pwgen
+    python3
+    python38Packages.glances
+    python38Packages.ipython
+    qalculate-gtk
+    quiterss
+    remmina
     ripgrep
+    shellcheck
+    skypeforlinux
+    slack
     smartmontools
+    sqlite
+    sqlite-interactive
+    sqlitebrowser
+    sublime
+    syncthing
     sysstat
     tcpdump
+    tdesktop
+    tig
+    tmate
+    tmux
+    tree
+    unzip
     usbutils
+    vagrant
+    virtmanager
+    vlc
     vnstat
+    wine
+    wireshark
     wget
+    zgrviewer
+    zip
+    zoom-us
   ];
 }

@@ -3,10 +3,9 @@
   programs.mosh.enable = true;
   services.clamav.daemon.enable = true;
   services.clamav.updater.enable = true;
-  services.fstrim.enable = true;
   services.netdata.enable = true;
-  services.nixops-dns.enable = true;
-  services.nixops-dns.user = "${secrets.priUsr}";
+  #services.nixops-dns.enable = true;
+  #services.nixops-dns.user = "${secrets.priUsr}";
   services.openssh.enable = true;
   services.openssh.extraConfig = ''
     AllowUsers *@192.168.* ${secrets.priUsr}@*
@@ -20,6 +19,7 @@
   services.printing.enable = true;
   services.printing.listenAddresses = [ "localhost:631" ];
   services.sysstat.enable = true;
+  services.vnstat.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.enable = true;

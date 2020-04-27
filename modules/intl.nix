@@ -1,11 +1,10 @@
 { config, pkgs, ... }:
 
 {
-  time.timeZone = "America/New_York";
-  i18n = {
-    consoleFont = "Lat2-Terminus16";
-
-    consoleKeyMap = "us";
-    defaultLocale = "en_US.UTF-8";
+  console = {
+    font = "Lat2-Terminus16";
+    keyMap = "us";
   };
+  i18n.defaultLocale = "en_US.UTF-8";
+  time.timeZone = "America/New_York";
 }
