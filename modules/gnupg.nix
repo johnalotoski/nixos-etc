@@ -6,7 +6,7 @@
   environment.etc."per-user/root/gpg-agent.conf".text = "allow-loopback-pinentry";
   environment.etc."per-user/root/gpg.conf".text = "pinentry-mode loopback";
 
-  environment.etc."per-user/${secrets.priUsr}/gpg-agent.conf".text = "#pinentry-program /run/current-system/sw/bin/pinentry-curses";
+  environment.etc."per-user/${secrets.priUsr}/gpg-agent.conf".text = "#pinentry-program /run/current-system/sw/bin/pinentry";
   environment.etc."per-user/${secrets.priUsr}/gpg.conf".text = ''
     default-key ${secrets.gpg.fp.pri}
     #default-key ${secrets.gpg.fp.sec}
