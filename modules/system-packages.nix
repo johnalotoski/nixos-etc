@@ -23,6 +23,8 @@ in {
     binutils
     borgbackup
     busybox
+    unstable.crystal
+    unstable.crystal2nix
     direnv
     efibootmgr
     fd
@@ -58,11 +60,13 @@ in {
     nix-du
     nix-index
     unstable.nix-tree
+    nixfmt
     noip
     notepadqq
     nox
     obs-studio
-    openssl
+    unstable.openssl
+    unstable.pkg-config
     packet
     patchelf
     pavucontrol
@@ -76,6 +80,7 @@ in {
     quiterss
     remmina
     ripgrep
+    unstable.shards
     shellcheck
     skypeforlinux
     slack

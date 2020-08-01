@@ -39,4 +39,10 @@ in {
   system.nixos.tags = [ "kde" ];
   networking.hostName = "nixos-p71";
   services.xserver.videoDrivers = [ "intel" "nvidia" ];
+
+  networking.wireless.enable = true;
+
+  networking.useDHCP = false;
+  networking.interfaces.enp0s31f6.useDHCP = true;
+  networking.interfaces.wlp4s0.useDHCP = true;
 }
