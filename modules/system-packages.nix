@@ -36,6 +36,7 @@ in {
     hdparm
     hddtemp
     hping
+    htop
     (hwloc.override { x11Support = true; })
     iftop
     iotop
@@ -56,6 +57,7 @@ in {
     nix-diff
     nix-du
     nix-index
+    unstable.nix-tree
     noip
     notepadqq
     nox
@@ -63,6 +65,7 @@ in {
     openssl
     packet
     patchelf
+    pavucontrol
     pciutils
     ps_mem
     pwgen
@@ -80,7 +83,7 @@ in {
     sqlite
     sqlite-interactive
     sqlitebrowser
-    sublime
+    sublime3
     syncthing
     sysstat
     tcpdump

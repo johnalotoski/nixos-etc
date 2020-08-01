@@ -1,5 +1,7 @@
 { config, pkgs, ... }:
-{
+let
+  sources = import ../nix/sources.nix;
+in {
   imports = [
     ../hw/hw-p71.nix
     ../modules/backup.nix
@@ -15,7 +17,6 @@
     ../modules/nas.nix
     ../modules/networking.nix
     ../modules/nix.nix
-    ../modules/scanner-brotherDSSeries.nix
     ../modules/screen.nix
     ../modules/services-luksClose.nix
     ../modules/services-raid.nix

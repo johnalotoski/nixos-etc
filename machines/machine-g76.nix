@@ -36,6 +36,4 @@
   networking.useDHCP = false;
   networking.interfaces.enp8s0f1.useDHCP = true;
   networking.interfaces.wlp0s20f3.useDHCP = true;
-
-  system.stateVersion = "20.03";
 }
