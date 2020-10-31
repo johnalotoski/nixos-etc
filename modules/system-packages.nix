@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
-  unstable = import <nixosunstable> {};
+  unstable = import <nixosunstable> {
+    config.allowUnfree = true;
+  };
 in {
   nixpkgs = {
     config.allowUnfree = true;
@@ -22,23 +24,28 @@ in {
     bat
     binutils
     borgbackup
-    busybox
+    cachix
     unstable.crystal
     unstable.crystal2nix
     direnv
+    dnsutils
+    docker-compose
     efibootmgr
     fd
     file
+    fzf
     gcc
     gitAndTools.gitFull
     glxinfo
     gnumake
     graphviz
+    haskellPackages.aeson-diff
     haskellPackages.niv
+    (haskell.lib.disableCabalFlag haskellPackages.yaml "no-exe")
     hdparm
     hddtemp
     hping
-    htop
+    unstable.htop
     (hwloc.override { x11Support = true; })
     iftop
     iotop
@@ -50,7 +57,10 @@ in {
     konversation
     lm_sensors
     lsof
+    unstable.lutris
+    unstable.manix
     mkpasswd
+    mtr
     mullvad-vpn
     mutt
     ncat
@@ -70,14 +80,19 @@ in {
     packet
     patchelf
     pavucontrol
+    postgresql
     pciutils
     ps_mem
     pwgen
     python3
-    python38Packages.glances
-    python38Packages.ipython
+    python3Packages.black
+    python3Packages.flake8
+    python3Packages.glances
+    python3Packages.ipython
+    python3Packages.magic-wormhole
     qalculate-gtk
     quiterss
+    (lib.lowPrio remarshal)
     remmina
     ripgrep
     unstable.shards
@@ -106,8 +121,10 @@ in {
     wine
     wireshark
     wget
+    yq
     zgrviewer
     zip
     zoom-us
+    zstd
   ];
 }

@@ -3,6 +3,7 @@
   imports = [
     ../hw/hw-g76.nix
     ../modules/backup.nix
+    ../modules/cuda.nix
     ../modules/firewall.nix
     ../modules/git.nix
     ../modules/gnupg.nix
@@ -21,13 +22,32 @@
     ../modules/vim.nix
     ../modules/yubikey.nix
     ../modules/zfs.nix
+    ../modules/znc.nix
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  services.xserver.videoDrivers = [ "intel" ];
-  #hardware.nvidia.prime.offload.enable = true;
-  #hardware.nvidia.prime.nvidiaBusId = "PCI:1:0:0";
-  #hardware.nvidia.prime.intelBusId = "PCI:0:2:0";
+
+  services.xserver = {
+    exportConfiguration = true;
+    videoDrivers = [ "nvidia" ];
+  };
+  hardware.nvidia = {
+    optimus_prime = {
+      enable = true;
+      nvidiaBusId = "PCI:1:0:0";
+      intelBusId = "PCI:0:2:0";
+    };
+  };
+
+  hardware.opengl = {
+    enable = true;
+    driSupport32Bit = true;
+    extraPackages = with pkgs; [
+      libGL
+    ];
+    setLdLibraryPath = true;
+  };
+  hardware.pulseaudio.support32Bit = true;
 
   networking.hostName = "nixos-g76";
   networking.hostId = "defe72a9";
