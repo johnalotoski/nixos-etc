@@ -10,7 +10,7 @@ let
   #   shift
   #   wakatime "$@"
   # '';
-  myVim = pkgs.vim_configurable.customize {
+  myVim = with pkgs; (vim_configurable.override { python = python3; }).customize {
     name = "vim";
     vimrcConfig = {
       customRC = ''
@@ -81,7 +81,7 @@ let
             "vim-nix"
             "Syntastic"
             # "vim-wakatime"
-          ] ++ optional config.programs.vim.fat "youcompleteme";
+          ] ++ optional config.programs.vim.fat "YouCompleteMe";
         }
       ];
     };
@@ -96,7 +96,6 @@ in
     };
   };
   config = {
-    # environment.systemPackages = [ myVim pkgs.wakatime ];
     environment.systemPackages = [ myVim ];
     environment.shellAliases.vi = "vim";
     environment.variables.EDITOR = "vim";

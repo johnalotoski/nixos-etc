@@ -12,6 +12,8 @@ in {
     ln -sv ${pkgs.path} $out/nixpkgs
   '';
 
+  documentation.man.generateCaches = true;
+
   environment.etc."system-packages".text =
   let
     packages = builtins.map (p: "${p.name}") config.environment.systemPackages;
@@ -24,6 +26,7 @@ in {
     bat
     binutils
     borgbackup
+    bridge-utils
     cachix
     unstable.crystal
     unstable.crystal2nix
@@ -36,6 +39,7 @@ in {
     fzf
     gcc
     gitAndTools.gitFull
+    glances
     glxinfo
     gnumake
     graphviz
@@ -87,7 +91,6 @@ in {
     python3
     python3Packages.black
     python3Packages.flake8
-    python3Packages.glances
     python3Packages.ipython
     python3Packages.magic-wormhole
     qalculate-gtk
@@ -114,13 +117,14 @@ in {
     tree
     unzip
     usbutils
-    vagrant
+    unstable.vagrant
     virtmanager
     vlc
     vnstat
     wine
     wireshark
     wget
+    ydiff
     yq
     zgrviewer
     zip

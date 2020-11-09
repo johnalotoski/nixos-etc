@@ -16,5 +16,5 @@
     netrc-file = /etc/nix/netrc
     experimental-features = nix-command flakes
   '';
-  system.stateVersion = "20.03";
+  system.stateVersion = "20.09";
 }
