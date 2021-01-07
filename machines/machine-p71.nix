@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 let
   sources = import ../nix/sources.nix;
+  nixpkgsUnstable = import sources.nixpkgs-unstable {};
+  nixpkgsUnstablePath = (import sources.nixpkgs-unstable {}).path;
 in {
   imports = [
     ../hw/hw-p71.nix
@@ -21,7 +23,6 @@ in {
     ../modules/services-luksClose.nix
     ../modules/services-raid.nix
     ../modules/services-standard.nix
-    ../modules/services-toxvpn.nix
     ../modules/shell.nix
     ../modules/system-packages.nix
     ../modules/testing.nix
@@ -34,7 +35,8 @@ in {
     ../modules/zfs.nix
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  #boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_5_8;
 
   system.nixos.tags = [ "kde" ];
   networking.hostName = "nixos-p71";

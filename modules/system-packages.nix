@@ -73,6 +73,7 @@ in {
     nix-diff
     nix-du
     nix-index
+    nix-top
     unstable.nix-tree
     nixfmt
     noip
@@ -86,6 +87,7 @@ in {
     pavucontrol
     postgresql
     pciutils
+    postgresql
     ps_mem
     pwgen
     python3
@@ -106,6 +108,7 @@ in {
     sqlite
     sqlite-interactive
     sqlitebrowser
+    unstable.starship
     sublime3
     syncthing
     sysstat

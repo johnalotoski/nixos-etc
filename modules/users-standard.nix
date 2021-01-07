@@ -15,6 +15,7 @@
     extraGroups = [ "docker" "lxd" "networkmanager" "scanner" "wheel" "vboxusers" "libvirtd" ];
     hashedPassword = secrets.hashedPassword;
     openssh.authorizedKeys.keys = secrets.sshAuthKey;
+    shell = pkgs.bash;
   };
 
   security.sudo.wheelNeedsPassword = true;
