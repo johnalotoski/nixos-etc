@@ -11,13 +11,29 @@
   '';
   system.activationScripts.starship = let
     starshipConfig = pkgs.writeText "starship.toml" ''
-      add_newline = false
-
       [username]
       show_always = true
 
       [hostname]
       ssh_only = false
+
+      [git_commit]
+      tag_disabled = false
+      only_detached = false
+
+      [memory_usage]
+      format = "via $symbol [''${ram_pct}( | ''${swap_pct})]($style) "
+      disabled = false
+      threshold = -1
+
+      [shlvl]
+      disabled = false
+      threshold = -1
+      symbol = "↕️"
+
+      [time]
+      format = '[\[ $time \]]($style) '
+      disabled = false
     '';
   in {
     text = ''
