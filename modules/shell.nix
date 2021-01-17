@@ -22,7 +22,7 @@
       only_detached = false
 
       [memory_usage]
-      format = "via $symbol [''${ram_pct}( | ''${swap_pct})]($style) "
+      format = "via $symbol[''${ram_pct}]($style) "
       disabled = false
       threshold = -1
 
@@ -33,6 +33,22 @@
 
       [time]
       format = '[\[ $time \]]($style) '
+      disabled = false
+
+      [[battery.display]]
+      threshold = 100
+      style = "bold green"
+
+      [[battery.display]]
+      threshold = 50
+      style = "bold orange"
+
+      [[battery.display]]
+      threshold = 20
+      style = "bold red"
+
+      [status]
+      map_symbol = true
       disabled = false
     '';
   in {

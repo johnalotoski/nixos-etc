@@ -1,6 +1,6 @@
 { config, pkgs, secrets, ... }:
 {
-  nix.package = pkgs.nixUnstable;
+  nix.package = pkgs.nixFlakes;
   nix.binaryCaches = [
     "https://hydra.iohk.io"
     "https://cache.nixos.org/"

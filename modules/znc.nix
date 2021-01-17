@@ -17,6 +17,7 @@
           Chan = {
             "#crystal-lang" = {};
             "#haskell.nix" = {};
+            "#nix-community" = {};
             "#nixos" = {};
             "#nixos-darwin" = {};
             "#nixos-dev" = {};
