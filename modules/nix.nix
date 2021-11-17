@@ -14,7 +14,7 @@
   nix.trustedUsers = [ "root" "${secrets.priUsr}" ];
   nix.extraOptions = ''
     netrc-file = /etc/nix/netrc
-    experimental-features = nix-command flakes
+    experimental-features = nix-command flakes ca-references
   '';
   system.stateVersion = "20.09";
 }

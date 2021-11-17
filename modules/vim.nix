@@ -73,6 +73,7 @@ let
         " let g:wakatime_PythonBinary = ' ''${notPython}'
         autocmd Filetype haskell set foldmethod=indent foldcolumn=2 softtabstop=2 shiftwidth=2
       '';
+      plug.plugins = with pkgs.vimPlugins; [ vim-cue ];
       vam.pluginDictionaries = [
         {
           names = [

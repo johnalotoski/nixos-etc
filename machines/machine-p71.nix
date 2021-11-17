@@ -1,18 +1,16 @@
 { config, pkgs, ... }:
-let
-  sources = import ../nix/sources.nix;
-  nixpkgsUnstable = import sources.nixpkgs-unstable {};
-  nixpkgsUnstablePath = (import sources.nixpkgs-unstable {}).path;
-in {
+{
   imports = [
     ../hw/hw-p71.nix
     ../modules/backup.nix
     ../modules/cuda.nix
+    ../modules/db.nix
     ../modules/ddclient.nix
     ../modules/firewall.nix
     ../modules/git.nix
     ../modules/gnupg.nix
     ../modules/hidpi.nix
+    ../modules/hw.nix
     ../modules/intl.nix
     ../modules/lorri.nix
     ../modules/modargs.nix
@@ -25,7 +23,6 @@ in {
     ../modules/services-standard.nix
     ../modules/shell.nix
     ../modules/system-packages.nix
-    ../modules/testing.nix
     ../modules/users-standard.nix
     ../modules/virtualization.nix
     ../modules/vim.nix
@@ -35,8 +32,10 @@ in {
     ../modules/zfs.nix
   ];
 
-  #boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelPackages = pkgs.linuxPackages_5_8;
+  networking.wireless.interfaces = [ "wlp4s0" ];
+
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
 
   system.nixos.tags = [ "kde" ];
   networking.hostName = "nixos-p71";

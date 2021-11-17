@@ -23,6 +23,18 @@
         "url": "https://github.com/input-output-hk/iohk-nix/archive/f345d26508966e434d8db57d6c3b4ce4202c9fb5.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
+    "neovim-flake": {
+        "branch": "master",
+        "description": null,
+        "homepage": null,
+        "owner": "johnalotoski",
+        "repo": "neovim-flake",
+        "rev": "5e6b3af989b96bbf2e9c7fbc06aa9181561e8b5c",
+        "sha256": "19lf9gvafl5qqngnjsgmd5s1zipdp57k8nagy2q8w6j3hk5kh1rn",
+        "type": "tarball",
+        "url": "https://github.com/johnalotoski/neovim-flake/archive/5e6b3af989b96bbf2e9c7fbc06aa9181561e8b5c.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "niv": {
         "branch": "master",
         "description": "Easy dependency management for Nix projects",

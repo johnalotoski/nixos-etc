@@ -3,6 +3,8 @@ let
   unstable = import <nixosunstable> {
     config.allowUnfree = true;
   };
+  sources = import ../nix/sources.nix;
+  neovim = (import sources.neovim-flake).packages.${builtins.currentSystem}.neovim;
 in {
   nixpkgs = {
     config.allowUnfree = true;
@@ -28,6 +30,7 @@ in {
 
   environment.systemPackages = with pkgs; [
     acpi
+    aria
     bat
     binutils
     borgbackup
@@ -35,6 +38,7 @@ in {
     cachix
     unstable.crystal
     unstable.crystal2nix
+    delta
     direnv
     dnsutils
     docker-compose
@@ -48,6 +52,7 @@ in {
     glances
     glxinfo
     gnumake
+    gopass
     graphviz
     haskellPackages.aeson-diff
     haskellPackages.niv
@@ -60,12 +65,13 @@ in {
     iftop
     iotop
     jq
-    kdeApplications.kate
-    kdeApplications.kolourpaint
-    kdeApplications.ksystemlog
-    kdeApplications.spectacle
+    libsForQt5.kate
+    libsForQt5.kolourpaint
+    libsForQt5.ksystemlog
+    libsForQt5.spectacle
     konversation
     lm_sensors
+    ledger-live-desktop
     lsof
     unstable.lutris
     unstable.manix
@@ -75,6 +81,7 @@ in {
     mutt
     ncat
     ncdu
+    neovim
     nixos-container
     nix-diff
     nix-du
@@ -91,7 +98,6 @@ in {
     packet
     patchelf
     pavucontrol
-    postgresql
     pciutils
     postgresql
     ps_mem
@@ -111,11 +117,13 @@ in {
     skypeforlinux
     slack
     smartmontools
+    smem
     sqlite
     sqlite-interactive
     sqlitebrowser
     unstable.starship
     sublime3
+    summon
     syncthing
     sysstat
     tcpdump
@@ -124,6 +132,7 @@ in {
     tmate
     tmux
     tree
+    tty-share
     unzip
     usbutils
     # Temporary work around for broken Xen package
@@ -134,7 +143,11 @@ in {
     vnstat
     wine
     wireshark
+    wpa_supplicant
+    wpa_supplicant_gui
     wget
+    xdotool
+    xxd
     ydiff
     yq
     zgrviewer

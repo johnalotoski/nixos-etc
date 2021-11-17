@@ -2,7 +2,7 @@
 [user]
   name = John Lotoski
   email = john.lotoski@iohk.io
-  signingkey = 23807F69494663D6
+  signingkey = 0AE060E71E81FA38
 
 [commit]
   gpgsign = true
