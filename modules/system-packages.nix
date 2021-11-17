@@ -77,7 +77,7 @@ in {
     unstable.manix
     mkpasswd
     mtr
-    mullvad-vpn
+    unstable.mullvad-vpn
     mutt
     ncat
     ncdu
