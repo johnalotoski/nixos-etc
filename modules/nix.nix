@@ -1,6 +1,19 @@
-{ config, pkgs, secrets, ... }:
-{
-  nix.package = pkgs.nixFlakes;
+{ config, pkgs, lib, secrets, ... }:
+let
+  unstable = import <nixpkgsunstable> {
+    config.allowUnfree = true;
+  };
+  nix280Src = pkgs.fetchFromGitHub {
+    owner = "NixOS";
+    repo = "nix";
+    rev = "2.8.0";
+    sha256 = "sha256-gWYNlEyleqkPfxtGXeq6ggjzJwcXJVdieJxA1Obly9s=";
+  };
+in {
+  nix.package = (import nix280Src).defaultPackage.${pkgs.system};
+  nix.sandboxPaths = [
+    "/etc/skopeo/auth.json=/etc/nix/skopeo/auth.json"
+  ];
   nix.binaryCaches = [
     "https://hydra.iohk.io"
     "https://cache.nixos.org/"
@@ -14,7 +27,7 @@
   nix.trustedUsers = [ "root" "${secrets.priUsr}" ];
   nix.extraOptions = ''
     netrc-file = /etc/nix/netrc
-    experimental-features = nix-command flakes ca-references
+    experimental-features = nix-command flakes
   '';
-  system.stateVersion = "20.09";
+  system.stateVersion = "21.11";
 }

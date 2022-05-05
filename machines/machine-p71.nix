@@ -3,7 +3,7 @@
   imports = [
     ../hw/hw-p71.nix
     ../modules/backup.nix
-    ../modules/cuda.nix
+    # ../modules/cuda.nix
     ../modules/db.nix
     ../modules/ddclient.nix
     ../modules/firewall.nix

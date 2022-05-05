@@ -6,12 +6,19 @@
   services.netdata.enable = true;
   #services.nixops-dns.enable = true;
   #services.nixops-dns.user = "${secrets.priUsr}";
+
+  programs.ssh.extraConfig = ''
+    Host *
+      ServerAliveInterval 300
+      ServerAliveCountMax 2
+  '';
   services.openssh.enable = true;
   services.openssh.extraConfig = ''
     AllowUsers *@192.168.* ${secrets.priUsr}@*
   '';
   services.openssh.passwordAuthentication = false;
   services.openssh.permitRootLogin = "no";
+
   services.postfix.enable = true;
   services.postfix.setSendmail = true;
   services.printing.browsing = true;

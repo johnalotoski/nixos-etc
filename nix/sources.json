@@ -29,10 +29,10 @@
         "homepage": null,
         "owner": "johnalotoski",
         "repo": "neovim-flake",
-        "rev": "5e6b3af989b96bbf2e9c7fbc06aa9181561e8b5c",
-        "sha256": "19lf9gvafl5qqngnjsgmd5s1zipdp57k8nagy2q8w6j3hk5kh1rn",
+        "rev": "ad65cab5e93d4dafabc9c77e0b37d26ac5fae457",
+        "sha256": "0djqidryjr1byd518s2p7v7xfjq98svz2ykfjxlc016ky8q4bmbd",
         "type": "tarball",
-        "url": "https://github.com/johnalotoski/neovim-flake/archive/5e6b3af989b96bbf2e9c7fbc06aa9181561e8b5c.tar.gz",
+        "url": "https://github.com/johnalotoski/neovim-flake/archive/ad65cab5e93d4dafabc9c77e0b37d26ac5fae457.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "niv": {

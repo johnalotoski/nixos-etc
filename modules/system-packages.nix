@@ -3,6 +3,9 @@ let
   unstable = import <nixosunstable> {
     config.allowUnfree = true;
   };
+  nixpkgsUnstable = import <nixpkgsunstable> {
+    config.allowUnfree = true;
+  };
   sources = import ../nix/sources.nix;
   neovim = (import sources.neovim-flake).packages.${builtins.currentSystem}.neovim;
 in {
@@ -36,9 +39,11 @@ in {
     borgbackup
     bridge-utils
     cachix
+    curlie
     unstable.crystal
     unstable.crystal2nix
     delta
+    nixpkgsUnstable.difftastic
     direnv
     dnsutils
     docker-compose
@@ -47,23 +52,29 @@ in {
     file
     fzf
     gcc
+    git-filter-repo
     gitAndTools.gitFull
     gitAndTools.hub
     glances
     glxinfo
     gnumake
+    # Golang tools are included in the vim module along with vim-go plugin and related bins
     gopass
     graphviz
     haskellPackages.aeson-diff
     haskellPackages.niv
-    (haskell.lib.disableCabalFlag haskellPackages.yaml "no-exe")
     hdparm
     hddtemp
     hping
     unstable.htop
+    httpie
     (hwloc.override { x11Support = true; })
+    icdiff
     iftop
+    ijq
     iotop
+    jid
+    jiq
     jq
     libsForQt5.kate
     libsForQt5.kolourpaint
@@ -72,6 +83,7 @@ in {
     konversation
     lm_sensors
     ledger-live-desktop
+    unstable.logseq
     lsof
     unstable.lutris
     unstable.manix
@@ -82,6 +94,7 @@ in {
     ncat
     ncdu
     neovim
+    ngrep
     nixos-container
     nix-diff
     nix-du
@@ -99,7 +112,7 @@ in {
     patchelf
     pavucontrol
     pciutils
-    postgresql
+    postgresql_13
     ps_mem
     pwgen
     python3
@@ -118,6 +131,7 @@ in {
     slack
     smartmontools
     smem
+    socat
     sqlite
     sqlite-interactive
     sqlitebrowser
@@ -127,6 +141,7 @@ in {
     syncthing
     sysstat
     tcpdump
+    tcpflow
     tdesktop
     tig
     tmate
@@ -147,6 +162,7 @@ in {
     wpa_supplicant_gui
     wget
     xdotool
+    xkcdpass
     xxd
     ydiff
     yq
