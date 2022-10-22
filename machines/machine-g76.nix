@@ -16,6 +16,7 @@
     ../modules/nas.nix
     ../modules/networking.nix
     ../modules/nix.nix
+    ../modules/nvidia-fix.nix
     ../modules/screen.nix
     ../modules/services-standard.nix
     ../modules/shell.nix
@@ -28,7 +29,9 @@
     ../modules/znc.nix
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+  boot.kernelParams = [ "i8042.direct" "i8042.dumbkbd" ];
   networking.firewall.checkReversePath = "loose";
 
   services.xserver = {
@@ -61,4 +64,6 @@
   networking.useDHCP = false;
   networking.interfaces.enp8s0f1.useDHCP = true;
   networking.interfaces.wlp0s20f3.useDHCP = true;
+
+  system.stateVersion = "22.05";
 }

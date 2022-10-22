@@ -1,19 +1,25 @@
-{ config, pkgs, secrets, ... }:
-{
-  environment.etc."per-user/${secrets.priUsr}/gitconfig-w".text = import ../dotfiles/gitconfig-w.nix;
-  environment.etc."per-user/${secrets.priUsr}/gitconfig-p".text = import ../dotfiles/gitconfig-p.nix;
-  environment.etc."per-user/root/gitconfig-p".text = import ../dotfiles/gitconfig-p.nix;
-  environment.etc."per-user/${secrets.priUsr}/gitconfig-wo".text = import ../dotfiles/gitconfig-wo.nix;
-  environment.etc."per-user/${secrets.priUsr}/gitconfig-po".text = import ../dotfiles/gitconfig-po.nix;
-  environment.etc."per-user/${secrets.priUsr}/gitignore".text = import ../dotfiles/gitignore.nix;
-  environment.etc."per-user/root/gitignore".text = import ../dotfiles/gitignore.nix;
+{ config, pkgs, lib, secrets, ... }:
+let
+  inherit (lib) pipe recursiveUpdate;
+in {
+  environment.etc = let
+    mkImport = user: file: {"per-user/${user}/${file}".text = import ../dotfiles/${file}.nix;};
+  in lib.pipe {} [
+    (recursiveUpdate (mkImport secrets.priUsr "gitconfig-w"))
+    (recursiveUpdate (mkImport secrets.priUsr "gitconfig-p"))
+    (recursiveUpdate (mkImport secrets.priUsr "gitconfig-wo"))
+    (recursiveUpdate (mkImport secrets.priUsr "gitconfig-po"))
+    (recursiveUpdate (mkImport secrets.priUsr "gitignore"))
+    (recursiveUpdate (mkImport "root" "gitconfig-p"))
+    (recursiveUpdate (mkImport "root" "gitignore"))
+  ];
 
   system.activationScripts.gitconfig = {
     text = ''
-      ln -sfn /etc/per-user/${secrets.priUsr}/gitconfig-w /home/${secrets.priUsr}/.gitconfig;
-      ln -sfn /etc/per-user/${secrets.priUsr}/gitignore /home/${secrets.priUsr}/.gitignore;
-      ln -sfn /etc/per-user/root/gitconfig-p /root/.gitconfig;
-      ln -sfn /etc/per-user/root/gitignore /root/.gitignore;
+      ln -svfn /etc/per-user/${secrets.priUsr}/gitconfig-w /home/${secrets.priUsr}/.gitconfig;
+      ln -svfn /etc/per-user/${secrets.priUsr}/gitignore /home/${secrets.priUsr}/.gitignore;
+      ln -svfn /etc/per-user/root/gitconfig-p /root/.gitconfig;
+      ln -svfn /etc/per-user/root/gitignore /root/.gitignore;
     '';
     deps = [];
   };

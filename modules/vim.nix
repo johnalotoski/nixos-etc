@@ -41,7 +41,7 @@ let
     ];
   };
 
-  myVim = with pkgs; (vim_configurable.override { python = python3; }).customize {
+  myVim = pkgs.vim_configurable.customize {
     name = "vim";
     vimrcConfig = {
       customRC = ''
@@ -136,7 +136,7 @@ let
       sha256 = "sha256-BUXEg+4r9L/gqe4DhTlhN55P3jWt7ZyWFQycO6QePrw=";
     };
 
-    vendorSha256 = "sha256-ZYWCyB35CLLMU9pRLK7jD1M2oGhD7wB/WyCICA1pBB8=";
+    vendorSha256 = "sha256-sEzWUeVk5GB0H41wrp12P8sBWRjg0FHUX6ABDEEBqK8=";
 
     nativeBuildInputs = [ pkgs.installShellFiles ];
   };

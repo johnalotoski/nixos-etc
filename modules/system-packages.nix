@@ -31,8 +31,13 @@ in {
     (nerdfonts.override { fonts = [ "FiraCode" ]; })
   ];
 
+  environment.shellAliases = with pkgs; {
+    where = "f(){ realpath $(command -v \"$1\"); unset -f f; }; f";
+  };
+
   environment.systemPackages = with pkgs; [
     acpi
+    age
     aria
     bat
     binutils
@@ -91,17 +96,18 @@ in {
     mtr
     unstable.mullvad-vpn
     mutt
-    ncat
     ncdu
     neovim
     ngrep
-    nixos-container
     nix-diff
     nix-du
     nix-index
+    nixos-container
+    nixos-option
     nix-top
     unstable.nix-tree
     nixfmt
+    nmap
     noip
     notepadqq
     nox
@@ -112,7 +118,7 @@ in {
     patchelf
     pavucontrol
     pciutils
-    postgresql_13
+    postgresql
     ps_mem
     pwgen
     python3
@@ -132,9 +138,12 @@ in {
     smartmontools
     smem
     socat
+    sops
     sqlite
     sqlite-interactive
     sqlitebrowser
+    ssh-to-age
+    ssh-to-pgp
     unstable.starship
     sublime3
     summon

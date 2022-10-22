@@ -40,7 +40,14 @@
   ];
   environment.shellInit = ''
     export GPG_TTY="$(tty)"
+    # If root, own the tty to allow gpg pinentry
+    # Ref: https://wiki.archlinux.org/title/GnuPG#su
+    if [ "$UID" = "0" ]; then
+      # Ref: https://wiki.archlinux.org/title/GnuPG#su
+      echo "Chowning tty $GPG_TTY as root for gpg pinentry"
+      chown root "$GPG_TTY"
+    fi
     gpg-connect-agent /bye
-    export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
+    export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
   '';
 }

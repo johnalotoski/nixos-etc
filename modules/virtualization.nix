@@ -4,7 +4,7 @@
   virtualisation = {
     docker.enable = true;
     libvirtd.enable = true;
-    lxd.enable = true;
+    # lxd.enable = true;
     virtualbox.host = {
       enable = true;
       enableExtensionPack = true;

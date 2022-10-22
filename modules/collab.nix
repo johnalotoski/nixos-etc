@@ -5,6 +5,5 @@
   services.teamviewer.enable = true;
   environment.systemPackages = with pkgs; [
     keybase-gui
-    signal-desktop
   ];
 }
