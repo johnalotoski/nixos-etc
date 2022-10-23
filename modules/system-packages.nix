@@ -45,8 +45,10 @@ in {
     bridge-utils
     cachix
     curlie
+    dive
     unstable.crystal
     unstable.crystal2nix
+    unstable.cue
     delta
     nixpkgsUnstable.difftastic
     direnv
@@ -55,6 +57,7 @@ in {
     efibootmgr
     fd
     file
+    fx
     fzf
     gcc
     git-filter-repo
@@ -92,7 +95,9 @@ in {
     lsof
     unstable.lutris
     unstable.manix
+    mitmproxy
     mkpasswd
+    moreutils
     mtr
     unstable.mullvad-vpn
     mutt
@@ -102,9 +107,9 @@ in {
     nix-diff
     nix-du
     nix-index
+    nix-top
     nixos-container
     nixos-option
-    nix-top
     unstable.nix-tree
     nixfmt
     nmap
@@ -119,6 +124,7 @@ in {
     pavucontrol
     pciutils
     postgresql
+    podman
     ps_mem
     pwgen
     python3
@@ -131,6 +137,7 @@ in {
     (lib.lowPrio remarshal)
     remmina
     ripgrep
+    ruby
     unstable.shards
     shellcheck
     skypeforlinux
@@ -172,6 +179,7 @@ in {
     wget
     xdotool
     xkcdpass
+    xplr
     xxd
     ydiff
     yq

@@ -17,7 +17,7 @@
   boot.initrd.kernelModules = [ "loop" ];
 
   # RAID1 array configuration.  Generated after RAID creation with `mdadm --detail --scan`
-  boot.initrd.mdadmConf = "ARRAY /dev/md0 metadata=1.2 name=nixos:0 UUID=c5cb0286:a9a92645:2a354d88:941aa36d";
+  boot.initrd.services.swraid.mdadmConf = "ARRAY /dev/md0 metadata=1.2 name=nixos:0 UUID=c5cb0286:a9a92645:2a354d88:941aa36d";
 
   # Append the LUKS key image to initrd.  The nix anti-quoting in the statement below
   # of ${ ... } and enclosed in double quotes is important to make this work.

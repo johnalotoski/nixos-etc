@@ -3,7 +3,7 @@
   imports = [
     ../hw/hw-p71.nix
     ../modules/backup.nix
-    # ../modules/cuda.nix
+    ../modules/cuda.nix
     ../modules/db.nix
     ../modules/ddclient.nix
     ../modules/firewall.nix
@@ -32,18 +32,18 @@
     ../modules/zfs.nix
   ];
 
-  networking.wireless.interfaces = [ "wlp4s0" ];
-
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
-
   system.nixos.tags = [ "kde" ];
-  networking.hostName = "nixos-p71";
   services.xserver.videoDrivers = [ "intel" "nvidia" ];
 
+  services.resolved.enable = true;
+
+  networking.hostName = "nixos-p71";
   networking.wireless.enable = true;
+  networking.wireless.interfaces = [ "wlp4s0" ];
 
   networking.useDHCP = false;
   networking.interfaces.enp0s31f6.useDHCP = true;
   networking.interfaces.wlp4s0.useDHCP = true;
+
+  system.stateVersion = "22.05";
 }

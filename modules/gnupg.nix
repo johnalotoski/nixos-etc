@@ -1,13 +1,10 @@
 { config, pkgs, lib, secrets, ... }:
 let
-  gpg-stop = with pkgs; writeShellApplication {
-    name = "gpg-stop";
-    runtimeInputs = [bash findutils procps sudo];
+  gpg-test = with pkgs; writeShellApplication {
+    name = "gpg-test";
+    runtimeInputs = [coreutils gnupg];
     text = ''
-      # For sudo security wrapper
-      export PATH=/run/wrappers/bin/:$PATH
-
-      sudo bash -c 'pgrep gpg-agent | xargs kill -9'
+      echo "Test sign" | gpg --clearsign
     '';
   };
 
@@ -17,6 +14,17 @@ let
     text = ''
       SERIAL=$(gpg-connect-agent 'scd serialno' /bye | head -n 1 | cut -f3 -d' ')
       gpg-connect-agent "scd checkpin $SERIAL" /bye
+    '';
+  };
+
+  gpg-stop = with pkgs; writeShellApplication {
+    name = "gpg-stop";
+    runtimeInputs = [bash findutils procps sudo];
+    text = ''
+      # For sudo security wrapper
+      export PATH=/run/wrappers/bin/:$PATH
+
+      sudo bash -c 'pgrep gpg-agent | xargs kill -9'
     '';
   };
 
@@ -46,6 +54,7 @@ in {
     gpg-pin-prompt
     gpg-stop
     gpg-switch
+    gpg-test
     gpgme.dev
   ];
 
