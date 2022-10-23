@@ -1,0 +1,9 @@
+keys:
+  - &jlotoski age18cd7x44786smr8g7fnrkhtmjt7kclythyzdfjjvy99vnnh7xycfqrku8yk
+  - &nixos-g76 age1a88qf9ctqelrn0trafdndwugcwvzkszg940xpwcmdx7e9y5s0efq3wlnyd
+creation_rules:
+  - path_regex: secrets.yaml$
+    key_group:
+      - age:
+        - *jlotoski
+        - *nixos-g76

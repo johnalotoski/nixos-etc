@@ -1,11 +1,9 @@
-{ config, pkgs, secrets, ... }:
+{ pkgs, ... }:
 {
   programs.mosh.enable = true;
   services.clamav.daemon.enable = true;
   services.clamav.updater.enable = true;
   services.netdata.enable = true;
-  #services.nixops-dns.enable = true;
-  #services.nixops-dns.user = "${secrets.priUsr}";
 
   programs.ssh.extraConfig = ''
     Host *
@@ -14,7 +12,7 @@
   '';
   services.openssh.enable = true;
   services.openssh.extraConfig = ''
-    AllowUsers *@192.168.* ${secrets.priUsr}@*
+    AllowUsers *@192.168.* jlotoski@*
   '';
   services.openssh.passwordAuthentication = false;
   services.openssh.permitRootLogin = "no";

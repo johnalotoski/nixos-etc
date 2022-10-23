@@ -1,4 +1,4 @@
-{ config, pkgs, secrets, lib, ... }:
+{ config, ... }:
 let
   hostName = config.networking.hostName;
 in {

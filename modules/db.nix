@@ -1,10 +1,10 @@
-{ secrets, ... }:
+{ ... }:
 {
   services.postgresql = {
     enable = true;
     identMap = ''
-      admin-user ${secrets.priUsr} postgres
-      admin-user ${secrets.secUsr} postgres
+      admin-user jlotoski postgres
+      admin-user backup postgres
       admin-user postgres postgres
       admin-user root postgres
     '';

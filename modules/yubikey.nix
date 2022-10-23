@@ -1,5 +1,4 @@
 { config, pkgs, ... }:
-
 {
   programs = {
     ssh.startAgent = false;
@@ -8,6 +7,7 @@
       enableSSHSupport = true;
     };
   };
+
   services.udev.extraRules = let
     dependencies = with pkgs; [ coreutils gnupg gawk gnugrep ];
     clearYubikey = pkgs.writeScript "clear-yubikey" ''
@@ -29,8 +29,11 @@
   in ''
     ACTION=="add|change", SUBSYSTEM=="usb", ATTRS{idVendor}=="1050", ATTRS{idProduct}=="0407", RUN+="${clearYubikeyUser}"
   '';
+
   services.udev.packages = [ pkgs.yubikey-personalization ];
+
   services.pcscd.enable = true;
+
   environment.systemPackages = with pkgs; [
     gnupg
     pinentry
@@ -38,6 +41,7 @@
     yubioath-desktop
     yubikey-manager
   ];
+
   environment.shellInit = ''
     export GPG_TTY="$(tty)"
     # If root, own the tty to allow gpg pinentry
