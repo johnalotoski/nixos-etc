@@ -1,9 +1,13 @@
-{ config, pkgs, lib, ...}:
-
-with lib;
-
-let
-  nixpkgsUnstable = import <nixpkgsunstable> {
+{
+  self,
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+with lib; let
+  vimPkgs = import self.inputs.nixpkgs {
+    system = pkgs.system;
     config.allowUnfree = true;
     overlays = [
       (prev: final: {
@@ -113,7 +117,7 @@ let
 
         autocmd Filetype haskell set foldmethod=indent foldcolumn=2 softtabstop=2 shiftwidth=2
       '';
-      plug.plugins = with nixpkgsUnstable.vimPlugins; [
+      plug.plugins = with vimPkgs.vimPlugins; [
         splice-vim
         syntastic
         vim-cue
@@ -138,11 +142,10 @@ let
 
     vendorSha256 = "sha256-sEzWUeVk5GB0H41wrp12P8sBWRjg0FHUX6ABDEEBqK8=";
 
-    nativeBuildInputs = [ pkgs.installShellFiles ];
+    nativeBuildInputs = [pkgs.installShellFiles];
   };
-in
-{
-  environment.systemPackages = with nixpkgsUnstable; [
+in {
+  environment.systemPackages = with vimPkgs; [
     go_1_18
     golint
     gopls

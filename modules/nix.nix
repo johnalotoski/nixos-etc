@@ -1,16 +1,10 @@
-{ config, pkgs, lib, ... }:
-let
-  unstable = import <nixpkgsunstable> {
-    config.allowUnfree = true;
-  };
-  nixSrc = pkgs.fetchFromGitHub {
-    owner = "NixOS";
-    repo = "nix";
-    rev = "2.11.1";
-    sha256 = "sha256-qCV65kw09AG+EkdchDPq7RoeBznX0Q6Qa4yzPqobdOk=";
-  };
+{
+  self,
+  pkgs,
+  ...
+}: let
 in {
-  nix.package = (import nixSrc).packages.${pkgs.system}.nix;
+  nix.package = self.inputs.nix.packages.${pkgs.system}.nix;
   nix.sandboxPaths = [
     "/etc/skopeo/auth.json=/etc/nix/skopeo/auth.json"
   ];
@@ -25,7 +19,7 @@ in {
     # "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
     # "johnalotoski.cachix.org-1:TG39n8kXcHfU9o2aMvxVwy4+NDKswAu/7/jiJuNV5iM="
   ];
-  nix.trustedUsers = [ "root" "jlotoski" ];
+  nix.trustedUsers = ["root" "jlotoski"];
   nix.extraOptions = ''
     netrc-file = /etc/nix/netrc
     experimental-features = nix-command flakes

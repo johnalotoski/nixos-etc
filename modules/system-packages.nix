@@ -1,34 +1,31 @@
-{ config, pkgs, lib, ... }:
-let
-  unstable = import <nixosunstable> {
+{
+  self,
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
+  unstable = import self.inputs.nixos-unstable {
+    system = pkgs.system;
     config.allowUnfree = true;
   };
-  nixpkgsUnstable = import <nixpkgsunstable> {
-    config.allowUnfree = true;
-  };
-  sources = import ../nix/sources.nix;
-  neovim = (import sources.neovim-flake).packages.${builtins.currentSystem}.neovim;
 in {
-  nixpkgs = {
-    config.allowUnfree = true;
-  };
-
   system.extraSystemBuilderCmds = ''
     ln -sv ${pkgs.path} $out/nixpkgs
   '';
 
   documentation.man.generateCaches = true;
 
-  environment.etc."system-packages".text =
-  let
+  environment.etc."system-packages".text = let
     packages = builtins.map (p: "${p.name}") config.environment.systemPackages;
     sortedUnique = builtins.sort builtins.lessThan (pkgs.lib.unique packages);
     formatted = builtins.concatStringsSep "\n" sortedUnique;
-  in formatted;
+  in
+    formatted;
 
   # Used by starship for fonts
   fonts.fonts = with pkgs; [
-    (nerdfonts.override { fonts = [ "FiraCode" ]; })
+    (nerdfonts.override {fonts = ["FiraCode"];})
   ];
 
   environment.shellAliases = with pkgs; {
@@ -38,6 +35,7 @@ in {
   environment.systemPackages = with pkgs; [
     acpi
     age
+    unstable.alejandra
     aria
     bat
     binutils
@@ -50,7 +48,7 @@ in {
     unstable.crystal2nix
     unstable.cue
     delta
-    nixpkgsUnstable.difftastic
+    unstable.difftastic
     direnv
     dnsutils
     docker-compose
@@ -76,7 +74,7 @@ in {
     hping
     unstable.htop
     httpie
-    (hwloc.override { x11Support = true; })
+    (hwloc.override {x11Support = true;})
     icdiff
     iftop
     ijq
@@ -102,7 +100,7 @@ in {
     unstable.mullvad-vpn
     mutt
     ncdu
-    neovim
+    # neovim
     ngrep
     nix-diff
     nix-du
@@ -140,6 +138,7 @@ in {
     ruby
     unstable.shards
     shellcheck
+    shfmt
     skypeforlinux
     slack
     smartmontools
@@ -163,12 +162,13 @@ in {
     tmate
     tmux
     tree
+    treefmt
     tty-share
     unzip
     usbutils
     # Temporary work around for broken Xen package
     # https://github.com/NixOS/nixpkgs/issues/108479
-    (unstable.vagrant.override { withLibvirt = false; })
+    (unstable.vagrant.override {withLibvirt = false;})
     virtmanager
     vlc
     vnstat
