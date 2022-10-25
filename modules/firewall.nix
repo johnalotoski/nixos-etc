@@ -1,6 +1,10 @@
-{ config, pkgs, lib, ...}:
-
-with builtins; with lib; {
+{
+  config,
+  lib,
+  ...
+}:
+with builtins;
+with lib; {
   # For temp debugging: `nixos-rebuild test`
   # networking.firewall.enable = false;
 

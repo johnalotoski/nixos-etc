@@ -1,5 +1,8 @@
-{ config, pkgs, ... }:
 {
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     ../hw/hw-g76.nix
     # ../modules/backup.nix
@@ -31,11 +34,11 @@
 
   # boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
-  boot.kernelParams = [ "i8042.direct" "i8042.dumbkbd" ];
+  boot.kernelParams = ["i8042.direct" "i8042.dumbkbd"];
 
   services.xserver = {
     exportConfiguration = true;
-    videoDrivers = [ "nvidia" ];
+    videoDrivers = ["nvidia"];
   };
   hardware.nvidia = {
     prime = {
@@ -58,7 +61,7 @@
   networking.hostName = "nixos-g76";
   networking.hostId = "defe72a9";
   networking.wireless.enable = true;
-  networking.wireless.interfaces = [ "wlp0s20f3" ];
+  networking.wireless.interfaces = ["wlp0s20f3"];
 
   networking.useDHCP = false;
   networking.interfaces.enp8s0f1.useDHCP = true;

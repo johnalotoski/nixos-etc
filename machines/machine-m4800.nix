@@ -1,6 +1,4 @@
-{ config, pkgs, ... }:
-
-{
+{pkgs, ...}: {
   imports = [
     ../hw/hw-m4800.nix
     ../modules/backup.nix
@@ -26,7 +24,7 @@
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  system.nixos.tags = [ "kde" ];
+  system.nixos.tags = ["kde"];
   networking.hostName = "nixos-m4800";
-  services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.videoDrivers = ["nvidia"];
 }

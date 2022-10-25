@@ -1,20 +1,23 @@
-{ config, lib, pkgs, ... }:
-
 {
-  imports =
-    [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
-    ];
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  imports = [
+    <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
+  ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "sr_mod" "rtsx_pci_sdmmc" ];
-  boot.blacklistedKernelModules = [ "nouveau" ];
-  boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModulePackages = [ config.boot.kernelPackages.nvidia_x11.bin ];
+  boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "sr_mod" "rtsx_pci_sdmmc"];
+  boot.blacklistedKernelModules = ["nouveau"];
+  boot.kernelModules = ["kvm-intel"];
+  boot.extraModulePackages = [config.boot.kernelPackages.nvidia_x11.bin];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Required for the LUKS key volume to mount to the loopback device during boot.
-  boot.initrd.kernelModules = [ "loop" ];
+  boot.initrd.kernelModules = ["loop"];
 
   # RAID1 array configuration.  Generated after RAID creation with `mdadm --detail --scan`
   boot.initrd.services.swraid.mdadmConf = "ARRAY /dev/md0 metadata=1.2 name=nixos:0 UUID=c5cb0286:a9a92645:2a354d88:941aa36d";
@@ -28,7 +31,7 @@
   # it is opened as the first LUKS device to then be used as the key for other LUKS devices
   # Also, even though this file was created at /boot/lk0.img, the path during boot is
   # relative to only the mounted boot partition at /.
-  boot.initrd.luks.devices."0lk" = { device = "/lk0.img"; };
+  boot.initrd.luks.devices."0lk" = {device = "/lk0.img";};
   boot.initrd.luks.devices.cr0 = {
     device = "/dev/disk/by-uuid/a8b83540-8db1-4612-b75b-901718b34c5e";
     allowDiscards = true;
@@ -52,7 +55,7 @@
     device = "/dev/disk/by-label/data";
     fsType = "ext4";
   };
-  swapDevices = [ { device = "/dev/disk/by-label/swap"; } ];
+  swapDevices = [{device = "/dev/disk/by-label/swap";}];
   hardware.bluetooth.enable = true;
   hardware.pulseaudio.enable = true;
   hardware.pulseaudio.package = pkgs.pulseaudioFull;

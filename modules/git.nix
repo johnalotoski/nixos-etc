@@ -1,18 +1,18 @@
-{ config, pkgs, lib, ... }:
-let
+{lib, ...}: let
   inherit (lib) pipe recursiveUpdate;
 in {
   environment.etc = let
     mkImport = user: file: {"per-user/${user}/${file}".text = import (./. + "/../dotfiles/${file}.nix");};
-  in lib.pipe {} [
-    (recursiveUpdate (mkImport "jlotoski" "gitconfig-w"))
-    (recursiveUpdate (mkImport "jlotoski" "gitconfig-p"))
-    (recursiveUpdate (mkImport "jlotoski" "gitconfig-wo"))
-    (recursiveUpdate (mkImport "jlotoski" "gitconfig-po"))
-    (recursiveUpdate (mkImport "jlotoski" "gitignore"))
-    (recursiveUpdate (mkImport "root" "gitconfig-p"))
-    (recursiveUpdate (mkImport "root" "gitignore"))
-  ];
+  in
+    lib.pipe {} [
+      (recursiveUpdate (mkImport "jlotoski" "gitconfig-w"))
+      (recursiveUpdate (mkImport "jlotoski" "gitconfig-p"))
+      (recursiveUpdate (mkImport "jlotoski" "gitconfig-wo"))
+      (recursiveUpdate (mkImport "jlotoski" "gitconfig-po"))
+      (recursiveUpdate (mkImport "jlotoski" "gitignore"))
+      (recursiveUpdate (mkImport "root" "gitconfig-p"))
+      (recursiveUpdate (mkImport "root" "gitignore"))
+    ];
 
   system.activationScripts.gitconfig = {
     text = ''

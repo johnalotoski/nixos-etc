@@ -1,9 +1,9 @@
 ''
-*~
-,*
-.*.swp
-.*.swo
-result
-result-*
-*secret*
+  *~
+  ,*
+  .*.swp
+  .*.swo
+  result
+  result-*
+  *secret*
 ''

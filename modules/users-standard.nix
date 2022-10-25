@@ -1,5 +1,8 @@
-{ config, pkgs, lib, ... }:
-let
+{
+  pkgs,
+  lib,
+  ...
+}: let
   inherit (lib) pipe recursiveUpdate;
 
   hashedPassword = "$6$T3eCnq9giW$vjBlWEh9w/nJ7lV9/6hyYUX1P7YmP70Ajo1w47rsLM0q356FHWDG8c4NDQZMrF06uXDlQ.C/L5zUb9fUvJzNh/";
@@ -21,7 +24,7 @@ let
     ${user} = {
       inherit hashedPassword;
       isNormalUser = true;
-      extraGroups = [ "docker" "lxd" "networkmanager" "scanner" "wheel" "vboxusers" "libvirtd" "plugdev" ];
+      extraGroups = ["docker" "lxd" "networkmanager" "scanner" "wheel" "vboxusers" "libvirtd" "plugdev"];
       openssh.authorizedKeys.keys = sshKeys;
       shell = pkgs.bash;
     };
@@ -39,5 +42,5 @@ in {
   ];
 
   security.sudo.wheelNeedsPassword = true;
-  users.groups.plugdev = { members = [ "jlotoski" "backup" ]; };
+  users.groups.plugdev = {members = ["jlotoski" "backup"];};
 }

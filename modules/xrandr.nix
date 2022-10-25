@@ -1,5 +1,4 @@
-{ ... }:
-{
+{...}: {
   services.xserver.displayManager.setupCommands = ''
     if [ "$(xrandr | -c grep " connected ")" -eq "3" ]; then
       xrandr \

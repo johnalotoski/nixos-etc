@@ -1,5 +1,4 @@
-{ config, pkgs, ... }:
-{
+{pkgs, ...}: {
   # Workaround for nvidia driver instability
   # Ref: https://github.com/NixOS/nixpkgs/issues/163294
 

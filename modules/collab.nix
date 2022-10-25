@@ -1,5 +1,4 @@
-{ config, pkgs, ... }:
-{
+{pkgs, ...}: {
   services.keybase.enable = true;
   services.kbfs.enable = true;
   services.teamviewer.enable = true;

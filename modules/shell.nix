@@ -1,6 +1,4 @@
-{ config, pkgs, ... }:
-
-{
+{pkgs, ...}: {
   programs.bash.enableCompletion = true;
 
   programs.bash.interactiveShellInit = ''

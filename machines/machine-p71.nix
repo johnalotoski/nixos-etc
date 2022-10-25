@@ -1,5 +1,4 @@
-{ config, pkgs, ... }:
-{
+{...}: {
   imports = [
     ../hw/hw-p71.nix
     ../modules/backup.nix
@@ -32,14 +31,14 @@
     ../modules/zfs.nix
   ];
 
-  system.nixos.tags = [ "kde" ];
-  services.xserver.videoDrivers = [ "intel" "nvidia" ];
+  system.nixos.tags = ["kde"];
+  services.xserver.videoDrivers = ["intel" "nvidia"];
 
   services.resolved.enable = true;
 
   networking.hostName = "nixos-p71";
   networking.wireless.enable = true;
-  networking.wireless.interfaces = [ "wlp4s0" ];
+  networking.wireless.interfaces = ["wlp4s0"];
 
   networking.useDHCP = false;
   networking.interfaces.enp0s31f6.useDHCP = true;

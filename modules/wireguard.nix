@@ -1,5 +1,4 @@
-{ config, ... }:
-let
+{config, ...}: let
   hostName = config.networking.hostName;
 in {
   networking.wireguard.interfaces = secrets."${hostName}".wireguard.interfaces;

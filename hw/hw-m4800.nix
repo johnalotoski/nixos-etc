@@ -1,13 +1,15 @@
-{ config, lib, pkgs, ... }:
-
 {
-  imports =
-    [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
-    ];
+  lib,
+  pkgs,
+  ...
+}: {
+  imports = [
+    <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
+  ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" "sr_mod" "sdhci_pci" ];
-  boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModulePackages = [ ];
+  boot.initrd.availableKernelModules = ["xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" "sr_mod" "sdhci_pci"];
+  boot.kernelModules = ["kvm-intel"];
+  boot.extraModulePackages = [];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -23,7 +25,7 @@
     device = "/dev/disk/by-label/boot1";
     fsType = "vfat";
   };
-  swapDevices = [ { device = "/dev/disk/by-label/swap"; } ];
+  swapDevices = [{device = "/dev/disk/by-label/swap";}];
 
   hardware.bluetooth.enable = true;
   hardware.pulseaudio.enable = true;

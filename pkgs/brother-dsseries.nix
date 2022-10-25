@@ -1,32 +1,36 @@
 # This nix file courtesy of:
 # https://github.com/pjones/nix-utils/blob/master/pkgs/drivers/brother-dsseries.nix
 # Further notes in the main configuration.nix file
-{ stdenv, requireFile, dpkg }:
-
+{
+  stdenv,
+  requireFile,
+  dpkg,
+}:
 stdenv.mkDerivation rec {
   version = "1.0.5-1";
   name = "brother-dsseries-${version}";
   supportSite = http://brother.com/;
 
   src =
-    if stdenv.system == "x86_64-linux" then
+    if stdenv.system == "x86_64-linux"
+    then
       # 64-bit driver.
       requireFile {
         name = "libsane-dsseries_${version}_amd64.deb";
         url = supportSite;
         sha256 = "4e0b649df73f8e9900c045d5bbf7361fd32ca7e3dc18ca2723406fca66809927";
       }
-    else if stdenv.system == "i686-linux" then
+    else if stdenv.system == "i686-linux"
+    then
       # 32-bit driver.
       requireFile {
         name = "libsane-dsseries_${version}_i386.deb";
         url = supportSite;
         sha256 = "cff87d651750203d64c468fdb9b73cbf89d5a549568e066666bb0253a5bd512a";
       }
-    else
-      abort "brotherDSSeries requires i686-linux or x86_64 Linux";
+    else abort "brotherDSSeries requires i686-linux or x86_64 Linux";
 
-  phases = [ "unpackPhase" "installPhase" ];
+  phases = ["unpackPhase" "installPhase"];
 
   unpackPhase = ''
     dpkg-deb -x $src .
@@ -59,7 +63,7 @@ stdenv.mkDerivation rec {
     done
   '';
 
-  buildInputs = [ dpkg ];
+  buildInputs = [dpkg];
 
   meta = with stdenv.lib; {
     description = "Brother DS Series Scanner Drivers for SANE";
@@ -78,6 +82,6 @@ stdenv.mkDerivation rec {
     homepage = http://download.brother.com/;
     license = licenses.unfree;
     platforms = platforms.linux;
-    maintainers = with maintainers; [ pjones ];
+    maintainers = with maintainers; [pjones];
   };
 }

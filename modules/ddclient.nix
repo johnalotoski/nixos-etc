@@ -1,5 +1,4 @@
-{ config, pkgs, ... }:
-{
+{...}: {
   services.ddclient = {
     enable = true;
     # Following commented lines to generate the initial conf file:

@@ -1,5 +1,5 @@
-{ config, pkgs, ... }:
-{
+{pkgs, ...}:
+with pkgs; {
   programs = {
     ssh.startAgent = false;
     gnupg.agent = {
@@ -9,10 +9,10 @@
   };
 
   services.udev.extraRules = let
-    dependencies = with pkgs; [ coreutils gnupg gawk gnugrep ];
-    clearYubikey = pkgs.writeScript "clear-yubikey" ''
-      #!${pkgs.stdenv.shell}
-      export PATH=${pkgs.lib.makeBinPath dependencies};
+    dependencies = [coreutils gnupg gawk gnugrep];
+    clearYubikey = writeScript "clear-yubikey" ''
+      #!${stdenv.shell}
+      export PATH=${lib.makeBinPath dependencies};
       keygrips=$(
         gpg-connect-agent 'keyinfo --list' /bye 2>/dev/null \
           | grep -v OK \
@@ -22,19 +22,19 @@
       done
       gpg --card-status 2>/dev/null 1>/dev/null || true
     '';
-    clearYubikeyUser = pkgs.writeScript "clear-yubikey-user" ''
-      #!${pkgs.stdenv.shell}
-      ${pkgs.sudo}/bin/sudo -u jlotoski ${clearYubikey}
+    clearYubikeyUser = writeScript "clear-yubikey-user" ''
+      #!${stdenv.shell}
+      ${sudo}/bin/sudo -u jlotoski ${clearYubikey}
     '';
   in ''
     ACTION=="add|change", SUBSYSTEM=="usb", ATTRS{idVendor}=="1050", ATTRS{idProduct}=="0407", RUN+="${clearYubikeyUser}"
   '';
 
-  services.udev.packages = [ pkgs.yubikey-personalization ];
+  services.udev.packages = [yubikey-personalization];
 
   services.pcscd.enable = true;
 
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = [
     gnupg
     pinentry
     paperkey

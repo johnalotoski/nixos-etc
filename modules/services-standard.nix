@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   programs.mosh.enable = true;
   services.clamav.daemon.enable = true;
   services.clamav.updater.enable = true;
@@ -20,9 +19,9 @@
   services.postfix.enable = true;
   services.postfix.setSendmail = true;
   services.printing.browsing = true;
-  services.printing.drivers = [ pkgs.hplip ];
+  services.printing.drivers = [pkgs.hplip];
   services.printing.enable = true;
-  services.printing.listenAddresses = [ "localhost:631" ];
+  services.printing.listenAddresses = ["localhost:631"];
   services.sysstat.enable = true;
   services.vnstat.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;

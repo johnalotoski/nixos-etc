@@ -1,5 +1,10 @@
-{ config, pkgs, secrets, lib, ... }:
-let
+{
+  config,
+  pkgs,
+  secrets,
+  lib,
+  ...
+}: let
   hostName = config.networking.hostName;
   defaultBorgSpec = {
     compression = "auto,lzma";
@@ -21,11 +26,14 @@ let
   extraBorgPaths = with pkgs; [
     nix
   ];
-in with builtins; with lib; {
-  services.borgbackup.jobs = mapAttrs (n: v:
-    recursiveUpdate defaultBorgSpec (removeAttrs v [ "borgSecret" ]))
+in
+  with builtins;
+  with lib; {
+    services.borgbackup.jobs = mapAttrs (n: v:
+      recursiveUpdate defaultBorgSpec (removeAttrs v ["borgSecret"]))
     secrets."${hostName}".borgBackupJobs;
-  systemd.services = mapAttrs' (n: v: nameValuePair
-    "borgbackup-job-${n}" { path = extraBorgPaths; })
+    systemd.services = mapAttrs' (n: v:
+      nameValuePair
+      "borgbackup-job-${n}" {path = extraBorgPaths;})
     secrets."${hostName}".borgBackupJobs;
-}
+  }
