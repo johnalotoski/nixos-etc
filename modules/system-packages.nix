@@ -5,10 +5,21 @@
   lib,
   ...
 }: let
-  unstable = import self.inputs.nixos-unstable {
-    system = pkgs.system;
-    config.allowUnfree = true;
-  };
+  mkPkgs = input:
+    import self.inputs.${input} {
+      system = pkgs.system;
+      config.allowUnfree = true;
+    };
+
+  # System nixpkgs pins
+  # stable pin is pkgs as nixpkgs input
+  unstable = mkPkgs "nixos-unstable";
+  unstable-nixpkgs = mkPkgs "nixpkgs-unstable";
+
+  # User nixpkgs pins
+  stable-user = mkPkgs "nixpkgs-user";
+  unstable-user = mkPkgs "nixos-user-unstable";
+  unstable-user-nixpkgs = mkPkgs "nixpkgs-user-unstable";
 in {
   system.extraSystemBuilderCmds = ''
     ln -sv ${pkgs.path} $out/nixpkgs
@@ -187,5 +198,14 @@ in {
     zip
     zoom-us
     zstd
+
+    # User packages which require an independent pin bump from system
+    stable-user.cointop
+    stable-user.firefox
+    stable-user.google-chrome
+    stable-user.gimp
+    stable-user.inkscape
+    stable-user.libreoffice-fresh
+    stable-user.signal-desktop
   ];
 }

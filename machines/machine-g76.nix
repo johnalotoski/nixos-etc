@@ -8,7 +8,7 @@
     # ../modules/backup.nix
     ../modules/db.nix
     # ../modules/collab.nix
-    ../modules/cuda.nix
+    # ../modules/cuda.nix
     ../modules/firewall.nix
     ../modules/git.nix
     ../modules/gnupg.nix
@@ -36,10 +36,13 @@
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
   boot.kernelParams = ["i8042.direct" "i8042.dumbkbd"];
 
+  nixpkgs.config.allowUnfree = true;
+
   services.xserver = {
     exportConfiguration = true;
     videoDrivers = ["nvidia"];
   };
+
   hardware.nvidia = {
     prime = {
       sync.enable = true;

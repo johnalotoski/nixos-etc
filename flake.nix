@@ -2,9 +2,16 @@
   description = "Workstation flake";
 
   inputs = {
+    # Pins for system packages
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.05";
     nixos-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+
+    # Pins for user packages
+    nixpkgs-user.url = "github:NixOS/nixpkgs/nixos-22.05";
+    nixos-user-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-user-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+
     nix.url = "github:NixOS/nix?ref=2.11.1";
     sops-nix = {
       url = "github:Mic92/sops-nix";
