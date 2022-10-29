@@ -28,6 +28,10 @@
     ...
   }: {
     nixosConfigurations = {
+
+      # Machines: `nixos-rebuild [switch|boot|...] [-L] [-v] [--flake .#$MACHINE]`
+      # -----
+
       nixos-g76 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {inherit self;};
@@ -44,7 +48,9 @@
         ];
       };
 
-      # Machine vms for testing: `nixos-rebuild build-vm --flake .#$MACHINE`
+      # Machine vms for testing: `nixos-rebuild build-vm [-L] [-v] [--flake .#$MACHINE]`
+      # -----
+
       nixos-g76-vm = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {inherit self;};
@@ -60,6 +66,19 @@
         modules = [
           ./machines/machine-p71.nix
           ./modules/build-vm.nix
+        ];
+      };
+
+      # ISOs:
+      # Build: `nix build [-L] [-v] .#nixosConfigurations.$ISO.config.system.build.isoImage`
+      # Copy to USB: `dd if=$(fd -e iso . result/iso) of=/dev/sda status=progress`
+      # -----
+
+      airgapped = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {inherit self;};
+        modules = [
+          ./iso/airgapped.nix
         ];
       };
     };
