@@ -17,6 +17,9 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Misc packages
+    openziti.url = "github:johnalotoski/openziti-bins";
   };
 
   outputs = {
