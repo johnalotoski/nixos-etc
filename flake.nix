@@ -33,12 +33,29 @@
         ];
       };
 
+      nixos-p71 = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {inherit self;};
+        modules = [
+          ./machines/machine-p71.nix
+        ];
+      };
+
       # Machine vms for testing: `nixos-rebuild build-vm --flake .#$MACHINE`
       nixos-g76-vm = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {inherit self;};
         modules = [
           ./machines/machine-g76.nix
+          ./modules/build-vm.nix
+        ];
+      };
+
+      nixos-p71-vm = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {inherit self;};
+        modules = [
+          ./machines/machine-p71.nix
           ./modules/build-vm.nix
         ];
       };

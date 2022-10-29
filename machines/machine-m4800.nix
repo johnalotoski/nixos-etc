@@ -8,7 +8,6 @@
     ../modules/gnupg.nix
     ../modules/intl.nix
     ../modules/lorri.nix
-    ../modules/modargs.nix
     ../modules/nas.nix
     ../modules/networking.nix
     ../modules/nix.nix

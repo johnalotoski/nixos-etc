@@ -21,6 +21,8 @@
   unstable-user = mkPkgs "nixos-user-unstable";
   unstable-user-nixpkgs = mkPkgs "nixpkgs-user-unstable";
 in {
+  nixpkgs.config.allowUnfree = true;
+
   system.extraSystemBuilderCmds = ''
     ln -sv ${pkgs.path} $out/nixpkgs
   '';

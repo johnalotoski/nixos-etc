@@ -7,7 +7,6 @@
     ../hw/hw-g76.nix
     # ../modules/backup.nix
     ../modules/db.nix
-    # ../modules/collab.nix
     # ../modules/cuda.nix
     ../modules/firewall.nix
     ../modules/git.nix
@@ -15,7 +14,6 @@
     ../modules/hw.nix
     ../modules/intl.nix
     ../modules/lorri.nix
-    # ../modules/modargs.nix
     # ../modules/nas.nix
     ../modules/networking.nix
     ../modules/nix.nix
@@ -35,8 +33,6 @@
   # boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
   boot.kernelParams = ["i8042.direct" "i8042.dumbkbd"];
-
-  nixpkgs.config.allowUnfree = true;
 
   services.xserver = {
     exportConfiguration = true;

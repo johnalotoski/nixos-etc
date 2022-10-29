@@ -1,10 +1,9 @@
 {...}: {
   imports = [
     ../hw/hw-p71.nix
-    ../modules/backup.nix
-    ../modules/cuda.nix
+    # ../modules/backup.nix
+    # ../modules/cuda.nix
     ../modules/db.nix
-    ../modules/ddclient.nix
     ../modules/firewall.nix
     ../modules/git.nix
     ../modules/gnupg.nix
@@ -12,12 +11,10 @@
     ../modules/hw.nix
     ../modules/intl.nix
     ../modules/lorri.nix
-    ../modules/modargs.nix
-    ../modules/nas.nix
+    # ../modules/nas.nix
     ../modules/networking.nix
     ../modules/nix.nix
     ../modules/screen.nix
-    ../modules/services-luksClose.nix
     ../modules/services-raid.nix
     ../modules/services-standard.nix
     ../modules/shell.nix
@@ -25,7 +22,7 @@
     ../modules/users-standard.nix
     ../modules/virtualization.nix
     ../modules/vim.nix
-    ../modules/wireguard.nix
+    # ../modules/wireguard.nix
     ../modules/xrandr.nix
     ../modules/yubikey.nix
     ../modules/zfs.nix
