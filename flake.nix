@@ -28,7 +28,6 @@
     ...
   }: {
     nixosConfigurations = {
-
       # Machines: `nixos-rebuild [switch|boot|...] [-L] [-v] [--flake .#$MACHINE]`
       # -----
 

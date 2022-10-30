@@ -66,6 +66,7 @@ in {
     dnsutils
     docker-compose
     efibootmgr
+    unstable.eternal-terminal
     fd
     file
     fx

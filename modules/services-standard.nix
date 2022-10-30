@@ -1,33 +1,62 @@
 {pkgs, ...}: {
-  programs.mosh.enable = true;
-  services.clamav.daemon.enable = true;
-  services.clamav.updater.enable = true;
-  services.netdata.enable = true;
+  networking.firewall = {
+    allowedTCPPorts = [2022];
+  };
 
-  programs.ssh.extraConfig = ''
-    Host *
-      ServerAliveInterval 300
-      ServerAliveCountMax 2
-  '';
-  services.openssh.enable = true;
-  services.openssh.extraConfig = ''
-    AllowUsers *@192.168.* jlotoski@*
-  '';
-  services.openssh.passwordAuthentication = false;
-  services.openssh.permitRootLogin = "no";
+  programs = {
+    mosh.enable = true;
+    ssh.extraConfig = ''
+      Host *
+        ServerAliveInterval 300
+        ServerAliveCountMax 2
+    '';
+  };
 
-  services.postfix.enable = true;
-  services.postfix.setSendmail = true;
-  services.printing.browsing = true;
-  services.printing.drivers = [pkgs.hplip];
-  services.printing.enable = true;
-  services.printing.listenAddresses = ["localhost:631"];
-  services.sysstat.enable = true;
-  services.vnstat.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.enable = true;
-  services.xserver.exportConfiguration = true;
-  services.xserver.layout = "us";
-  services.xserver.libinput.enable = true;
+  services = {
+    clamav = {
+      daemon.enable = true;
+      updater.enable = true;
+    };
+
+    eternal-terminal = {
+      enable = true;
+      port = 2022;
+    };
+
+    netdata.enable = true;
+
+    openssh = {
+      enable = true;
+      passwordAuthentication = false;
+      permitRootLogin = "no";
+      extraConfig = ''
+        AllowUsers *@192.168.* jlotoski@*
+      '';
+    };
+
+    postfix = {
+      enable = true;
+      setSendmail = true;
+    };
+
+    printing = {
+      browsing = true;
+      drivers = [pkgs.hplip];
+      enable = true;
+      listenAddresses = ["localhost:631"];
+    };
+
+    sysstat.enable = true;
+
+    vnstat.enable = true;
+
+    xserver = {
+      desktopManager.plasma5.enable = true;
+      displayManager.sddm.enable = true;
+      enable = true;
+      exportConfiguration = true;
+      layout = "us";
+      libinput.enable = true;
+    };
+  };
 }

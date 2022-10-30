@@ -1,5 +1,8 @@
-{self, pkgs, ...}:
-let
+{
+  self,
+  pkgs,
+  ...
+}: let
   inherit (pkgs) writeShellApplication;
   inherit (pkgs.lib) mkForce;
   selfPath = self.inputs.nixpkgs.outPath;
@@ -26,39 +29,39 @@ let
       echo "sudo zpool export \$POOL"
     '';
   };
+in
+  with pkgs; {
+    imports = [(selfPath + "/nixos/modules/installer/cd-dvd/installation-cd-graphical-plasma5.nix")];
 
-in with pkgs; {
-  imports = [(selfPath + "/nixos/modules/installer/cd-dvd/installation-cd-graphical-plasma5.nix")];
+    boot.supportedFilesystems = ["zfs"];
+    boot.kernelParams = ["console=ttyS0,115200n8"];
 
-  boot.supportedFilesystems = ["zfs"];
-  boot.kernelParams = ["console=ttyS0,115200n8"];
+    nixpkgs.config.allowUnfree = true;
 
-  nixpkgs.config.allowUnfree = true;
-
-  programs = {
-    ssh.startAgent = false;
-    gnupg.agent = {
-      enable = true;
-      enableSSHSupport = true;
+    programs = {
+      ssh.startAgent = false;
+      gnupg.agent = {
+        enable = true;
+        enableSSHSupport = true;
+      };
     };
-  };
 
-  environment.systemPackages = [
-    airgapped-help   # Reminder commands for secure ZFS import/export
-    curl
-    file
-    gnupg            # GNU Privacy Guard
-    openssl          # Avoid pattern based encryption attacks
-    paperkey         # Store OpenPGP or GnuPG on paper
-    pinentry         # GnuPG’s interface to passphrase input
-    pv               # For monitoring data progress through a pipeline
-    (unixtools.xxd)  # For checking block device writes
-    wget
-  ];
+    environment.systemPackages = [
+      airgapped-help # Reminder commands for secure ZFS import/export
+      curl
+      file
+      gnupg # GNU Privacy Guard
+      openssl # Avoid pattern based encryption attacks
+      paperkey # Store OpenPGP or GnuPG on paper
+      pinentry # GnuPG’s interface to passphrase input
+      pv # For monitoring data progress through a pipeline
+      (unixtools.xxd) # For checking block device writes
+      wget
+    ];
 
-  services = {
-    openssh.enable = mkForce false;
-    pcscd.enable = true;
-    udev.packages = [yubikey-personalization];
-  };
-}
+    services = {
+      openssh.enable = mkForce false;
+      pcscd.enable = true;
+      udev.packages = [yubikey-personalization];
+    };
+  }
