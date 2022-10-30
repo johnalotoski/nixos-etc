@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  self,
+  pkgs,
+  ...
+}: {
   networking.firewall = {
     allowedTCPPorts = [2022];
   };

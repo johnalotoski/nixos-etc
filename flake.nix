@@ -19,6 +19,10 @@
     };
 
     # Misc packages
+    flake-compat = {
+      url = "github:edolstra/flake-compat";
+      flake = false;
+    };
     openziti.url = "github:johnalotoski/openziti-bins";
   };
 
@@ -26,46 +30,59 @@
     self,
     nixpkgs,
     ...
-  }: {
+  }: let
+    system = "x86_64-linux";
+    localOverlay = import ./nix/overlay.nix self;
+    overlays = [localOverlay];
+    baseModules = [(_: {nixpkgs.overlays = overlays;})];
+  in rec {
     nixosConfigurations = {
       # Machines: `nixos-rebuild [switch|boot|...] [-L] [-v] [--flake .#$MACHINE]`
       # -----
 
       nixos-g76 = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+        inherit system;
         specialArgs = {inherit self;};
-        modules = [
-          ./machines/machine-g76.nix
-        ];
+        modules =
+          baseModules
+          ++ [
+            ./machines/machine-g76.nix
+          ];
       };
 
       nixos-p71 = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+        inherit system;
         specialArgs = {inherit self;};
-        modules = [
-          ./machines/machine-p71.nix
-        ];
+        modules =
+          baseModules
+          ++ [
+            ./machines/machine-p71.nix
+          ];
       };
 
       # Machine vms for testing: `nixos-rebuild build-vm [-L] [-v] [--flake .#$MACHINE]`
       # -----
 
       nixos-g76-vm = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+        inherit system;
         specialArgs = {inherit self;};
-        modules = [
-          ./machines/machine-g76.nix
-          ./modules/build-vm.nix
-        ];
+        modules =
+          baseModules
+          ++ [
+            ./machines/machine-g76.nix
+            ./modules/build-vm.nix
+          ];
       };
 
       nixos-p71-vm = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+        inherit system;
         specialArgs = {inherit self;};
-        modules = [
-          ./machines/machine-p71.nix
-          ./modules/build-vm.nix
-        ];
+        modules =
+          baseModules
+          ++ [
+            ./machines/machine-p71.nix
+            ./modules/build-vm.nix
+          ];
       };
 
       # ISOs:
@@ -74,11 +91,13 @@
       # -----
 
       airgapped = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+        inherit system;
         specialArgs = {inherit self;};
-        modules = [
-          ./iso/airgapped.nix
-        ];
+        modules =
+          baseModules
+          ++ [
+            ./iso/airgapped.nix
+          ];
       };
     };
   };
