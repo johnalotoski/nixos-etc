@@ -3,6 +3,7 @@
     ../hw/hw-p71.nix
     # ../modules/backup.nix
     # ../modules/cuda.nix
+    ../modules/cardano-node.nix
     ../modules/db.nix
     ../modules/firewall.nix
     ../modules/git.nix
