@@ -31,7 +31,7 @@
   };
 in {
   environment.variables = {
-    SOPS_AGE_RECIPIENTS = lib.concatStringsSep "," ageKeys;
+    # SOPS_AGE_RECIPIENTS = lib.concatStringsSep "," ageKeys;
   };
 
   users.mutableUsers = false;

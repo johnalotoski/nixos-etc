@@ -6,6 +6,7 @@
   imports = [
     ../hw/hw-g76.nix
     # ../modules/backup.nix
+    ../modules/cardano-node.nix
     ../modules/db.nix
     # ../modules/cuda.nix
     ../modules/firewall.nix
@@ -60,9 +61,11 @@
 
   networking.hostName = "nixos-g76";
   networking.hostId = "defe72a9";
+
   networking.wireless.enable = true;
   networking.wireless.interfaces = ["wlp0s20f3"];
 
+  networking.networkmanager.enable = true;
   networking.useDHCP = false;
   networking.interfaces.enp8s0f1.useDHCP = true;
   networking.interfaces.wlp0s20f3.useDHCP = true;

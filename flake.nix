@@ -12,17 +12,19 @@
     nixos-user-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-user-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
+    # System inputs
+    flake-compat = {
+      url = "github:edolstra/flake-compat";
+      flake = false;
+    };
     nix.url = "github:NixOS/nix?ref=2.11.1";
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Misc packages
-    flake-compat = {
-      url = "github:edolstra/flake-compat";
-      flake = false;
-    };
+    # Misc sw inputs
+    cardano-node.url = "github:input-output-hk/cardano-node/1.35.3";
     openziti.url = "github:johnalotoski/openziti-bins";
   };
 

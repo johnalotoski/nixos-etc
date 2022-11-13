@@ -27,6 +27,8 @@
       port = 2022;
     };
 
+    mullvad-vpn.enable = true;
+
     netdata.enable = true;
 
     openssh = {
@@ -62,5 +64,7 @@
       layout = "us";
       libinput.enable = true;
     };
+
+    ziti-edge-tunnel.enable = true;
   };
 }

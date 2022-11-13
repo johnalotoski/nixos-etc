@@ -1,6 +1,13 @@
-self: final: prev: rec {
+self: final: prev: let
+  unstablePkgs = self.inputs.nixos-unstable.legacyPackages.${prev.system};
+in rec {
   # Until 22.11 release
-  eternal-terminal = self.inputs.nixos-unstable.legacyPackages.${prev.system}.eternal-terminal;
+  inherit
+    (unstablePkgs)
+    eternal-terminal
+    mullvad
+    mullvad-vpn
+    ;
 
   # Until flake compat is fixed: https://github.com/NixOS/nixpkgs/issues/97855
   nixos-option = let

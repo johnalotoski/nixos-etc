@@ -5,7 +5,6 @@
 }: let
   inherit (pkgs) writeShellApplication;
   inherit (pkgs.lib) mkForce;
-  selfPath = self.inputs.nixpkgs.outPath;
 
   airgapped-help = writeShellApplication {
     name = "airgapped-help";
@@ -31,7 +30,7 @@
   };
 in
   with pkgs; {
-    imports = [(selfPath + "/nixos/modules/installer/cd-dvd/installation-cd-graphical-plasma5.nix")];
+    imports = [(self.inputs.nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-graphical-plasma5.nix")];
 
     boot.supportedFilesystems = ["zfs"];
     boot.kernelParams = ["console=ttyS0,115200n8"];

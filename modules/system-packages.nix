@@ -186,11 +186,13 @@ in {
     virtmanager
     vlc
     vnstat
+    vopono
     wine
     wireshark
     wpa_supplicant
     wpa_supplicant_gui
     wget
+    wireguard-tools
     xdotool
     xkcdpass
     xplr
