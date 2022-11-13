@@ -55,14 +55,15 @@ in {
     borgbackup
     bridge-utils
     cachix
-    curlie
-    dive
+    cfssl
     unstable.crystal
     unstable.crystal2nix
     unstable.cue
+    curlie
     delta
     unstable.difftastic
     direnv
+    dive
     dnsutils
     docker-compose
     efibootmgr
@@ -165,6 +166,7 @@ in {
     ssh-to-age
     ssh-to-pgp
     unstable.starship
+    step-cli
     sublime3
     summon
     syncthing
