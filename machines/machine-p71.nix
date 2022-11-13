@@ -38,6 +38,7 @@
   networking.wireless.enable = true;
   networking.wireless.interfaces = ["wlp4s0"];
 
+  networking.networkmanager.enable = true;
   networking.useDHCP = false;
   networking.interfaces.enp0s31f6.useDHCP = true;
   networking.interfaces.wlp4s0.useDHCP = true;
