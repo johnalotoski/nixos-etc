@@ -1,6 +1,8 @@
 {
+  self,
   config,
   pkgs,
+  lib,
   ...
 }: {
   imports = [
@@ -27,6 +29,7 @@
     ../modules/users-standard.nix
     ../modules/virtualization.nix
     ../modules/vim.nix
+    ../modules/wordpress.nix
     ../modules/yubikey.nix
     ../modules/ziti-edge-tunnel.nix
     ../modules/zfs.nix
@@ -70,5 +73,5 @@
   networking.interfaces.enp8s0f1.useDHCP = true;
   networking.interfaces.wlp0s20f3.useDHCP = true;
 
-  system.stateVersion = "22.05";
+  system.stateVersion = "22.11";
 }

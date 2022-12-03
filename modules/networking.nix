@@ -1,4 +1,7 @@
 {...}: {
-  # networking.nameservers = ["8.8.8.8" "8.8.4.4"];
-  # networking.nameservers = [ "193.138.218.74" ];
+  services.nscd.enableNsncd = true;
+  services.resolved = {
+    enable = true;
+    extraConfig = "Domains=~.";
+  };
 }

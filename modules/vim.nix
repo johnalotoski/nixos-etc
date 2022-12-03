@@ -9,40 +9,6 @@ with lib; let
   vimPkgs = import self.inputs.nixpkgs {
     system = pkgs.system;
     config.allowUnfree = true;
-    overlays = [
-      (prev: final: {
-        ycmd = final.ycmd.overrideAttrs (oldAttrs: rec {
-          # Overrides invalid gopls package at:
-          # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/development/tools/misc/ycmd/default.nix#L75
-          installPhase = ''
-            rm -rf ycmd/tests
-            chmod +x ycmd/__main__.py
-            sed -i "1i #!${final.python3.interpreter}\
-            " ycmd/__main__.py
-            mkdir -p $out/lib/ycmd
-            cp -r ycmd/ CORE_VERSION libclang.so.* libclang.dylib* ycm_core.so $out/lib/ycmd/
-            mkdir -p $out/bin
-            ln -s $out/lib/ycmd/ycmd/__main__.py $out/bin/ycmd
-            # Copy everything: the structure of third_party has been known to change.
-            # When linking our own libraries below, do so with '-f'
-            # to clobber anything we may have copied here.
-            mkdir -p $out/lib/ycmd/third_party
-            cp -r third_party/* $out/lib/ycmd/third_party/
-            TARGET=$out/lib/ycmd/third_party/gocode
-            mkdir -p $TARGET
-            ln -sf ${final.gocode}/bin/gocode $TARGET
-            TARGET=$out/lib/ycmd/third_party/godef
-            mkdir -p $TARGET
-            ln -sf ${final.godef}/bin/godef $TARGET
-            TARGET=$out/lib/ycmd/third_party/go/src/golang.org/x/tools/cmd/gopls
-            mkdir -p $TARGET
-            ln -sf ${final.gopls}/bin/gopls $TARGET
-            TARGET=$out/lib/ycmd/third_party/tsserver
-            ln -sf ${final.nodePackages.typescript} $TARGET
-          '';
-        });
-      })
-    ];
   };
 
   myVim = pkgs.vim_configurable.customize {

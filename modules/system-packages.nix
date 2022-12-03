@@ -127,7 +127,6 @@ in {
     nixfmt
     nmap
     noip
-    notepadqq
     nox
     obs-studio
     unstable.openssl
@@ -146,7 +145,6 @@ in {
     python3Packages.ipython
     python3Packages.magic-wormhole
     qalculate-gtk
-    quiterss
     (lib.lowPrio remarshal)
     remmina
     ripgrep
