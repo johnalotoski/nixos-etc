@@ -14,6 +14,12 @@ stdenv.mkDerivation rec {
     cp -r . $out/share/wordpress
   '';
 
+  fixupPhase = ''
+    rm -rvf $out/share/wordpress/wp-content/plugins/akismet
+    rm -rvf $out/share/wordpress/wp-content/plugins/hello.php
+    rm -rvf $out/share/wordpress/wp-content/themes/twentytwenty*
+  '';
+
   passthru.tests = {
     inherit (nixosTests) wordpress;
   };
