@@ -19,7 +19,12 @@
   boot.initrd.services.swraid.mdadmConf = "ARRAY /dev/md0 metadata=1.2 name=nixos:0 UUID=c5cb0286:a9a92645:2a354d88:941aa36d";
 
   boot.initrd.luks.devices.cr0 = {
-    device = "/dev/disk/by-uuid/a8b83540-8db1-4612-b75b-901718b34c5e";
+    # Due to md device uuid availability issue in initrd.
+    # Refs:
+    #   https://github.com/NixOS/nixpkgs/issues/196800
+    #   https://github.com/NixOS/nixpkgs/issues/199551
+    # device = "/dev/disk/by-uuid/a8b83540-8db1-4612-b75b-901718b34c5e";
+    device = "/dev/disk/by-id/md-name-nixos:0";
     allowDiscards = true;
   };
 
