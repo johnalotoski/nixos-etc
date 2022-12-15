@@ -18,7 +18,7 @@
       url = "github:edolstra/flake-compat";
       flake = false;
     };
-    nix.url = "github:NixOS/nix?ref=2.11.1";
+    nix.url = "github:NixOS/nix?ref=2.12.0";
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
