@@ -52,6 +52,7 @@ in {
     aria
     bat
     binutils
+    bluemail
     borgbackup
     bridge-utils
     cachix
@@ -117,6 +118,7 @@ in {
     mutt
     ncdu
     # neovim
+    nfs-utils
     ngrep
     nix-diff
     nix-du
@@ -137,6 +139,8 @@ in {
     patchelf
     pavucontrol
     pciutils
+    pdftk
+    pdfchain
     postgresql
     podman
     ps_mem

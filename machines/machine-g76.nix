@@ -29,13 +29,17 @@
     ../modules/users-standard.nix
     ../modules/virtualization.nix
     ../modules/vim.nix
-    ../modules/wordpress.nix
     ../modules/yubikey.nix
     ../modules/ziti-edge-tunnel.nix
     ../modules/zfs.nix
   ];
 
-  # boot.kernelPackages = pkgs.linuxPackages_latest;
+  networking.nat = {
+    enable = true;
+    internalInterfaces = ["ve-+"];
+    externalInterface = "wlp0s20f3";
+  };
+
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
   boot.kernelParams = ["i8042.direct" "i8042.dumbkbd"];
 
@@ -55,23 +59,14 @@
   hardware.opengl = {
     enable = true;
     driSupport32Bit = true;
-    extraPackages = with pkgs; [
-      libGL
-    ];
+    extraPackages = with pkgs; [libGL];
     setLdLibraryPath = true;
   };
   hardware.pulseaudio.support32Bit = true;
 
   networking.hostName = "nixos-g76";
   networking.hostId = "defe72a9";
-
-  networking.wireless.enable = true;
   networking.wireless.interfaces = ["wlp0s20f3"];
-
-  networking.networkmanager.enable = true;
-  networking.useDHCP = false;
-  networking.interfaces.enp8s0f1.useDHCP = true;
-  networking.interfaces.wlp0s20f3.useDHCP = true;
 
   system.stateVersion = "22.11";
 }

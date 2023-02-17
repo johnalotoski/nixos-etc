@@ -109,11 +109,17 @@ in {
 
   programs.gnupg.agent.enable = true;
 
-  environment.etc."per-user/root/gpg-agent.conf".text = "pinentry-program ${pinentry.tty}/bin/pinentry-tty";
+  environment.etc."per-user/root/gpg-agent.conf".text = ''
+    pinentry-program ${pinentry.tty}/bin/pinentry-tty
+    enable-ssh-support
+  '';
   environment.etc."per-user/root/gpg.conf".text = "default-key ${defaultGpgKey}";
   environment.etc."per-user/root/scdaemon.conf".text = scdaemonConf;
 
-  environment.etc."per-user/jlotoski/gpg-agent.conf".text = "# pinentry-program ${pinentry}/bin/pinentry";
+  environment.etc."per-user/jlotoski/gpg-agent.conf".text = ''
+    # pinentry-program ${pinentry}/bin/pinentry
+    enable-ssh-support
+  '';
   environment.etc."per-user/jlotoski/gpg.conf".text = "default-key ${defaultGpgKey}";
   environment.etc."per-user/jlotoski/scdaemon.conf".text = scdaemonConf;
 
