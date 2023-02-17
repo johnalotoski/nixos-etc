@@ -30,17 +30,15 @@
     ../modules/zfs.nix
   ];
 
+  # networking.extraHosts = ''
+  #   127.0.0.1 explorer.cardano.org
+  # '';
+
   system.nixos.tags = ["kde"];
   services.xserver.videoDrivers = ["intel" "nvidia"];
 
   networking.hostName = "nixos-p71";
-  networking.wireless.enable = true;
   networking.wireless.interfaces = ["wlp4s0"];
-
-  networking.networkmanager.enable = true;
-  networking.useDHCP = false;
-  networking.interfaces.enp0s31f6.useDHCP = true;
-  networking.interfaces.wlp4s0.useDHCP = true;
 
   system.stateVersion = "22.11";
 }

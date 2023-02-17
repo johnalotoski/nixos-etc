@@ -18,15 +18,16 @@
       url = "github:edolstra/flake-compat";
       flake = false;
     };
-    nix.url = "github:NixOS/nix?ref=2.12.0";
+    nix.url = "github:NixOS/nix/2.13-maintenance";
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # Misc sw inputs
-    cardano-node.url = "github:input-output-hk/cardano-node/1.35.3";
+    cardano-node.url = "github:input-output-hk/cardano-node?ref=1.35.6-rc1";
     openziti.url = "github:johnalotoski/openziti-bins";
+    # openziti.url = "path:/home/jlotoski/work/johnalotoski/openziti-bins-wt/openziti-bins";
   };
 
   outputs = {

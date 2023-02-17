@@ -56,6 +56,7 @@ in {
     bridge-utils
     cachix
     cfssl
+    comma
     unstable.crystal
     unstable.crystal2nix
     unstable.cue
@@ -120,6 +121,7 @@ in {
     nix-diff
     nix-du
     nix-index
+    nix-output-monitor
     nix-top
     nixos-container
     nixos-option
