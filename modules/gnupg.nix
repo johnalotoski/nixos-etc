@@ -123,7 +123,8 @@ in {
   environment.etc."per-user/jlotoski/gpg.conf".text = "default-key ${defaultGpgKey}";
   environment.etc."per-user/jlotoski/scdaemon.conf".text = scdaemonConf;
 
-  system.activationScripts.gnupg = let
+  system.activationScripts.gnupg.text = let
+    gpgmeDir = ".config/google-chrome/NativeMessagingHosts";
     gpgmejsonFile = writeText "gpgmejson.json" ''
       {
         "name": "gpgmejson",
@@ -133,27 +134,22 @@ in {
         "allowed_origins": ["chrome-extension://kajibbejlbohfaggdiogboambcijhkke/"]
       }
     '';
-  in {
-    text = let
-      gpgmeDir = ".config/google-chrome/NativeMessagingHosts";
-      homeDir = user: config.users.users.${user}.home;
-    in ''
-      setupUserConfig () {
-        USER="$1"
-        GROUP="$2"
-        HOME="$3"
-        mkdir -p "$HOME/.gnupg"
-        ln -svfn "/etc/per-user/$USER/gpg-agent.conf" "$HOME/.gnupg/gpg-agent.conf"
-        ln -svfn "/etc/per-user/$USER/gpg.conf" "$HOME/.gnupg/gpg.conf"
-        ln -svfn "/etc/per-user/$USER/scdaemon.conf" "$HOME/.gnupg/scdaemon.conf"
+    homeDir = user: config.users.users.${user}.home;
+  in ''
+    setupUserConfig () {
+      USER="$1"
+      GROUP="$2"
+      HOME="$3"
+      mkdir -p "$HOME/.gnupg"
+      ln -svfn "/etc/per-user/$USER/gpg-agent.conf" "$HOME/.gnupg/gpg-agent.conf"
+      ln -svfn "/etc/per-user/$USER/gpg.conf" "$HOME/.gnupg/gpg.conf"
+      ln -svfn "/etc/per-user/$USER/scdaemon.conf" "$HOME/.gnupg/scdaemon.conf"
 
-        mkdir -p "$HOME/${gpgmeDir}"
-        ln -svfn ${gpgmejsonFile} "$HOME/${gpgmeDir}/gpgmejson.json"
-      }
+      mkdir -p "$HOME/${gpgmeDir}"
+      ln -svfn ${gpgmejsonFile} "$HOME/${gpgmeDir}/gpgmejson.json"
+    }
 
-      setupUserConfig "root" "root" "${homeDir "root"}"
-      setupUserConfig "jlotoski" "users" "${homeDir "jlotoski"}"
-    '';
-    deps = [];
-  };
+    setupUserConfig "root" "root" "${homeDir "root"}"
+    setupUserConfig "jlotoski" "users" "${homeDir "jlotoski"}"
+  '';
 }

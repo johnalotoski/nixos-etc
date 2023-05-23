@@ -16,7 +16,6 @@
     ../modules/networking.nix
     ../modules/nix.nix
     ../modules/screen.nix
-    ../modules/services-raid.nix
     ../modules/services-standard.nix
     ../modules/shell.nix
     ../modules/system-packages.nix
@@ -34,8 +33,13 @@
   #   127.0.0.1 explorer.cardano.org
   # '';
 
+  networking.hostId = "35c02924";
+
   system.nixos.tags = ["kde"];
-  services.xserver.videoDrivers = ["intel" "nvidia"];
+  services.xserver = {
+    enable = true;
+    videoDrivers = ["intel" "nvidia"];
+  };
 
   networking.hostName = "nixos-p71";
   networking.wireless.interfaces = ["wlp4s0"];

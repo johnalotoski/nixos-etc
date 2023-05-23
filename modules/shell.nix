@@ -9,7 +9,7 @@
     eval "$(starship init bash)"
   '';
 
-  system.activationScripts.starship = let
+  system.activationScripts.starship.text = let
     starshipConfig = pkgs.writeText "starship.toml" ''
       [username]
       show_always = true
@@ -51,24 +51,21 @@
       map_symbol = true
       disabled = false
     '';
-  in {
-    text = ''
-      mkdir -p /etc/per-user/shared
-      cp ${starshipConfig} /etc/per-user/shared/starship.toml
-      mkdir -p /home/jlotoski/.config
-      mkdir -p /home/backup/.config
-      mkdir -p /root/.config
-      chown jlotoski:users /home/jlotoski/.config
-      chown backup:users /home/backup/.config
+  in ''
+    mkdir -p /etc/per-user/shared
+    cp ${starshipConfig} /etc/per-user/shared/starship.toml
+    mkdir -p /home/jlotoski/.config
+    mkdir -p /home/backup/.config
+    mkdir -p /root/.config
+    chown jlotoski:users /home/jlotoski/.config
+    chown backup:users /home/backup/.config
 
-      [ -f /home/jlotoski/.config/starship.toml ] || cp ${starshipConfig} /home/jlotoski/.config/starship.toml
-      [ -f /home/backup/.config/starship.toml ] || cp ${starshipConfig} /home/backup/.config/starship.toml
-      [ -f /root/.config/starship.toml ] || cp ${starshipConfig} /root/.config/starship.toml
-      chown -R jlotoski:users /home/jlotoski/.config/starship.toml
-      chown -R backup:users /home/backup/.config/starship.toml
-    '';
-    deps = [];
-  };
+    [ -f /home/jlotoski/.config/starship.toml ] || cp ${starshipConfig} /home/jlotoski/.config/starship.toml
+    [ -f /home/backup/.config/starship.toml ] || cp ${starshipConfig} /home/backup/.config/starship.toml
+    [ -f /root/.config/starship.toml ] || cp ${starshipConfig} /root/.config/starship.toml
+    chown -R jlotoski:users /home/jlotoski/.config/starship.toml
+    chown -R backup:users /home/backup/.config/starship.toml
+  '';
 
   environment.shellAliases = {
     manfzf = ''

@@ -7,20 +7,20 @@ in {
 
   networking = {
     useDHCP = false;
-    useNetworkd = true;
+    # useNetworkd = true;
     networkmanager.enable = true;
     networkmanager.dns = "systemd-resolved";
-    wireless.enable = true;
+    # wireless.enable = true;
   };
 
-  systemd.network.wait-online.anyInterface = true;
+  # systemd.network.wait-online.anyInterface = true;
 
-  systemd.network.networks."00-wifi" = {
-    name = wirelessInterface;
-    DHCP = "yes";
-    domains = ["~."];
-    dns = ["8.8.8.8"];
-  };
+  # systemd.network.networks."00-wifi" = {
+  #   name = wirelessInterface;
+  #   DHCP = "yes";
+  #   domains = ["~."];
+  #   dns = ["8.8.8.8"];
+  # };
 
   # systemd.network.networks.tun0 = {
   #   name = "tun0";

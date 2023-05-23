@@ -23,9 +23,13 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Misc sw inputs
-    cardano-node.url = "github:input-output-hk/cardano-node?ref=1.35.6-rc1";
+    cardano-node.url = "github:input-output-hk/cardano-node?ref=8.0.0";
     openziti.url = "github:johnalotoski/openziti-bins";
     # openziti.url = "path:/home/jlotoski/work/johnalotoski/openziti-bins-wt/openziti-bins";
   };

@@ -9,8 +9,8 @@
     ../hw/hw-g76.nix
     # ../modules/backup.nix
     ../modules/cardano-node.nix
-    ../modules/db.nix
     # ../modules/cuda.nix
+    ../modules/db.nix
     ../modules/firewall.nix
     ../modules/git.nix
     ../modules/gnupg.nix

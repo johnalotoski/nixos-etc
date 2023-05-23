@@ -14,13 +14,10 @@ in {
       (recursiveUpdate (mkImport "root" "gitignore"))
     ];
 
-  system.activationScripts.gitconfig = {
-    text = ''
-      ln -svfn /etc/per-user/jlotoski/gitconfig-w /home/jlotoski/.gitconfig;
-      ln -svfn /etc/per-user/jlotoski/gitignore /home/jlotoski/.gitignore;
-      ln -svfn /etc/per-user/root/gitconfig-p /root/.gitconfig;
-      ln -svfn /etc/per-user/root/gitignore /root/.gitignore;
-    '';
-    deps = [];
-  };
+  system.activationScripts.gitconfig.text = ''
+    ln -svfn /etc/per-user/jlotoski/gitconfig-w /home/jlotoski/.gitconfig;
+    ln -svfn /etc/per-user/jlotoski/gitignore /home/jlotoski/.gitignore;
+    ln -svfn /etc/per-user/root/gitconfig-p /root/.gitconfig;
+    ln -svfn /etc/per-user/root/gitignore /root/.gitignore;
+  '';
 }

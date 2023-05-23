@@ -119,6 +119,7 @@ in {
     ncdu
     # neovim
     nfs-utils
+    nftables
     ngrep
     nix-diff
     nix-du
