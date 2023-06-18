@@ -52,7 +52,6 @@ in {
     aria
     bat
     binutils
-    bluemail
     borgbackup
     bridge-utils
     cachix
@@ -212,6 +211,7 @@ in {
     zstd
 
     # User packages which require an independent pin bump from system
+    stable-user.bluemail
     stable-user.cointop
     stable-user.firefox
     stable-user.google-chrome

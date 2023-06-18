@@ -38,7 +38,7 @@ with pkgs; {
     gnupg
     pinentry
     paperkey
-    yubioath-desktop
+    yubioath-flutter
     yubikey-manager
   ];
 

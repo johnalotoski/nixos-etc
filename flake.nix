@@ -3,13 +3,13 @@
 
   inputs = {
     # Pins for system packages
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
     nixos-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs-wordpress.url = "github:NixOS/nixpkgs";
 
     # Pins for user packages
-    nixpkgs-user.url = "github:NixOS/nixpkgs/nixos-22.11";
+    nixpkgs-user.url = "github:NixOS/nixpkgs/nixos-23.05";
     nixos-user-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-user-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 

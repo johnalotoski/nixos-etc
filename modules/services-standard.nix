@@ -33,8 +33,10 @@
 
     openssh = {
       enable = true;
-      passwordAuthentication = false;
-      permitRootLogin = "no";
+      settings = {
+        PasswordAuthentication = false;
+        PermitRootLogin = "no";
+      };
       extraConfig = ''
         AllowUsers *@192.168.* jlotoski@*
       '';
