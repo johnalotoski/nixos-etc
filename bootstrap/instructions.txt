@@ -1,0 +1,16 @@
+# Follow disko block device config instructions, using prior machine config for templating as needed:
+# Ref: https://github.com/nix-community/disko
+# QuickStart: https://github.com/nix-community/disko/blob/master/docs/quickstart.md
+
+# Execute the following all as root once the disko config is ready and in /tmp:
+nix run github:nix-community/disko -- --mode disko /tmp/disko-config.nix
+nixos-generate-config --no-filesystems --root /mnt
+mv /tmp/disko-config.nix /mnt/etc/nixos
+nixos-install
+reboot
+
+# The bootstrap configuration allows a quick setup to block device boot so subsequent boots, if required are faster.
+# Once bootstrap install has been completed, build the full config using nixos-etc repo.
+
+# Post rebuild, run the following to avoid Chrome crash:
+sudo chown jlotoski:users ~/.config/google-chrome
