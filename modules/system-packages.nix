@@ -199,6 +199,7 @@ in {
     wpa_supplicant_gui
     wget
     wireguard-tools
+    xclip
     xdotool
     xkcdpass
     xplr

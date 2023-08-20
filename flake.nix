@@ -7,6 +7,7 @@
     nixos-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs-wordpress.url = "github:NixOS/nixpkgs";
+    neovim-flake.url = "github:johnalotoski/neovim-flake";
 
     # Pins for user packages
     nixpkgs-user.url = "github:NixOS/nixpkgs/nixos-23.05";
@@ -18,7 +19,7 @@
       url = "github:edolstra/flake-compat";
       flake = false;
     };
-    nix.url = "github:NixOS/nix/2.13-maintenance";
+    nix.url = "github:NixOS/nix/2.17-maintenance";
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";

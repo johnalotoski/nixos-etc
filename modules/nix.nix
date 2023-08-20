@@ -29,7 +29,7 @@ in {
 
     extraOptions = ''
       netrc-file = /etc/nix/netrc
-      experimental-features = nix-command flakes
+      experimental-features = nix-command flakes repl-flake
     '';
   };
 }

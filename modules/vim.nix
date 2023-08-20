@@ -6,6 +6,8 @@
   ...
 }:
 with lib; let
+  inherit (self.inputs.neovim-flake.packages.x86_64-linux) neovim;
+
   vimPkgs = import self.inputs.nixpkgs {
     system = pkgs.system;
     config.allowUnfree = true;
@@ -120,6 +122,7 @@ in {
     gotags
     gotools
     myVim
+    neovim
     watchexec
   ];
   environment.shellAliases.vi = "vim";
