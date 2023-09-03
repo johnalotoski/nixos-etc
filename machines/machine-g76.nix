@@ -27,11 +27,11 @@
     ../modules/shell.nix
     ../modules/sops.nix
     ../modules/system-packages.nix
+    ../modules/tailscale.nix
     ../modules/users-standard.nix
     ../modules/virtualization.nix
     ../modules/vim.nix
     ../modules/yubikey.nix
-    ../modules/ziti-edge-tunnel.nix
     ../modules/zfs.nix
   ];
 

@@ -1,5 +1,6 @@
 {
   self,
+  pkgs,
   lib,
   ...
 }: {
@@ -51,6 +52,8 @@
 
   sound.enable = true;
   hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.package = pkgs.pulseaudioFull;
+  hardware.bluetooth.enable = true;
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 }
