@@ -1,4 +1,8 @@
-{...}: {
+{lib, ...}: {
+  # For cardano-ops libvirtd virtualisation
+  systemd.services.libvirtd.restartIfChanged = lib.mkForce true;
+  networking.firewall.checkReversePath = lib.mkForce false;
+
   virtualisation = {
     docker.enable = true;
     libvirtd.enable = true;

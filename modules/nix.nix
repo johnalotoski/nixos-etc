@@ -2,8 +2,7 @@
   self,
   pkgs,
   ...
-}: let
-in {
+}: {
   nix = {
     package = self.inputs.nix.packages.${pkgs.system}.nix;
 
@@ -29,7 +28,7 @@ in {
 
     extraOptions = ''
       netrc-file = /etc/nix/netrc
-      experimental-features = nix-command flakes repl-flake
+      experimental-features = nix-command flakes repl-flake fetch-closure
     '';
   };
 }

@@ -19,13 +19,13 @@
     ../modules/services-standard.nix
     ../modules/shell.nix
     ../modules/system-packages.nix
+    ../modules/tailscale.nix
     ../modules/users-standard.nix
     ../modules/virtualization.nix
     ../modules/vim.nix
     # ../modules/wireguard.nix
     ../modules/xrandr.nix
     ../modules/yubikey.nix
-    ../modules/ziti-edge-tunnel.nix
     ../modules/zfs.nix
   ];
 

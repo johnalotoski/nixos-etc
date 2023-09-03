@@ -30,9 +30,7 @@
     };
 
     # Misc sw inputs
-    cardano-node.url = "github:input-output-hk/cardano-node?ref=8.0.0";
-    openziti.url = "github:johnalotoski/openziti-bins";
-    # openziti.url = "path:/home/jlotoski/work/johnalotoski/openziti-bins-wt/openziti-bins";
+    cardano-node.url = "github:input-output-hk/cardano-node/8.1.2";
   };
 
   outputs = {

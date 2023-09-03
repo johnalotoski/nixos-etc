@@ -66,7 +66,5 @@
       layout = "us";
       libinput.enable = true;
     };
-
-    ziti-edge-tunnel.enable = true;
   };
 }
