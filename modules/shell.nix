@@ -2,6 +2,10 @@
   programs.bash.enableCompletion = true;
 
   programs.bash.interactiveShellInit = ''
+    # if [ -z "''${DISABLE_BLESH:-}" ]; then
+    #   source ${pkgs.blesh}/share/blesh/ble.sh
+    # fi
+
     if command -v fzf-share >/dev/null; then
       source "$(fzf-share)/key-bindings.bash"
       source "$(fzf-share)/completion.bash"
@@ -21,6 +25,13 @@
       tag_disabled = false
       only_detached = false
 
+      [git_metrics]
+      disabled = false
+
+      [localip]
+      format = '@[$localipv4](bold red) '
+      disabled = false
+
       [memory_usage]
       format = "via $symbol[''${ram_pct}]($style) "
       disabled = false
@@ -34,6 +45,13 @@
       [time]
       format = '[\[ $time \]]($style) '
       disabled = false
+
+      [battery]
+      full_symbol = '󰁹 '
+      charging_symbol = '󰂄 '
+      discharging_symbol = '󰂃 '
+      unknown_symbol = '󰁽 '
+      empty_symbol = '󰂎 '
 
       [[battery.display]]
       threshold = 100
@@ -49,6 +67,7 @@
 
       [status]
       map_symbol = true
+      pipestatus = true
       disabled = false
     '';
   in ''

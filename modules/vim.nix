@@ -108,13 +108,13 @@ with lib; let
       sha256 = "sha256-BUXEg+4r9L/gqe4DhTlhN55P3jWt7ZyWFQycO6QePrw=";
     };
 
-    vendorSha256 = "sha256-sEzWUeVk5GB0H41wrp12P8sBWRjg0FHUX6ABDEEBqK8=";
+    vendorHash = "sha256-sEzWUeVk5GB0H41wrp12P8sBWRjg0FHUX6ABDEEBqK8=";
 
     nativeBuildInputs = [pkgs.installShellFiles];
   };
 in {
   environment.systemPackages = with vimPkgs; [
-    go_1_18
+    go_1_20
     golint
     gopls
     golines

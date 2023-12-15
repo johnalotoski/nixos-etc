@@ -1,29 +1,30 @@
-{ config, pkgs, ... }:
-let
+{
+  config,
+  pkgs,
+  ...
+}: let
   hashedPassword = "$6$T3eCnq9giW$vjBlWEh9w/nJ7lV9/6hyYUX1P7YmP70Ajo1w47rsLM0q356FHWDG8c4NDQZMrF06uXDlQ.C/L5zUb9fUvJzNh/";
 
   mkUser = user: {
     ${user} = {
       inherit hashedPassword;
       isNormalUser = true;
-      extraGroups = ["docker" "lxd" "networkmanager" "scanner" "wheel" "vboxusers" "libvirtd" "plugdev"];
+      extraGroups = ["docker" "networkmanager" "wheel" "vboxusers" "libvirtd" "plugdev"];
       shell = pkgs.bash;
     };
   };
-
 in {
-  imports =
-    [
-      ./hardware-configuration.nix
-      "${builtins.fetchTarball "https://github.com/nix-community/disko/archive/master.tar.gz"}/module.nix"
-      (import ./disko-config.nix {})
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    "${builtins.fetchTarball "https://github.com/nix-community/disko/archive/master.tar.gz"}/module.nix"
+    (import ./disko-config.nix {})
+  ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   nix = {
-   settings = {
+    settings = {
       substituters = [
         "https://cache.iog.io"
         "https://cache.nixos.org/"

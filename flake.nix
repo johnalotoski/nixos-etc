@@ -3,14 +3,14 @@
 
   inputs = {
     # Pins for system packages
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
     nixos-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs-wordpress.url = "github:NixOS/nixpkgs";
     neovim-flake.url = "github:johnalotoski/neovim-flake";
 
     # Pins for user packages
-    nixpkgs-user.url = "github:NixOS/nixpkgs/nixos-23.05";
+    nixpkgs-user.url = "github:NixOS/nixpkgs/nixos-23.11";
     nixos-user-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-user-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
@@ -19,7 +19,7 @@
       url = "github:edolstra/flake-compat";
       flake = false;
     };
-    nix.url = "github:NixOS/nix/2.17-maintenance";
+    nix.url = "github:NixOS/nix/2.19-maintenance";
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";

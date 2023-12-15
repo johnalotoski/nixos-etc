@@ -37,7 +37,7 @@ in {
     formatted;
 
   # Used by starship for fonts
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     (nerdfonts.override {fonts = ["FiraCode"];})
   ];
 
@@ -95,6 +95,7 @@ in {
     iftop
     ijq
     iotop
+    jc
     jid
     jiq
     jq
@@ -132,6 +133,7 @@ in {
     nmap
     noip
     nox
+    nushellFull
     obs-studio
     unstable.openssl
     unstable.pkg-config
@@ -189,7 +191,7 @@ in {
     # Temporary work around for broken Xen package
     # https://github.com/NixOS/nixpkgs/issues/108479
     (unstable.vagrant.override {withLibvirt = false;})
-    virtmanager
+    virt-manager
     vlc
     vnstat
     vopono
