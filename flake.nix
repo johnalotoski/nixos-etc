@@ -47,6 +47,16 @@
       # Machines: `nixos-rebuild [switch|boot|...] [-L] [-v] [--flake .#$MACHINE]`
       # -----
 
+      nixos-serval = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = {inherit self;};
+        modules =
+          baseModules
+          ++ [
+            ./machines/machine-serval.nix
+          ];
+      };
+
       nixos-g76 = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {inherit self;};
@@ -69,6 +79,17 @@
 
       # Machine vms for testing: `nixos-rebuild build-vm [-L] [-v] [--flake .#$MACHINE]`
       # -----
+
+      nixos-serval-vm = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = {inherit self;};
+        modules =
+          baseModules
+          ++ [
+            ./machines/machine-serval.nix
+            ./modules/build-vm.nix
+          ];
+      };
 
       nixos-g76-vm = nixpkgs.lib.nixosSystem {
         inherit system;
