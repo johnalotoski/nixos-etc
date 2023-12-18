@@ -42,7 +42,7 @@ in {
   ];
 
   environment.shellAliases = with pkgs; {
-    where = "f(){ realpath $(command -v \"$1\"); unset -f f; }; f";
+    whereis = "f(){ realpath $(command -v \"$1\"); unset -f f; }; f";
   };
 
   environment.systemPackages = with pkgs; [
@@ -82,7 +82,7 @@ in {
     gnumake
     # Golang tools are included in the vim module along with vim-go plugin and related bins
     gopass
-    graphviz
+    unstable-nixpkgs.graphviz
     haskellPackages.aeson-diff
     haskellPackages.niv
     hdparm
@@ -91,9 +91,11 @@ in {
     unstable.htop
     httpie
     (hwloc.override {x11Support = true;})
+    unstable.iat
     icdiff
     iftop
     ijq
+    inotify-tools
     iotop
     jc
     jid
@@ -188,9 +190,8 @@ in {
     tty-share
     unzip
     usbutils
-    # Temporary work around for broken Xen package
-    # https://github.com/NixOS/nixpkgs/issues/108479
-    (unstable.vagrant.override {withLibvirt = false;})
+    vagrant
+    ventoy-full
     virt-manager
     vlc
     vnstat
