@@ -1,17 +1,22 @@
 {pkgs, ...}: {
-  programs.bash.enableCompletion = true;
+  programs = {
+    bash = {
+      enableCompletion = true;
+      interactiveShellInit = ''
+        # if [ -z ''${DISABLE_BLESH:-} ]; then
+        #   source ${pkgs.blesh}/share/blesh/ble.sh
+        # fi
 
-  programs.bash.interactiveShellInit = ''
-    # if [ -z "''${DISABLE_BLESH:-}" ]; then
-    #   source ${pkgs.blesh}/share/blesh/ble.sh
-    # fi
+        if command -v fzf-share >/dev/null; then
+          source "$(fzf-share)/key-bindings.bash"
+          source "$(fzf-share)/completion.bash"
+        fi
+        eval "$(starship init bash)"
+      '';
+    };
 
-    if command -v fzf-share >/dev/null; then
-      source "$(fzf-share)/key-bindings.bash"
-      source "$(fzf-share)/completion.bash"
-    fi
-    eval "$(starship init bash)"
-  '';
+    zsh.enable = true;
+  };
 
   system.activationScripts.starship.text = let
     starshipConfig = pkgs.writeText "starship.toml" ''
