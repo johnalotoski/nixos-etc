@@ -30,7 +30,11 @@
     };
 
     # Misc sw inputs
-    cardano-node.url = "github:input-output-hk/cardano-node/8.1.2";
+    capkgs.url = "github:input-output-hk/capkgs";
+    cardano-node = {
+      url = "github:input-output-hk/cardano-node/8.7.2";
+      flake = false;
+    };
   };
 
   outputs = {
