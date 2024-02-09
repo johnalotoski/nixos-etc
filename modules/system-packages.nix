@@ -210,6 +210,8 @@ in {
     xxd
     ydiff
     yq
+    yubico-piv-tool
+    yubikey-manager
     zgrviewer
     zip
     zoom-us

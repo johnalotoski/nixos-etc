@@ -19,7 +19,7 @@
       url = "github:edolstra/flake-compat";
       flake = false;
     };
-    nix.url = "github:NixOS/nix/2.19-maintenance";
+    nix.url = "github:NixOS/nix/2.20-maintenance";
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -35,6 +35,8 @@
       url = "github:input-output-hk/cardano-node/8.7.2";
       flake = false;
     };
+
+    openziti.url = "github:johnalotoski/openziti-bins";
   };
 
   outputs = {

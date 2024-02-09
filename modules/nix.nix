@@ -28,7 +28,9 @@
 
     extraOptions = ''
       netrc-file = /etc/nix/netrc
-      experimental-features = nix-command flakes repl-flake fetch-closure
+      experimental-features = nix-command flakes repl-flake fetch-closure auto-allocate-uids configurable-impure-env
+      auto-allocate-uids = false
+      impure-env =
     '';
   };
 }
