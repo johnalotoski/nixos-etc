@@ -52,6 +52,7 @@ in {
     aria
     bat
     binutils
+    (pkgs.callPackage ../pkgs/bluemail.nix {})
     borgbackup
     bridge-utils
     cachix
@@ -133,7 +134,6 @@ in {
     unstable.nix-tree
     nixfmt
     nmap
-    noip
     nox
     nushellFull
     obs-studio
@@ -162,6 +162,7 @@ in {
     unstable.shards
     shellcheck
     shfmt
+    skopeo
     skypeforlinux
     slack
     smartmontools

@@ -15,6 +15,7 @@
     ../modules/firewall.nix
     ../modules/git.nix
     ../modules/gnupg.nix
+    ../modules/hp-envy-5000-aio.nix
     ../modules/hw.nix
     ../modules/intl.nix
     ../modules/lorri.nix
@@ -62,7 +63,15 @@
     extraPackages = with pkgs; [libGL];
     setLdLibraryPath = true;
   };
-  hardware.pulseaudio.support32Bit = true;
+
+  hardware.pulseaudio = {
+    support32Bit = true;
+    extraConfig = ''
+      load-module module-card-restore restore_bluetooth_profile=true
+      load-module module-bluetooth-policy auto_switch=false
+      load-module module-bluetooth-discover headset=auto
+    '';
+  };
 
   networking.hostName = "nixos-serval";
   networking.hostId = "d8fcf199";
