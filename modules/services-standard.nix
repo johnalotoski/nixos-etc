@@ -22,10 +22,16 @@
       updater.enable = true;
     };
 
+    desktopManager.plasma6.enable = true;
+
+    displayManager.sddm.enable = true;
+
     eternal-terminal = {
       enable = true;
       port = 2022;
     };
+
+    libinput.enable = true;
 
     mullvad-vpn.enable = true;
 
@@ -59,12 +65,9 @@
     vnstat.enable = true;
 
     xserver = {
-      desktopManager.plasma5.enable = true;
-      displayManager.sddm.enable = true;
       enable = true;
       exportConfiguration = true;
-      layout = "us";
-      libinput.enable = true;
+      xkb.layout = "us";
     };
   };
 }

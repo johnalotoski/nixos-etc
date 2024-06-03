@@ -114,7 +114,7 @@ with lib; let
   };
 in {
   environment.systemPackages = with vimPkgs; [
-    go_1_20
+    go_1_21
     golint
     gopls
     golines

@@ -132,14 +132,13 @@ in {
     nixos-container
     nixos-option
     unstable.nix-tree
-    nixfmt
+    nixfmt-rfc-style
     nmap
     nox
     nushellFull
     obs-studio
     unstable.openssl
     unstable.pkg-config
-    packet
     patchelf
     pavucontrol
     pciutils
