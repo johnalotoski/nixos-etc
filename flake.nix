@@ -19,7 +19,11 @@
       url = "github:edolstra/flake-compat";
       flake = false;
     };
-    nix.url = "github:NixOS/nix/2.20-maintenance";
+
+    # Until recursive submodules issue is resolved, affecting some cardano-node builds:
+    # https://github.com/NixOS/nix/issues/10022
+    nix.url = "github:NixOS/nix/2.19-maintenance";
+
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
