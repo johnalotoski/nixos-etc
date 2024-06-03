@@ -7,9 +7,14 @@
     package = self.inputs.nix.packages.${pkgs.system}.nix;
 
     settings = {
+      builders-use-substitutes = true;
+
       extra-sandbox-paths = [
         "/etc/skopeo/auth.json=/etc/nix/skopeo/auth.json"
       ];
+
+      # Fallback to source builds for failing cache paths
+      fallback = true;
 
       max-jobs = 12;
 
@@ -23,7 +28,7 @@
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       ];
 
-      trusted-users = ["root" "jlotoski"];
+      trusted-users = ["builder" "jlotoski" "root"];
     };
 
     extraOptions = ''

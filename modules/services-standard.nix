@@ -38,7 +38,7 @@
         PermitRootLogin = "no";
       };
       extraConfig = ''
-        AllowUsers *@192.168.* jlotoski@*
+        AllowUsers *@192.168.* jlotoski@* builder@*
       '';
     };
 

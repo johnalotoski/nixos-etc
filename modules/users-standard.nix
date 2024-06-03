@@ -39,7 +39,19 @@ in {
   users.users = pipe {} [
     (recursiveUpdate (mkUser "jlotoski"))
     (recursiveUpdate (mkUser "backup"))
+    (recursiveUpdate {
+      builder = {
+        isSystemUser = true;
+        createHome = false;
+        uid = 500;
+        openssh.authorizedKeys.keys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAbUsp9OrrYHpi1Wb0AQxbkw2ePEkIW2PrYEDY3pvgkZ builder"];
+        group = "builder";
+        useDefaultShell = true;
+      };
+    })
   ];
+
+  users.groups.builder.gid = 500;
 
   security.sudo.wheelNeedsPassword = true;
   users.groups.plugdev = {members = ["jlotoski" "backup"];};

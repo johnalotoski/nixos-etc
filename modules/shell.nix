@@ -7,11 +7,13 @@
         #   source ${pkgs.blesh}/share/blesh/ble.sh
         # fi
 
-        if command -v fzf-share >/dev/null; then
-          source "$(fzf-share)/key-bindings.bash"
-          source "$(fzf-share)/completion.bash"
+        if [ "$USER" != "builder" ]; then
+          if command -v fzf-share >/dev/null; then
+            source "$(fzf-share)/key-bindings.bash"
+            source "$(fzf-share)/completion.bash"
+          fi
+          eval "$(starship init bash)"
         fi
-        eval "$(starship init bash)"
       '';
     };
 
