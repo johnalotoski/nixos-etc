@@ -40,6 +40,8 @@
     enable = true;
     internalInterfaces = ["ve-+"];
     externalInterface = "wlp0s20f3";
+    # Backup USB nic, front slot:
+    # externalInterface = "wlp0s20f0u2";
   };
 
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
@@ -76,6 +78,8 @@
   networking.hostName = "nixos-serval";
   networking.hostId = "d8fcf199";
   networking.wireless.interfaces = ["wlp0s20f3"];
+  # Backup USB nic, front slot:
+  # networking.wireless.interfaces = ["wlp0s20f0u2"];
 
   system.stateVersion = "23.05";
 }
