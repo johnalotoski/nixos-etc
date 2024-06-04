@@ -24,6 +24,5 @@ in {
 
   # systemd.network.networks.tun0 = {
   #   name = "tun0";
-  #   domains = ["~ziti"];
   # };
 }

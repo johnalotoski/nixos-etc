@@ -26,7 +26,6 @@
     # ../modules/wireguard.nix
     ../modules/xrandr.nix
     ../modules/yubikey.nix
-    ../modules/ziti-edge-tunnel.nix
     ../modules/zfs.nix
   ];
 
