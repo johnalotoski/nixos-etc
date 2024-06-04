@@ -5,11 +5,11 @@
   ...
 }: let
   cardanoPkgs = {
-    cardano-node = self.inputs.capkgs.packages.x86_64-linux.cardano-node-input-output-hk-cardano-node-8-7-2;
-    cardano-cli = self.inputs.capkgs.packages.x86_64-linux.cardano-cli-input-output-hk-cardano-node-8-7-2;
-    db-analyser = self.inputs.capkgs.packages.x86_64-linux.db-analyser-input-output-hk-cardano-node-8-7-2;
-    db-synthesizer = self.inputs.capkgs.packages.x86_64-linux.db-synthesizer-input-output-hk-cardano-node-8-7-2;
-    db-truncater = self.inputs.capkgs.packages.x86_64-linux.db-truncater-input-output-hk-cardano-node-8-7-2;
+    cardano-node = self.inputs.capkgs.packages.x86_64-linux.cardano-node-input-output-hk-cardano-node-8-9-3-e7f5f3a;
+    cardano-cli = self.inputs.capkgs.packages.x86_64-linux.cardano-cli-input-output-hk-cardano-node-8-9-3-e7f5f3a;
+    db-analyser = self.inputs.capkgs.packages.x86_64-linux.db-analyser-input-output-hk-cardano-node-8-9-3-e7f5f3a;
+    db-synthesizer = self.inputs.capkgs.packages.x86_64-linux.db-synthesizer-input-output-hk-cardano-node-8-9-3-e7f5f3a;
+    db-truncater = self.inputs.capkgs.packages.x86_64-linux.db-truncater-input-output-hk-cardano-node-8-9-3-e7f5f3a;
   };
 in {
   imports = ["${self.inputs.cardano-node}/nix/nixos"];

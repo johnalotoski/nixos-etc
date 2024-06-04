@@ -41,7 +41,7 @@ in {
     (nerdfonts.override {fonts = ["FiraCode"];})
   ];
 
-  environment.shellAliases = with pkgs; {
+  environment.shellAliases = {
     whereis = "f(){ realpath $(command -v \"$1\"); unset -f f; }; f";
   };
 

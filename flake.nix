@@ -7,7 +7,7 @@
     nixos-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs-wordpress.url = "github:NixOS/nixpkgs";
-    neovim-flake.url = "github:johnalotoski/neovim-flake";
+    neovim-flake.url = "github:johnalotoski/neovim-flake/hls";
 
     # Pins for user packages
     nixpkgs-user.url = "github:NixOS/nixpkgs/nixos-24.05";
@@ -36,11 +36,9 @@
     # Misc sw inputs
     capkgs.url = "github:input-output-hk/capkgs";
     cardano-node = {
-      url = "github:input-output-hk/cardano-node/8.7.2";
+      url = "github:input-output-hk/cardano-node/8.9.3";
       flake = false;
     };
-
-    openziti.url = "github:johnalotoski/openziti-bins";
   };
 
   outputs = {
@@ -52,7 +50,7 @@
     localOverlay = import ./nix/overlay.nix self;
     overlays = [localOverlay];
     baseModules = [(_: {nixpkgs.overlays = overlays;})];
-  in rec {
+  in {
     nixosConfigurations = {
       # Machines: `nixos-rebuild [switch|boot|...] [-L] [-v] [--flake .#$MACHINE]`
       # -----
