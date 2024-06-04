@@ -24,7 +24,6 @@
     ../modules/virtualization.nix
     ../modules/vim.nix
     # ../modules/wireguard.nix
-    ../modules/xrandr.nix
     ../modules/yubikey.nix
     ../modules/zfs.nix
   ];
@@ -38,7 +37,7 @@
   system.nixos.tags = ["kde"];
   services.xserver = {
     enable = true;
-    videoDrivers = ["intel" "nvidia"];
+    videoDrivers = ["nvidia"];
   };
 
   networking.hostName = "nixos-p71";
