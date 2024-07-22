@@ -67,6 +67,13 @@
     pulseaudio.package = pkgs.pulseaudioFull;
   };
 
+  # On p71, with multiple monitors and hi-dpi mixed with non-hi-dpi, plasma6 is not yet stable as of 24.05
+  services.xserver.desktopManager.plasma5.enable = true;
+  services.desktopManager.plasma6.enable = lib.mkForce false;
+
+  # Nvidia driver is still unstable with a lot of flicker on various apps; this helps
+  # programs.xwayland.enable = true;
+
   powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
   sound.enable = true;
 

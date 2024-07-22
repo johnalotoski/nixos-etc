@@ -196,6 +196,7 @@ in {
     vlc
     vnstat
     vopono
+    wayland-utils
     wine
     wireshark
     wpa_supplicant
