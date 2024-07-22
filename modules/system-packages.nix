@@ -117,7 +117,7 @@ in {
     mkpasswd
     moreutils
     mtr
-    unstable.mullvad-vpn
+    mullvad-vpn
     mutt
     ncdu
     # neovim

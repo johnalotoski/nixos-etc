@@ -1,12 +1,9 @@
 self: final: prev: let
   unstablePkgs = self.inputs.nixos-unstable.legacyPackages.${prev.system};
-in rec {
-  # Until 22.11 release
+in {
   inherit
     (unstablePkgs)
     eternal-terminal
-    mullvad
-    mullvad-vpn
     ;
 
   # Until flake compat is fixed: https://github.com/NixOS/nixpkgs/issues/97855

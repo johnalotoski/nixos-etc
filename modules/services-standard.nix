@@ -33,7 +33,10 @@
 
     libinput.enable = true;
 
-    mullvad-vpn.enable = true;
+    mullvad-vpn = {
+      enable = true;
+      package = pkgs.mullvad-vpn;
+    };
 
     netdata.enable = true;
 
