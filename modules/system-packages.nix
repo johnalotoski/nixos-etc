@@ -109,7 +109,6 @@ in {
     konversation
     lm_sensors
     ledger-live-desktop
-    unstable.logseq
     lsof
     unstable.lutris
     unstable.manix
