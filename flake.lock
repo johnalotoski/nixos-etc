@@ -290,6 +290,22 @@
         "type": "github"
       }
     },
+    "gitsigns-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1721142323,
+        "narHash": "sha256-iFVTd7nO4twq/S3qQpy4PZfHMpLDErJfJk63TmwL8t0=",
+        "owner": "lewis6991",
+        "repo": "gitsigns.nvim",
+        "rev": "f4928ba14eb6c667786ac7d69927f6aee6719f1e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lewis6991",
+        "repo": "gitsigns.nvim",
+        "type": "github"
+      }
+    },
     "gleam-vim": {
       "flake": false,
       "locked": {
@@ -428,6 +444,7 @@
         "elixir-nvim": "elixir-nvim",
         "flake-utils": "flake-utils",
         "formatter-nvim": "formatter-nvim",
+        "gitsigns-nvim": "gitsigns-nvim",
         "gleam-vim": "gleam-vim",
         "gruvbox": "gruvbox",
         "indent-blankline-nvim": "indent-blankline-nvim",
@@ -441,6 +458,7 @@
         "null-ls-nvim": "null-ls-nvim",
         "nvim-blame-line": "nvim-blame-line",
         "nvim-cmp": "nvim-cmp",
+        "nvim-colorizer-lua": "nvim-colorizer-lua",
         "nvim-dap": "nvim-dap",
         "nvim-dap-virtual-text": "nvim-dap-virtual-text",
         "nvim-idris2": "nvim-idris2",
@@ -465,7 +483,6 @@
         "vim-dadbod-ui": "vim-dadbod-ui",
         "vim-floaterm": "vim-floaterm",
         "vim-go": "vim-go",
-        "vim-hexokinase": "vim-hexokinase",
         "vim-just": "vim-just",
         "vim-mint": "vim-mint",
         "vim-nickel": "vim-nickel",
@@ -481,16 +498,16 @@
         "zig-vim": "zig-vim"
       },
       "locked": {
-        "lastModified": 1715361360,
-        "narHash": "sha256-lX9O251afzH791GLgXX+5t6rfuYT5ccsW5g5Ze2p3MQ=",
+        "lastModified": 1721243998,
+        "narHash": "sha256-tyY4wUnKmocEBZjLQRJcR8zrzEcArwXrsIQ6kt/i2bw=",
         "owner": "johnalotoski",
         "repo": "neovim-flake",
-        "rev": "207e417c3c79e6cd038a1ef027b858a0140075a2",
+        "rev": "fee8eb593144bcb3c385f099d7535889a85fab7e",
         "type": "github"
       },
       "original": {
         "owner": "johnalotoski",
-        "ref": "hls",
+        "ref": "autocmd-highlighting",
         "repo": "neovim-flake",
         "type": "github"
       }
@@ -805,6 +822,22 @@
       "original": {
         "owner": "hrsh7th",
         "repo": "nvim-cmp",
+        "type": "github"
+      }
+    },
+    "nvim-colorizer-lua": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1715313687,
+        "narHash": "sha256-gjO89Sx335PqVgceM9DBfcVozNjovC8KML1OZCRNMGw=",
+        "owner": "norcalli",
+        "repo": "nvim-colorizer.lua",
+        "rev": "a065833f35a3a7cc3ef137ac88b5381da2ba302e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "norcalli",
+        "repo": "nvim-colorizer.lua",
         "type": "github"
       }
     },
@@ -1255,22 +1288,6 @@
       "original": {
         "owner": "fatih",
         "repo": "vim-go",
-        "type": "github"
-      }
-    },
-    "vim-hexokinase": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1619312119,
-        "narHash": "sha256-lp5ywNLkcH6l/9kTxzAsJRdZUSD6qp1ufCJmnQIwX/s=",
-        "owner": "RRethy",
-        "repo": "vim-hexokinase",
-        "rev": "62324b43ea858e268fb70665f7d012ae67690f43",
-        "type": "github"
-      },
-      "original": {
-        "owner": "RRethy",
-        "repo": "vim-hexokinase",
         "type": "github"
       }
     },
