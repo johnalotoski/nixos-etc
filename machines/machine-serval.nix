@@ -11,6 +11,7 @@
     ../modules/cardano-node.nix
     # ../modules/cuda.nix
     ../modules/db.nix
+    ../modules/exodus.nix
     # ../modules/fax.nix
     ../modules/firewall.nix
     ../modules/git.nix
