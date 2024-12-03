@@ -7,7 +7,7 @@
     nixos-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs-wordpress.url = "github:NixOS/nixpkgs";
-    neovim-flake.url = "github:johnalotoski/neovim-flake/autocmd-highlighting";
+    neovim-flake.url = "github:johnalotoski/neovim-flake/haskell-tools-plugin";
 
     # Pins for user packages
     nixpkgs-user.url = "github:NixOS/nixpkgs/nixos-24.05";
