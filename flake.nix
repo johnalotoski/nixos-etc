@@ -3,14 +3,14 @@
 
   inputs = {
     # Pins for system packages
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     nixos-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs-wordpress.url = "github:NixOS/nixpkgs";
-    neovim-flake.url = "github:johnalotoski/neovim-flake/haskell-tools-plugin";
+    neovim-flake.url = "github:johnalotoski/neovim-flake";
 
     # Pins for user packages
-    nixpkgs-user.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs-user.url = "github:NixOS/nixpkgs/nixos-24.11";
     nixos-user-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-user-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
@@ -20,9 +20,7 @@
       flake = false;
     };
 
-    # Until recursive submodules issue is resolved, affecting some cardano-node builds:
-    # https://github.com/NixOS/nix/issues/10022
-    nix.url = "github:NixOS/nix/2.19-maintenance";
+    nix.url = "github:NixOS/nix/2.25-maintenance";
 
     sops-nix = {
       url = "github:Mic92/sops-nix";
@@ -36,7 +34,7 @@
     # Misc sw inputs
     capkgs.url = "github:input-output-hk/capkgs";
     cardano-node = {
-      url = "github:input-output-hk/cardano-node/8.9.3";
+      url = "github:input-output-hk/cardano-node/10.1.3";
       flake = false;
     };
   };

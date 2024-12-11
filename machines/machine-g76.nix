@@ -1,10 +1,4 @@
-{
-  self,
-  config,
-  pkgs,
-  lib,
-  ...
-}: {
+{config, ...}: {
   imports = [
     ../hw/hw-g76.nix
     # ../modules/backup.nix
@@ -56,14 +50,6 @@
       intelBusId = "PCI:0:2:0";
     };
   };
-
-  hardware.opengl = {
-    enable = true;
-    driSupport32Bit = true;
-    extraPackages = with pkgs; [libGL];
-    setLdLibraryPath = true;
-  };
-  hardware.pulseaudio.support32Bit = true;
 
   networking.hostName = "nixos-g76";
   networking.hostId = "defe72a9";

@@ -2,7 +2,6 @@
   self,
   config,
   lib,
-  pkgs,
   ...
 }: {
   imports = [
@@ -22,10 +21,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   hardware.bluetooth.enable = true;
-  hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.package = pkgs.pulseaudioFull;
   powerManagement.cpuFreqGovernor = lib.mkDefault "conservative";
-  sound.enable = true;
 
   hardware.system76.enableAll = true;
   hardware.enableRedistributableFirmware = true;

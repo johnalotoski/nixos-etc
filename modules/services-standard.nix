@@ -17,6 +17,8 @@
   };
 
   services = {
+    atd.enable = true;
+
     clamav = {
       daemon.enable = true;
       updater.enable = true;

@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   programs = {
     bash = {
-      enableCompletion = true;
+      completion.enable = true;
       interactiveShellInit = ''
         # if [ -z ''${DISABLE_BLESH:-} ]; then
         #   source ${pkgs.blesh}/share/blesh/ble.sh

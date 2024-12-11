@@ -134,7 +134,7 @@ in {
     nixfmt-rfc-style
     nmap
     nox
-    nushellFull
+    nushell
     obs-studio
     unstable.openssl
     unstable.pkg-config

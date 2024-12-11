@@ -56,15 +56,6 @@
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
       package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
-
-    opengl = {
-      enable = true;
-      driSupport = true;
-      driSupport32Bit = true;
-    };
-
-    pulseaudio.enable = true;
-    pulseaudio.package = pkgs.pulseaudioFull;
   };
 
   # On p71, with multiple monitors and hi-dpi mixed with non-hi-dpi, plasma6 is not yet stable as of 24.05
@@ -75,7 +66,6 @@
   # programs.xwayland.enable = true;
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
-  sound.enable = true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }
