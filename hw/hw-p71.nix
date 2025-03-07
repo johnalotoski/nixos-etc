@@ -58,12 +58,12 @@
     };
   };
 
-  # On p71, with multiple monitors and hi-dpi mixed with non-hi-dpi, plasma6 is not yet stable as of 24.05
-  services.xserver.desktopManager.plasma5.enable = true;
-  services.desktopManager.plasma6.enable = lib.mkForce false;
+  # On p71, with multiple monitors and hi-dpi mixed with non-hi-dpi, plasma6 seems stable as of 24.11
+  # services.xserver.desktopManager.plasma5.enable = true;
+  services.desktopManager.plasma6.enable = true;
 
   # Nvidia driver is still unstable with a lot of flicker on various apps; this helps
-  # programs.xwayland.enable = true;
+  programs.xwayland.enable = true;
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
 
