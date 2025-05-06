@@ -33,7 +33,7 @@
 
     extraOptions = ''
       netrc-file = /etc/nix/netrc
-      experimental-features = nix-command flakes fetch-closure auto-allocate-uids
+      experimental-features = nix-command flakes fetch-closure auto-allocate-uids ca-derivations
       auto-allocate-uids = false
     '';
   };
