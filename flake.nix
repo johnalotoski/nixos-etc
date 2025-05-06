@@ -20,7 +20,7 @@
       flake = false;
     };
 
-    nix.url = "github:NixOS/nix/2.25-maintenance";
+    nix.url = "github:NixOS/nix/2.28-maintenance";
 
     sops-nix = {
       url = "github:Mic92/sops-nix";
