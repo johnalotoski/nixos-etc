@@ -58,6 +58,7 @@ in {
     cachix
     cfssl
     comma
+    crane
     unstable.crystal
     unstable.crystal2nix
     unstable.cue
@@ -75,6 +76,7 @@ in {
     fx
     fzf
     gcc
+    gh
     git-filter-repo
     gitAndTools.gitFull
     gitAndTools.hub
@@ -125,6 +127,8 @@ in {
     ngrep
     nix-diff
     nix-du
+    nix-eval-jobs
+    nix-fast-build
     nix-index
     nix-output-monitor
     nix-top
