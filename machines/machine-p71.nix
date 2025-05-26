@@ -4,6 +4,7 @@
     # ../modules/backup.nix
     # ../modules/cuda.nix
     ../modules/cardano-node.nix
+    ../modules/ccache.nix
     ../modules/db.nix
     ../modules/firewall.nix
     ../modules/git.nix

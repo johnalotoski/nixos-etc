@@ -8,12 +8,22 @@
   };
 
   programs = {
+    bat = {
+      enable = true;
+      extraPackages = builtins.filter pkgs.lib.isDerivation (map (pkg: pkgs.bat-extras.${pkg}) (builtins.attrNames pkgs.bat-extras));
+    };
+
+    git-worktree-switcher.enable = true;
+
     mosh.enable = true;
+
     ssh.extraConfig = ''
       Host *
         ServerAliveInterval 300
         ServerAliveCountMax 2
     '';
+
+    zoxide.enable = true;
   };
 
   services = {

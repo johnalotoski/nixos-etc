@@ -1,18 +1,39 @@
-{lib, ...}: let
+{
+  pkgs,
+  lib,
+  ...
+}: let
   inherit (lib) pipe recursiveUpdate;
 in {
-  environment.etc = let
-    mkImport = user: file: {"per-user/${user}/${file}".text = import (./. + "/../dotfiles/${file}.nix");};
-  in
-    lib.pipe {} [
-      (recursiveUpdate (mkImport "jlotoski" "gitconfig-w"))
-      (recursiveUpdate (mkImport "jlotoski" "gitconfig-p"))
-      (recursiveUpdate (mkImport "jlotoski" "gitconfig-wo"))
-      (recursiveUpdate (mkImport "jlotoski" "gitconfig-po"))
-      (recursiveUpdate (mkImport "jlotoski" "gitignore"))
-      (recursiveUpdate (mkImport "root" "gitconfig-p"))
-      (recursiveUpdate (mkImport "root" "gitignore"))
+  programs.bash.interactiveShellInit = ''
+    if [ "$USER" != "builder" ]; then
+      source "${pkgs.gitFull}/share/bash-completion/completions/git"
+    fi
+  '';
+
+  environment = {
+    etc = let
+      mkImport = user: file: {"per-user/${user}/${file}".text = import (./. + "/../dotfiles/${file}.nix");};
+    in
+      pipe {} [
+        (recursiveUpdate (mkImport "jlotoski" "gitconfig-w"))
+        (recursiveUpdate (mkImport "jlotoski" "gitconfig-p"))
+        (recursiveUpdate (mkImport "jlotoski" "gitconfig-wo"))
+        (recursiveUpdate (mkImport "jlotoski" "gitconfig-po"))
+        (recursiveUpdate (mkImport "jlotoski" "gitignore"))
+        (recursiveUpdate (mkImport "root" "gitconfig-p"))
+        (recursiveUpdate (mkImport "root" "gitignore"))
+      ];
+
+    systemPackages = with pkgs; [
+      gh
+      git-filter-repo
+      gitFull
+      gitui
+      hub
+      tig
     ];
+  };
 
   system.activationScripts.gitconfig.text = ''
     ln -svfn /etc/per-user/jlotoski/gitconfig-w /home/jlotoski/.gitconfig;

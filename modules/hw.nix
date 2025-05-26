@@ -1,39 +1,12 @@
 {...}: {
   services.udev.extraRules = ''
-    KERNEL=="hidraw*", SUBSYSTEM=="hidraw", MODE="0660", GROUP="plugdev", ATTRS{idVendor}=="2c97"
-    KERNEL=="hidraw*", SUBSYSTEM=="hidraw", MODE="0660", GROUP="plugdev", ATTRS{idVendor}=="2581"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="0001", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="1000", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="1001", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="1002", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="1003", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="1004", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="1005", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="1006", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="1007", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="1008", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="1009", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="100a", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="100b", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="100c", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="100d", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="100e", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="100f", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="1010", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="1011", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="1012", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="1013", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="1014", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="1015", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="1016", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="1017", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="1018", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="1019", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="101a", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="101b", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="101c", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="101d", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="101e", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", ATTRS{idProduct}=="101f", MODE="0660", TAG+="uaccess", TAG+="udev-acl"
+    # HW.1, Nano
+    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2581", ATTRS{idProduct}=="1b7c|2b7c|3b7c|4b7c", TAG+="uaccess", TAG+="udev-acl"
+
+    # Blue, NanoS, Aramis, HW.2, Nano X, NanoSP, Stax, Ledger Test,
+    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", TAG+="uaccess", TAG+="udev-acl"
+
+    # Same, but with hidraw-based library (instead of libusb)
+    KERNEL=="hidraw*", ATTRS{idVendor}=="2c97", MODE="0666"
   '';
 }

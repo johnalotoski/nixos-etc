@@ -36,10 +36,11 @@ in {
   in
     formatted;
 
-  # Used by starship for fonts
-  fonts.packages = with pkgs; [
-    (nerdfonts.override {fonts = ["FiraCode"];})
-  ];
+  # Used by starship for fonts and nvim
+  # fonts.packages = with pkgs; [
+  #   fira-code-symbols
+  #   nerd-fonts.symbols-only
+  # ];
 
   environment.shellAliases = {
     whereis = "f(){ realpath $(command -v \"$1\"); unset -f f; }; f";
@@ -50,7 +51,6 @@ in {
     age
     unstable.alejandra
     aria
-    bat
     binutils
     (pkgs.callPackage ../pkgs/bluemail.nix {})
     borgbackup
@@ -70,20 +70,16 @@ in {
     dnsutils
     docker-compose
     efibootmgr
+    entr
     eternal-terminal
     fd
     file
     fx
     fzf
     gcc
-    gh
-    git-filter-repo
-    gitAndTools.gitFull
-    gitAndTools.hub
     glances
     glxinfo
     gnumake
-    # Golang tools are included in the vim module along with vim-go plugin and related bins
     gopass
     unstable-nixpkgs.graphviz
     haskellPackages.aeson-diff
@@ -104,13 +100,14 @@ in {
     jid
     jiq
     jq
+    kdePackages.konversation
+    ledger-live-desktop
+    ledger-udev-rules
     libsForQt5.kate
     libsForQt5.kolourpaint
     libsForQt5.ksystemlog
     libsForQt5.spectacle
-    konversation
     lm_sensors
-    ledger-live-desktop
     lsof
     unstable.lutris
     unstable.manix
@@ -121,7 +118,6 @@ in {
     mullvad-vpn
     mutt
     ncdu
-    # neovim
     nfs-utils
     nftables
     ngrep
@@ -134,6 +130,7 @@ in {
     nix-top
     nixos-container
     nixos-option
+    nixos-rebuild-ng
     unstable.nix-tree
     nixfmt-rfc-style
     nmap
@@ -165,7 +162,6 @@ in {
     shellcheck
     shfmt
     skopeo
-    skypeforlinux
     slack
     smartmontools
     smem
@@ -176,7 +172,6 @@ in {
     sqlitebrowser
     ssh-to-age
     ssh-to-pgp
-    unstable.starship
     step-cli
     sublime3
     summon
@@ -185,7 +180,6 @@ in {
     tcpdump
     tcpflow
     tdesktop
-    tig
     tmate
     tmux
     tree
@@ -194,7 +188,7 @@ in {
     unzip
     usbutils
     vagrant
-    ventoy-full
+    # ventoy-full
     virt-manager
     vlc
     vnstat

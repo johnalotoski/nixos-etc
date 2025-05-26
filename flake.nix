@@ -3,7 +3,7 @@
 
   inputs = {
     # Pins for system packages
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixos-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs-wordpress.url = "github:NixOS/nixpkgs";
@@ -34,7 +34,7 @@
     # Misc sw inputs
     capkgs.url = "github:input-output-hk/capkgs";
     cardano-node = {
-      url = "github:input-output-hk/cardano-node/10.1.3";
+      url = "github:IntersectMBO/cardano-node/0983ac29304aadac74a5604eeefa76cfbcc91611";
       flake = false;
     };
   };
