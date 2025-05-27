@@ -1,8 +1,6 @@
 {
-  self,
   config,
   pkgs,
-  lib,
   ...
 }: {
   imports = [
@@ -115,8 +113,6 @@
     # externalInterface = "wlp0s20f0u2";
   };
 
-  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
-
   services.xserver = {
     exportConfiguration = true;
     videoDrivers = ["nvidia"];
@@ -130,13 +126,6 @@
     };
   };
 
-  hardware.opengl = {
-    enable = true;
-    driSupport32Bit = true;
-    extraPackages = with pkgs; [libGL];
-    setLdLibraryPath = true;
-  };
-
   hardware.pulseaudio = {
     support32Bit = true;
     extraConfig = ''
@@ -145,6 +134,8 @@
       load-module module-bluetooth-discover headset=auto
     '';
   };
+
+  hardware.nvidia.open = true;
 
   networking.hostName = "nixos-serval";
   networking.hostId = "d8fcf199";
