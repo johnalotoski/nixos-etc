@@ -51,6 +51,7 @@
   ];
 
   hardware.bluetooth.enable = true;
+  hardware.nvidia.open = true;
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 }
