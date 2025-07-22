@@ -55,6 +55,7 @@ in {
     (pkgs.callPackage ../pkgs/bluemail.nix {})
     borgbackup
     bridge-utils
+    btop
     cachix
     cfssl
     comma
@@ -67,11 +68,19 @@ in {
     unstable.difftastic
     direnv
     dive
+    dog
+    (pkgs.writeShellApplication {
+      name = "dog-dns";
+      text = ''${lib.getExe pkgs.dogdns} "''$@" '';
+    })
     dnsutils
     docker-compose
+    duf
+    dust
     efibootmgr
     entr
     eternal-terminal
+    eza
     fd
     file
     fx
@@ -109,6 +118,7 @@ in {
     libsForQt5.spectacle
     lm_sensors
     lsof
+    lsd
     unstable.lutris
     unstable.manix
     mitmproxy
@@ -117,6 +127,7 @@ in {
     mtr
     mullvad-vpn
     mutt
+    nap
     ncdu
     nfs-utils
     nftables
@@ -134,6 +145,7 @@ in {
     unstable.nix-tree
     nixfmt-rfc-style
     nmap
+    nnn
     nox
     nushell
     obs-studio
@@ -156,8 +168,10 @@ in {
     qalculate-gtk
     (lib.lowPrio remarshal)
     remmina
+    ranger
     ripgrep
     ruby
+    sd
     unstable.shards
     shellcheck
     shfmt
@@ -172,6 +186,10 @@ in {
     sqlitebrowser
     ssh-to-age
     ssh-to-pgp
+
+    # Package this -- looks handy:
+    # sshm
+
     step-cli
     sublime3
     summon
@@ -180,6 +198,7 @@ in {
     tcpdump
     tcpflow
     tdesktop
+    tldr
     tmate
     tmux
     tree

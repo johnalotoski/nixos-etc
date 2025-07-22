@@ -7,11 +7,29 @@
     bash = {
       completion.enable = true;
       interactiveShellInit = ''
+        # Preserve the less output on exit (-X), use non-control char ANSI
+        # color (-R), perform case-insensitive searches, put search results on
+        # the fifth line when possible.
+        LESS="-XRij5"
+        export LESS
+
         if [ "$USER" != "builder" ]; then
           if command -v fzf-share >/dev/null; then
             source "$(fzf-share)/key-bindings.bash"
             source "$(fzf-share)/completion.bash"
           fi
+
+          source "${pkgs.fzf-git-sh}/share/fzf-git-sh/fzf-git.sh"
+
+          git-fzf-br()  { _fzf_git_branches; }
+          git-fzf-er()  { _fzf_git_each_ref; }
+          git-fzf-f() { _fzf_git_files; }
+          git-fzf-h()   { _fzf_git_hashes; }
+          git-fzf-rl()  { _fzf_git_lreflogs; }
+          git-fzf-st()  { _fzf_git_stashes; }
+          git-fzf-tag() { _fzf_git_tags; }
+          git-fzf-wt()  { _fzf_git_worktrees; }
+
           eval "$(starship init bash)"
         fi
       '';
