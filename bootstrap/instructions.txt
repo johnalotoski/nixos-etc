@@ -3,7 +3,9 @@
 # QuickStart: https://github.com/nix-community/disko/blob/master/docs/quickstart.md
 
 # Connect to networking once in the bootstrap image.
-# Clone the repo locally.
+# Clone the repo locally and cd in:
+git clone https://github.com/johnalotoski/nixos-etc
+cd nixos-etc
 
 # Verify that nvme* devices are assigned as expected; if not, the order will
 # need to be changed in the disko config:
@@ -12,12 +14,16 @@ ls -la /dev/disk/by-id
 # Execute the following all as root once the disko config is ready and in /tmp:
 sudo nix --experimental-features "nix-command flakes" \
   run github:nix-community/disko/latest \
-  -- --mode destroy,format,mount nixos-etc/hw/disko-config-$MACHINE.nix
+  -- --mode destroy,format,mount hw/disko-config-$MACHINE.nix
 
-# Update the "CHANGEME" fields in nixos-etc/bootstrap/configuration.nix, then
+# Verify partitioning looks as expected:
+sudo sgdisk -p /dev/nvme0n1
+sudo sgdisk -p /dev/nvme1n1
+
+# Update the "CHANGE_ME" fields in bootstrap/configuration.nix, then
 sudo nixos-generate-config --no-filesystems --root /mnt
-sudo cp nixos-etc/hw/disko-config-$MACHINE.nix /mnt/etc/nixos/disko-config.nix
-sudo cp nixos-etc/bootstrap/configuration.nix /mnt/etc/nixos/
+sudo cp hw/disko-config-$MACHINE.nix /mnt/etc/nixos/disko-config.nix
+sudo cp bootstrap/configuration.nix /mnt/etc/nixos/
 sudo NIX_CONFIG="experimental-features = nix-command flakes" nixos-install
 sudo reboot
 
