@@ -113,9 +113,20 @@
     # externalInterface = "wlp0s20f0u2";
   };
 
-  services.xserver = {
-    exportConfiguration = true;
-    videoDrivers = ["nvidia"];
+  services = {
+    pulseaudio = {
+      support32Bit = true;
+      extraConfig = ''
+        load-module module-card-restore restore_bluetooth_profile=true
+        load-module module-bluetooth-policy auto_switch=false
+        load-module module-bluetooth-discover headset=auto
+      '';
+    };
+
+    xserver = {
+      exportConfiguration = true;
+      videoDrivers = ["nvidia"];
+    };
   };
 
   hardware.nvidia = {
@@ -124,15 +135,6 @@
       nvidiaBusId = "PCI:1:0:0";
       intelBusId = "PCI:0:2:0";
     };
-  };
-
-  hardware.pulseaudio = {
-    support32Bit = true;
-    extraConfig = ''
-      load-module module-card-restore restore_bluetooth_profile=true
-      load-module module-bluetooth-policy auto_switch=false
-      load-module module-bluetooth-discover headset=auto
-    '';
   };
 
   hardware.nvidia.open = true;

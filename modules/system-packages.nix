@@ -13,13 +13,11 @@
 
   # System nixpkgs pins
   # stable pin is pkgs as nixpkgs input
-  unstable = mkPkgs "nixos-unstable";
-  unstable-nixpkgs = mkPkgs "nixpkgs-unstable";
+  # unstable = mkPkgs "nixos-unstable";
+  # unstable-nixpkgs = mkPkgs "nixpkgs-unstable";
 
   # User nixpkgs pins
-  stable-user = mkPkgs "nixpkgs-user";
-  unstable-user = mkPkgs "nixos-user-unstable";
-  unstable-user-nixpkgs = mkPkgs "nixpkgs-user-unstable";
+  nixpkgs-user = mkPkgs "nixpkgs-user";
 in {
   nixpkgs.config.allowUnfree = true;
 
@@ -49,23 +47,24 @@ in {
   environment.systemPackages = with pkgs; [
     acpi
     age
-    unstable.alejandra
+    alejandra
     aria
     binutils
     (pkgs.callPackage ../pkgs/bluemail.nix {})
     borgbackup
+    brave
     bridge-utils
     btop
     cachix
     cfssl
     comma
     crane
-    unstable.crystal
-    unstable.crystal2nix
-    unstable.cue
+    crystal
+    crystal2nix
+    cue
     curlie
     delta
-    unstable.difftastic
+    difftastic
     direnv
     dive
     dog
@@ -90,16 +89,16 @@ in {
     glxinfo
     gnumake
     gopass
-    unstable-nixpkgs.graphviz
+    graphviz
     haskellPackages.aeson-diff
     haskellPackages.niv
     hdparm
     hddtemp
     hping
-    unstable.htop
+    htop
     httpie
     (hwloc.override {x11Support = true;})
-    unstable.iat
+    iat
     icdiff
     iftop
     ijq
@@ -119,8 +118,8 @@ in {
     lm_sensors
     lsof
     lsd
-    unstable.lutris
-    unstable.manix
+    lutris
+    manix
     mitmproxy
     mkpasswd
     moreutils
@@ -142,15 +141,15 @@ in {
     nixos-container
     nixos-option
     nixos-rebuild-ng
-    unstable.nix-tree
+    nix-tree
     nixfmt-rfc-style
     nmap
     nnn
     nox
     nushell
     obs-studio
-    unstable.openssl
-    unstable.pkg-config
+    openssl
+    pkg-config
     patchelf
     pavucontrol
     pciutils
@@ -172,7 +171,7 @@ in {
     ripgrep
     ruby
     sd
-    unstable.shards
+    shards
     shellcheck
     shfmt
     skopeo
@@ -234,13 +233,13 @@ in {
     zstd
 
     # User packages which require an independent pin bump from system
-    stable-user.bluemail
-    stable-user.cointop
-    stable-user.firefox
-    stable-user.google-chrome
-    stable-user.gimp
-    stable-user.inkscape
-    stable-user.libreoffice-fresh
-    stable-user.signal-desktop
+    nixpkgs-user.bluemail
+    nixpkgs-user.cointop
+    nixpkgs-user.firefox
+    nixpkgs-user.google-chrome
+    nixpkgs-user.gimp
+    nixpkgs-user.inkscape
+    nixpkgs-user.libreoffice-fresh
+    nixpkgs-user.signal-desktop
   ];
 }

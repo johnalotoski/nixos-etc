@@ -4,15 +4,16 @@
   inputs = {
     # Pins for system packages
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
-    nixos-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nixpkgs-wordpress.url = "github:NixOS/nixpkgs";
     neovim-flake.url = "github:johnalotoski/neovim-flake";
 
+    # nixos-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    # nixpkgs-wordpress.url = "github:NixOS/nixpkgs";
+
     # Pins for user packages
-    nixpkgs-user.url = "github:NixOS/nixpkgs/nixos-24.11";
-    nixos-user-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-user-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs-user.url = "github:NixOS/nixpkgs/nixos-25.05";
+    # nixos-user-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # nixpkgs-user-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
     # System inputs
     flake-compat = {
