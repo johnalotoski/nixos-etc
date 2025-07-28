@@ -125,13 +125,13 @@
       # Copy to USB: `dd if=$(fd -e iso . result/iso) of=/dev/sda status=progress`
       # -----
 
-      airgapped = nixpkgs.lib.nixosSystem {
+      bootstrap = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {inherit self;};
         modules =
           baseModules
           ++ [
-            ./iso/airgapped.nix
+            ./iso/bootstrap.nix
           ];
       };
     };

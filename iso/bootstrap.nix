@@ -6,8 +6,8 @@
   inherit (pkgs) writeShellApplication;
   inherit (pkgs.lib) mkForce;
 
-  airgapped-help = writeShellApplication {
-    name = "airgapped-help";
+  bootstrap-help = writeShellApplication {
+    name = "bootstrap-help";
     text = ''
       echo "# Find zfs devices:"
       echo "sudo zpool import"
@@ -46,7 +46,7 @@ in
     };
 
     environment.systemPackages = [
-      airgapped-help # Reminder commands for secure ZFS import/export
+      bootstrap-help # Reminder commands for secure ZFS import/export
       curl
       file
       gnupg # GNU Privacy Guard

@@ -3,11 +3,15 @@
 # QuickStart: https://github.com/nix-community/disko/blob/master/docs/quickstart.md
 
 # Execute the following all as root once the disko config is ready and in /tmp:
-nix run github:nix-community/disko -- --mode disko /tmp/disko-config.nix
-nixos-generate-config --no-filesystems --root /mnt
-mv /tmp/disko-config.nix /mnt/etc/nixos
-nixos-install
-reboot
+sudo nix --experimental-features "nix-command flakes" \
+  run github:nix-community/disko/latest \
+  -- --mode destroy,format,mount /tmp/disk-config.nix
+
+sudo nixos-generate-config --no-filesystems --root /mnt
+sudo mv /tmp/disko-config.nix /mnt/etc/nixos
+sudo NIX_CONFIG="experimental-features = nix-command flakes" nixos-install
+sudo reboot
+
 
 # The bootstrap configuration allows a quick setup to block device boot so subsequent boots, if required are faster.
 # Once bootstrap install has been completed, build the full config using nixos-etc repo.

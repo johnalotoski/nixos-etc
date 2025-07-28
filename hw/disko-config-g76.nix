@@ -5,12 +5,11 @@
         type = "disk";
         device = builtins.elemAt disks 0;
         content = {
-          type = "table";
-          format = "gpt";
+          type = "gpt";
           partitions = [
             {
               name = "ESP";
-              type = "ef00";
+              type = "EF00";
               start = "0%";
               end = "1GiB";
               content = {
@@ -22,7 +21,7 @@
             }
             {
               name = "zfs";
-              type = "bf01";
+              type = "BF01";
               start = "1GiB";
               end = "100%";
               content = {
@@ -37,11 +36,11 @@
         type = "disk";
         device = builtins.elemAt disks 1;
         content = {
-          type = "table";
-          format = "gpt";
+          type = "gpt";
           partitions = [
             {
               name = "RECOVERY";
+              type = "EF00";
               start = "0%";
               end = "1GiB";
               content = {
@@ -53,6 +52,7 @@
             }
             {
               name = "zfs";
+              type = "BF01";
               start = "1GiB";
               end = "100%";
               content = {
