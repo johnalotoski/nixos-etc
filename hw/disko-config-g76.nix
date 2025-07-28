@@ -1,72 +1,79 @@
 {disks ? ["/dev/nvme0n1" "/dev/nvme1n1"], ...}: {
   disko.devices = {
     disk = {
-      x = {
+      main = {
         type = "disk";
         device = builtins.elemAt disks 0;
+
         content = {
           type = "gpt";
-          partitions = [
-            {
-              name = "ESP";
+
+          partitions = {
+            esp = {
               type = "EF00";
               start = "0%";
               end = "1GiB";
+
               content = {
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
                 mountOptions = ["umask=0077"];
               };
-            }
-            {
-              name = "zfs";
+            };
+
+            zfs = {
               type = "BF01";
-              start = "1GiB";
-              end = "100%";
+              size = "100%";
+
               content = {
                 type = "zfs";
                 pool = "zroot";
               };
-            }
-          ];
+            };
+          };
         };
       };
-      y = {
+
+      storage = {
         type = "disk";
         device = builtins.elemAt disks 1;
+
         content = {
           type = "gpt";
-          partitions = [
-            {
-              name = "RECOVERY";
+
+          partitions = {
+            recovery = {
               type = "EF00";
               start = "0%";
               end = "1GiB";
+
               content = {
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/recovery";
                 mountOptions = ["umask=0077"];
               };
-            }
-            {
-              name = "zfs";
+            };
+
+            zfs = {
               type = "BF01";
-              start = "1GiB";
-              end = "100%";
+              size = "100%";
+
               content = {
                 type = "zfs";
                 pool = "storage";
               };
-            }
-          ];
+            };
+          };
         };
       };
     };
+
     zpool = {
       zroot = {
         type = "zpool";
+
         rootFsOptions = {
           mountpoint = "none";
           compression = "zstd";
@@ -77,10 +84,12 @@
           keyformat = "passphrase";
           keylocation = "prompt";
         };
+
         options = {
           ashift = "12";
           autotrim = "on";
         };
+
         datasets = {
           root = {
             type = "zfs_fs";
@@ -90,6 +99,7 @@
           nix = {
             type = "zfs_fs";
             mountpoint = "/nix";
+
             options = {
               atime = "off";
             };
@@ -114,6 +124,7 @@
 
       storage = {
         type = "zpool";
+
         rootFsOptions = {
           mountpoint = "/storage";
           compression = "zstd";
@@ -124,6 +135,7 @@
           keyformat = "passphrase";
           keylocation = "prompt";
         };
+
         options = {
           ashift = "12";
           autotrim = "on";
