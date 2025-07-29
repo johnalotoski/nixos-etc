@@ -57,7 +57,6 @@ in {
     btop
     cachix
     cfssl
-    comma
     crane
     crystal
     crystal2nix
@@ -89,11 +88,9 @@ in {
     glxinfo
     gnumake
     gopass
+    gptfdisk
     graphviz
     haskellPackages.aeson-diff
-    haskellPackages.niv
-    hdparm
-    hddtemp
     hping
     htop
     httpie
@@ -108,7 +105,6 @@ in {
     jid
     jiq
     jq
-    kdePackages.konversation
     ledger-live-desktop
     ledger-udev-rules
     libsForQt5.kate
@@ -118,7 +114,6 @@ in {
     lm_sensors
     lsof
     lsd
-    lutris
     manix
     mitmproxy
     mkpasswd
@@ -135,7 +130,6 @@ in {
     nix-du
     nix-eval-jobs
     nix-fast-build
-    nix-index
     nix-output-monitor
     nix-top
     nixos-container
@@ -145,7 +139,6 @@ in {
     nixfmt-rfc-style
     nmap
     nnn
-    nox
     nushell
     obs-studio
     openssl
@@ -187,12 +180,12 @@ in {
     ssh-to-pgp
 
     # Package this -- looks handy:
+    # https://github.com/palace22/sshm
     # sshm
 
     step-cli
     sublime3
     summon
-    syncthing
     sysstat
     tcpdump
     tcpflow
@@ -206,7 +199,11 @@ in {
     unzip
     usbutils
     vagrant
+
+    # Until the upstream blob issue is resolved:
+    # https://github.com/NixOS/nixpkgs/issues/404663
     # ventoy-full
+
     virt-manager
     vlc
     vnstat
