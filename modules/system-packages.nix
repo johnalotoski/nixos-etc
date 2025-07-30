@@ -65,7 +65,6 @@ in {
     curlie
     delta
     difftastic
-    direnv
     dive
     dog
     (pkgs.writeShellApplication {
@@ -161,6 +160,7 @@ in {
     patchelf
     pavucontrol
     pciutils
+    pdfarranger
     pdftk
     pdfchain
     pinentry
@@ -179,10 +179,12 @@ in {
     ranger
     ripgrep
     ruby
+    sane-airscan
     sd
     shards
     shellcheck
     shfmt
+    simple-scan
     skopeo
     slack
     smartmontools
@@ -236,6 +238,7 @@ in {
     xdotool
     xkcdpass
     xplr
+    xsane
     xxd
     ydiff
     yq

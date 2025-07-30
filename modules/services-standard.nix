@@ -16,6 +16,8 @@ with lib; {
       cacheDir = "/var/cache/ccache";
     };
 
+    direnv.enable = true;
+
     git-worktree-switcher.enable = true;
 
     mosh.enable = true;
@@ -114,6 +116,9 @@ with lib; {
     tailscale.enable = true;
 
     udev.extraRules = ''
+      # TP-Link USB WiFi Adapter, model: TL-WN725N
+      SUBSYSTEM=="net", ACTION=="add", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="8179", NAME="wifi-tplink"
+
       # HW.1, Nano
       SUBSYSTEMS=="usb", ATTRS{idVendor}=="2581", ATTRS{idProduct}=="1b7c|2b7c|3b7c|4b7c", TAG+="uaccess", TAG+="udev-acl"
 

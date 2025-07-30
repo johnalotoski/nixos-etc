@@ -64,7 +64,8 @@
   networking = {
     hostId = "35c02924";
     hostName = "nixos-p71";
-    wireless.interfaces = ["wlp4s0"];
+    nat.externalInterface = "wlp0s20f3";
+    wireless.interfaces = ["wlp4s0" "wifi-tplink"];
   };
 
   system.stateVersion = "22.11";

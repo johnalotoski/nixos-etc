@@ -1,30 +1,43 @@
-{
-  self,
-  config,
-  lib,
-  ...
-}: {
+{self, ...}: {
   imports = [
     (self.inputs.nixpkgs + "/nixos/modules/installer/scan/not-detected.nix")
     (self.inputs.disko.nixosModules.disko)
     (import ./disko-config-serval.nix {})
   ];
 
-  boot.initrd.availableKernelModules = ["xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" "sdhci_pci"];
-  boot.initrd.kernelModules = [];
-  boot.kernelModules = ["kvm-intel"];
-  boot.kernelParams = ["intel_idle.max_cstate=1"];
-  boot.extraModulePackages = [];
+  boot = {
+    # Auto-generated during the initial nixos install via nixos-generate-config -> hardware-configuration.nix
+    initrd.availableKernelModules = ["xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" "sdhci_pci"];
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.systemd-boot.memtest86.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+    # Prevents power state related system freezes
+    kernelParams = ["intel_idle.max_cstate=1"];
 
-  hardware.bluetooth.enable = true;
-  powerManagement.cpuFreqGovernor = lib.mkDefault "conservative";
+    loader.grub.mirroredBoots = [
+      {
+        devices = ["/dev/disk/by-partlabel/disk-zroot1-esp"];
+        path = "/boot";
+      }
+      {
+        devices = ["/dev/disk/by-partlabel/disk-zroot2-recovery"];
+        path = "/recovery";
+      }
+    ];
+  };
 
-  hardware.system76.enableAll = true;
-  hardware.enableRedistributableFirmware = true;
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  hardware = {
+    nvidia = {
+      # From machine eval:
+      #   You must configure `hardware.nvidia.open` on NVIDIA driver versions >= 560.
+      #   It is suggested to use the open source kernel modules on Turing or later GPUs (RTX series, GTX 16xx), and the closed source modules otherwise.
+      open = true;
+
+      prime = {
+        sync.enable = true;
+        nvidiaBusId = "PCI:1:0:0";
+        intelBusId = "PCI:0:2:0";
+      };
+    };
+
+    system76.enableAll = true;
+  };
 }

@@ -6,7 +6,8 @@
   ...
 }:
 with builtins;
-with lib; {
+with lib;
+with pkgs; {
   imports = [
     self.inputs.nix-index-database.nixosModules.nix-index
     {programs.nix-index-database.comma.enable = true;}
@@ -27,6 +28,19 @@ with lib; {
       "zfs.zfs_arc_max=${toString (1024 * 1024 * 1024 * 10)}"
     ];
 
+    loader = {
+      grub = {
+        enable = true;
+        efiSupport = true;
+        efiInstallAsRemovable = true;
+        devices = ["nodev"];
+        gfxmodeEfi = "1280x1024";
+        memtest86.enable = true;
+      };
+
+      systemd-boot.enable = false;
+    };
+
     supportedFilesystems = ["zfs"];
   };
 
@@ -37,7 +51,14 @@ with lib; {
 
   hardware = {
     bluetooth.enable = true;
-    cpu.intel.updateMicrocode = mkDefault config.hardware.enableRedistributableFirmware;
+    cpu.intel.updateMicrocode = true;
+    enableRedistributableFirmware = true;
+
+    sane = {
+      enable = true;
+      dsseries.enable = true;
+      extraBackends = [hplipWithPlugin sane-airscan];
+    };
   };
 
   i18n.defaultLocale = "en_US.UTF-8";
@@ -45,12 +66,19 @@ with lib; {
   networking = {
     firewall = {
       allowedTCPPorts =
-        optional config.services.printing.enable (toInt (last (split ":" (head config.services.printing.listenAddresses))))
+        optional config.services.printing.enable (toInt (head (reverseList (split ":" (head config.services.printing.listenAddresses)))))
         ++ optional config.services.eternal-terminal.enable config.services.eternal-terminal.port;
+    };
+
+    # The nat external interface will be set explicitly in the machine-$MACHINE.nix file
+    nat = {
+      enable = true;
+      internalInterfaces = ["ve-+"];
     };
 
     networkmanager.dns = "systemd-resolved";
     networkmanager.enable = true;
+
     useDHCP = false;
   };
 

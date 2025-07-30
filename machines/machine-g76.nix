@@ -29,12 +29,6 @@
     ../modules/zfs.nix
   ];
 
-  networking.nat = {
-    enable = true;
-    internalInterfaces = ["ve-+"];
-    externalInterface = "wlp0s20f3";
-  };
-
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
   boot.kernelParams = ["i8042.direct" "i8042.dumbkbd"];
 
@@ -51,9 +45,12 @@
     };
   };
 
-  networking.hostName = "nixos-g76";
-  networking.hostId = "defe72a9";
-  networking.wireless.interfaces = ["wlp0s20f3"];
+  networking = {
+    hostId = "defe72a9";
+    hostName = "nixos-g76";
+    nat.externalInterface = "wlp0s20f3";
+    wireless.interfaces = ["wlp0s20f3" "wifi-tplink"];
+  };
 
   system.stateVersion = "22.11";
 }

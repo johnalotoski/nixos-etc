@@ -1,29 +1,20 @@
-{pkgs, ...}: {
+{...}: {
   imports = [
     ../hw/hw-m4800.nix
-    ../modules/backup.nix
-    ../modules/firewall.nix
-    ../modules/flatpak.nix
+    ../modules/common.nix
     ../modules/git.nix
     ../modules/gnupg.nix
-    ../modules/intl.nix
-    ../modules/lorri.nix
-    ../modules/nas.nix
-    ../modules/networking.nix
     ../modules/nix.nix
-    ../modules/services-standard.nix
     ../modules/screen.nix
+    ../modules/services-standard.nix
     ../modules/system-packages.nix
     ../modules/users-standard.nix
-    ../modules/vim.nix
-    ../modules/virtualization.nix
     ../modules/yubikey.nix
-    ../modules/zfs.nix
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
-  system.nixos.tags = ["kde"];
-  networking.hostName = "nixos-m4800";
-  services.xserver.videoDrivers = ["nvidia"];
+  networking = {
+    hostName = "nixos-m4800";
+    nat.externalInterface = "wlp0s20f3";
+    wireless.interfaces = ["wlp0s20f3" "wifi-tplink"];
+  };
 }
