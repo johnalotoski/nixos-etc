@@ -1,57 +1,27 @@
-{
-  self,
-  pkgs,
-  lib,
-  ...
-}: {
-  imports = [(self.inputs.nixpkgs + "/nixos/modules/installer/scan/not-detected.nix")];
-
-  boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
-  boot.initrd.kernelModules = [];
-  boot.kernelModules = ["kvm-intel"];
-  boot.kernelParams = ["elevator=none"];
-  boot.extraModulePackages = [];
-
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  fileSystems."/" = {
-    device = "tank/system/root";
-    fsType = "zfs";
-  };
-
-  fileSystems."/var" = {
-    device = "tank/system/var";
-    fsType = "zfs";
-  };
-
-  fileSystems."/nix" = {
-    device = "tank/local/nix";
-    fsType = "zfs";
-  };
-
-  fileSystems."/home" = {
-    device = "tank/user/home";
-    fsType = "zfs";
-  };
-
-  fileSystems."/tmp" = {
-    device = "tank/local/tmp";
-    fsType = "zfs";
-  };
-
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-label/BOOT1";
-    fsType = "vfat";
-  };
-
-  swapDevices = [
-    {device = "/dev/disk/by-label/SWAP1";}
-    {device = "/dev/disk/by-label/SWAP2";}
+{self, ...}: {
+  imports = [
+    (self.inputs.nixpkgs + "/nixos/modules/installer/scan/not-detected.nix")
+    (self.inputs.disko.nixosModules.disko)
+    (import ./disko-config-g76.nix {})
   ];
 
-  hardware.bluetooth.enable = true;
-  hardware.nvidia.open = true;
+  # Auto-generated during the initial nixos install via nixos-generate-config -> hardware-configuration.nix
+  boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
 
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  hardware = {
+    nvidia = {
+      # From machine eval:
+      #   You must configure `hardware.nvidia.open` on NVIDIA driver versions >= 560.
+      #   It is suggested to use the open source kernel modules on Turing or later GPUs (RTX series, GTX 16xx), and the closed source modules otherwise.
+      open = true;
+
+      prime = {
+        sync.enable = true;
+        nvidiaBusId = "PCI:1:0:0";
+        intelBusId = "PCI:0:2:0";
+      };
+    };
+
+    system76.enableAll = true;
+  };
 }

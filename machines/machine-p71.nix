@@ -17,7 +17,7 @@
   networking = {
     hostId = "35c02924";
     hostName = "nixos-p71";
-    nat.externalInterface = "wlp0s20f3";
+    nat.externalInterface = "wlp4s0";
     wireless.interfaces = ["wlp4s0" "wifi-tplink"];
   };
 

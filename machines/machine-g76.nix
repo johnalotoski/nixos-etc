@@ -1,4 +1,4 @@
-{config, ...}: {
+{...}: {
   imports = [
     ../hw/hw-g76.nix
     ../modules/common.nix
@@ -13,28 +13,12 @@
     ../modules/yubikey.nix
   ];
 
-  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
-  boot.kernelParams = ["i8042.direct" "i8042.dumbkbd"];
-
-  services.xserver = {
-    exportConfiguration = true;
-    videoDrivers = ["nvidia"];
-  };
-
-  hardware.nvidia = {
-    prime = {
-      sync.enable = true;
-      nvidiaBusId = "PCI:1:0:0";
-      intelBusId = "PCI:0:2:0";
-    };
-  };
-
   networking = {
-    hostId = "defe72a9";
+    hostId = "d4a77fc1";
     hostName = "nixos-g76";
     nat.externalInterface = "wlp0s20f3";
     wireless.interfaces = ["wlp0s20f3" "wifi-tplink"];
   };
 
-  system.stateVersion = "22.11";
+  system.stateVersion = "25.05";
 }

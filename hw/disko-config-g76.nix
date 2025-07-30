@@ -52,7 +52,7 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/recovery";
-                mountOptions = ["umask=0077"];
+                mountOptions = ["nofail" "umask=0077"];
               };
             };
 
