@@ -5,8 +5,21 @@
     (import ./disko-config-g76.nix {})
   ];
 
-  # Auto-generated during the initial nixos install via nixos-generate-config -> hardware-configuration.nix
-  boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
+  boot = {
+    # Auto-generated during the initial nixos install via nixos-generate-config -> hardware-configuration.nix
+    initrd.availableKernelModules = ["xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
+
+    loader.grub.mirroredBoots = [
+      {
+        devices = ["/dev/disk/by-partlabel/disk-main-esp"];
+        path = "/boot";
+      }
+      {
+        devices = ["/dev/disk/by-partlabel/disk-storage-recovery"];
+        path = "/recovery";
+      }
+    ];
+  };
 
   hardware = {
     nvidia = {
