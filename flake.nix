@@ -30,95 +30,65 @@
     nixpkgs,
     ...
   }: let
+    inherit (builtins) foldl';
+    inherit (nixpkgs.lib) optional recursiveUpdate removePrefix removeSuffix;
+
     system = "x86_64-linux";
     localOverlay = import ./nix/overlay.nix self;
     overlays = [localOverlay];
     baseModules = [(_: {nixpkgs.overlays = overlays;})];
-  in {
-    nixosConfigurations = {
-      # Machines: `nixos-rebuild [switch|boot|...] [-L] [-v] [--flake .#$MACHINE]`
-      # -----
 
-      nixos-serval = nixpkgs.lib.nixosSystem {
+    mkMachine = {
+      name,
+      buildVM ? false,
+      isBootstrap ? false,
+      ...
+    }: let
+      n = removePrefix "nixos-" (removeSuffix "-vm" name);
+    in {
+      ${name} = nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = {inherit self;};
+        specialArgs = {
+          inherit self name;
+        };
         modules =
-          baseModules
-          ++ [
-            ./machines/machine-serval.nix
-          ];
-      };
-
-      nixos-g76 = nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = {inherit self;};
-        modules =
-          baseModules
-          ++ [
-            ./machines/machine-g76.nix
-          ];
-      };
-
-      nixos-p71 = nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = {inherit self;};
-        modules =
-          baseModules
-          ++ [
-            ./machines/machine-p71.nix
-          ];
-      };
-
-      # Machine vms for testing: `nixos-rebuild build-vm [-L] [-v] [--flake .#$MACHINE]`
-      # -----
-
-      nixos-serval-vm = nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = {inherit self;};
-        modules =
-          baseModules
-          ++ [
-            ./machines/machine-serval.nix
-            ./modules/build-vm.nix
-          ];
-      };
-
-      nixos-g76-vm = nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = {inherit self;};
-        modules =
-          baseModules
-          ++ [
-            ./machines/machine-g76.nix
-            ./modules/build-vm.nix
-          ];
-      };
-
-      nixos-p71-vm = nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = {inherit self;};
-        modules =
-          baseModules
-          ++ [
-            ./machines/machine-p71.nix
-            ./modules/build-vm.nix
-          ];
-      };
-
-      # ISOs:
-      # Build: `nix build [-L] [-v] .#nixosConfigurations.$ISO.config.system.build.isoImage`
-      # Copy to USB: `dd if=$(fd -e iso . result/iso) of=/dev/sda status=progress`
-      # -----
-
-      bootstrap = nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = {inherit self;};
-        modules =
-          baseModules
-          ++ [
-            ./iso/bootstrap.nix
-          ];
+          if isBootstrap
+          then baseModules ++ [./iso/bootstrap.nix]
+          else
+            baseModules
+            ++ [./machines/machine-${n}.nix]
+            ++ optional buildVM ./modules/build-vm.nix;
       };
     };
+  in {
+    nixosConfigurations = foldl' recursiveUpdate {} [
+      # Machines: `nixos-rebuild [switch|boot|...] [-L] [-v] [--flake .#$MACHINE]`
+      (mkMachine {name = "nixos-g76";})
+      (mkMachine {name = "nixos-p71";})
+      (mkMachine {name = "nixos-serval";})
+
+      # Machine VMs for testing: `nixos-rebuild build-vm [-L] [-v] [--flake .#$MACHINE]`
+      (mkMachine {
+        name = "nixos-g76-vm";
+        buildVm = true;
+      })
+
+      (mkMachine {
+        name = "nixos-p71-vm";
+        buildVm = true;
+      })
+
+      (mkMachine {
+        name = "nixos-serval-vm";
+        buildVm = true;
+      })
+
+      # Machine ISOs for bootstrap `nix build [-L] [-v] .#nixosConfigurations.$ISO.config.system.build.isoImage`
+      # Copy to USB: `dd if=$(fd -e iso . result/iso) of=/dev/$TARGET bs=1M status=progress`
+      (mkMachine {
+        name = "bootstrap";
+        isBootstrap = true;
+      })
+    ];
   };
 }

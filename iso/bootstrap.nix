@@ -46,15 +46,15 @@ in
     };
 
     environment.systemPackages = [
-      bootstrap-help # Reminder commands for secure ZFS import/export
+      bootstrap-help
       curl
       file
-      gnupg # GNU Privacy Guard
-      openssl # Avoid pattern based encryption attacks
-      paperkey # Store OpenPGP or GnuPG on paper
-      pinentry # GnuPG’s interface to passphrase input
-      pv # For monitoring data progress through a pipeline
-      (unixtools.xxd) # For checking block device writes
+      gnupg
+      openssl
+      paperkey
+      pinentry
+      pv
+      (unixtools.xxd)
       wget
     ];
 

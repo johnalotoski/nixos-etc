@@ -2,6 +2,7 @@
   imports = [
     ../hw/hw-m4800.nix
     ../modules/common.nix
+    ../modules/distributed-builds.nix
     ../modules/git.nix
     ../modules/gnupg.nix
     ../modules/nix.nix

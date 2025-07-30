@@ -1,32 +1,16 @@
 {config, ...}: {
   imports = [
     ../hw/hw-g76.nix
-    # ../modules/backup.nix
-    ../modules/cardano-node.nix
-    # ../modules/cuda.nix
-    ../modules/db.nix
-    # ../modules/fax.nix
-    ../modules/firewall.nix
+    ../modules/common.nix
+    ../modules/distributed-builds.nix
     ../modules/git.nix
     ../modules/gnupg.nix
-    ../modules/hw.nix
-    ../modules/intl.nix
-    ../modules/lorri.nix
-    # ../modules/nas.nix
-    ../modules/networking.nix
-    ../modules/nix.nix
-    ../modules/nvidia-fix.nix
     ../modules/screen.nix
     ../modules/services-standard.nix
     ../modules/shell.nix
-    ../modules/sops.nix
     ../modules/system-packages.nix
-    ../modules/tailscale.nix
     ../modules/users-standard.nix
-    ../modules/virtualization.nix
-    ../modules/vim.nix
     ../modules/yubikey.nix
-    ../modules/zfs.nix
   ];
 
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
