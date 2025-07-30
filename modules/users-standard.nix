@@ -7,11 +7,6 @@
 
   hashedPassword = "$6$T3eCnq9giW$vjBlWEh9w/nJ7lV9/6hyYUX1P7YmP70Ajo1w47rsLM0q356FHWDG8c4NDQZMrF06uXDlQ.C/L5zUb9fUvJzNh/";
 
-  ageKeys = [
-    "age18cd7x44786smr8g7fnrkhtmjt7kclythyzdfjjvy99vnnh7xycfqrku8yk"
-    "age1a88qf9ctqelrn0trafdndwugcwvzkszg940xpwcmdx7e9y5s0efq3wlny"
-  ];
-
   sshKeys = [
     "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCogRPMTKyOIQcbS/DqbYijPrreltBHf5ctqFOVAlehvpj8enEE51VSjj4Xs/JEsPWpOJL7Ldp6lDNgFzyuL2AOUWE7wlHx2HrfeCOVkPEzC3uL4OjRTCdsNoleM3Ny2/Qxb0eX2SPoSsEGvpwvTMfUapEa1Ak7Gf39voTYOucoM/lIB/P7MKYkEYiaYaZBcTwjxZa3E+v7At4umSZzv8x24NV60fAyyYmt5hVZRYgoMW+nTU4J/Oq9JGgY7o+WPsOWcgFoSretRnGDwjM1IAUFVpI45rQH2HTKNJ6Bp6ncKwtVaP2dvPdBFe3x2LLEhmh1jDwmbtSXfoVZxbONtub2i/D8DuDhLUNBx/ROgal7N2RgYPcPuNdzfp8hMPjPGZVcSmszC/J1Gz5LqLfWbKKKti4NiSX+euy+aYlgW8zQlUS7aGxzRC/JSgk2KJynFEKJjhj7L9KzsE8ysIgggxYdk18ozDxz2FMPMV5PD1+8x4anWyfda6WR8CXfHlshTwhe+BkgSbsYNe6wZRDGqL2no/PY+GTYRNLgzN721Nv99htIccJoOxeTcs329CppqRNFeDeJkGOnJGc41ze+eVNUkYxOP0O+pNwT7zNDKwRwBnT44F0nNwRByzj2z8i6/deNPmu2sd9IZie8KCygqFiqZ8LjlWTD6JAXPKtTo5GHNQ== yk"
 
@@ -30,10 +25,6 @@
     };
   };
 in {
-  environment.variables = {
-    # SOPS_AGE_RECIPIENTS = lib.concatStringsSep "," ageKeys;
-  };
-
   users.mutableUsers = false;
 
   users.users = pipe {} [

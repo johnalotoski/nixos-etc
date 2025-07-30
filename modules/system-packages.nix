@@ -56,6 +56,7 @@ in {
     bridge-utils
     btop
     cachix
+    ccache
     cfssl
     crane
     crystal
@@ -69,7 +70,7 @@ in {
     dog
     (pkgs.writeShellApplication {
       name = "dog-dns";
-      text = ''${lib.getExe pkgs.dogdns} "''$@" '';
+      text = ''${lib.getExe pkgs.dogdns} "''$@"'';
     })
     dnsutils
     docker-compose
@@ -84,16 +85,23 @@ in {
     fx
     fzf
     gcc
+    gh
+    git-filter-repo
+    gitFull
+    gitui
     glances
     glxinfo
     gnumake
+    gnupg
     gopass
+    gpgme.dev
     gptfdisk
     graphviz
     haskellPackages.aeson-diff
     hping
     htop
     httpie
+    hub
     (hwloc.override {x11Support = true;})
     iat
     icdiff
@@ -118,10 +126,15 @@ in {
     mitmproxy
     mkpasswd
     moreutils
+    (pkgs.writeShellApplication {
+      name = "mount-nas";
+      text = ''sudo mount.nfs "$(dig +short @192.168.86.1 homenas.)":/data/Backup /mnt/nas'';
+    })
     mtr
     mullvad-vpn
     mutt
     nap
+    self.inputs.neovim-flake.packages.${pkgs.system}.neovim
     ncdu
     nfs-utils
     nftables
@@ -139,15 +152,18 @@ in {
     nixfmt-rfc-style
     nmap
     nnn
+    nvtopPackages.full
     nushell
     obs-studio
     openssl
     pkg-config
+    paperkey
     patchelf
     pavucontrol
     pciutils
     pdftk
     pdfchain
+    pinentry
     postgresql
     podman
     ps_mem
@@ -190,6 +206,7 @@ in {
     tcpdump
     tcpflow
     tdesktop
+    tig
     tldr
     tmate
     tmux
@@ -224,6 +241,7 @@ in {
     yq
     yubico-piv-tool
     yubikey-manager
+    yubioath-flutter
     zgrviewer
     zip
     zoom-us

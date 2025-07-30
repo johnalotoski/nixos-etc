@@ -24,15 +24,6 @@ in {
         (recursiveUpdate (mkImport "root" "gitconfig-p"))
         (recursiveUpdate (mkImport "root" "gitignore"))
       ];
-
-    systemPackages = with pkgs; [
-      gh
-      git-filter-repo
-      gitFull
-      gitui
-      hub
-      tig
-    ];
   };
 
   system.activationScripts.gitconfig.text = ''

@@ -1,16 +1,19 @@
 {
-  self,
   pkgs,
+  lib,
   ...
-}: {
-  networking.firewall = {
-    allowedTCPPorts = [2022];
-  };
-
+}:
+with builtins;
+with lib; {
   programs = {
     bat = {
       enable = true;
-      extraPackages = builtins.filter pkgs.lib.isDerivation (map (pkg: pkgs.bat-extras.${pkg}) (builtins.attrNames pkgs.bat-extras));
+      extraPackages = filter pkgs.lib.isDerivation (map (pkg: pkgs.bat-extras.${pkg}) (attrNames pkgs.bat-extras));
+    };
+
+    ccache = {
+      enable = true;
+      cacheDir = "/var/cache/ccache";
     };
 
     git-worktree-switcher.enable = true;
@@ -22,6 +25,8 @@
         ServerAliveInterval 300
         ServerAliveCountMax 2
     '';
+
+    xwayland.enable = true;
 
     zoxide.enable = true;
   };
@@ -45,6 +50,8 @@
 
     libinput.enable = true;
 
+    locate.enable = true;
+
     mullvad-vpn = {
       enable = true;
       package = pkgs.mullvad-vpn;
@@ -52,20 +59,45 @@
 
     netdata.enable = true;
 
+    nscd.enableNsncd = true;
+
     openssh = {
       enable = true;
+
       settings = {
         PasswordAuthentication = false;
         PermitRootLogin = "no";
       };
+
       extraConfig = ''
-        AllowUsers *@192.168.* jlotoski@* builder@*
+        AllowUsers *@192.168.* jlotoski@* backup@* builder@*
       '';
     };
 
     postfix = {
       enable = true;
       setSendmail = true;
+    };
+
+    postgresql = {
+      enable = true;
+
+      identMap = ''
+        admin-user jlotoski postgres
+        admin-user backup postgres
+        admin-user postgres postgres
+        admin-user root postgres
+      '';
+
+      authentication = ''
+        local all all ident map=admin-user
+      '';
+
+      settings = {
+        max_connections = 200;
+        log_statement = "all";
+        logging_collector = "on";
+      };
     };
 
     printing = {
@@ -75,14 +107,23 @@
       listenAddresses = ["localhost:631"];
     };
 
+    resolved.enable = true;
+
     sysstat.enable = true;
 
-    vnstat.enable = true;
+    tailscale.enable = true;
 
-    xserver = {
-      enable = true;
-      exportConfiguration = true;
-      xkb.layout = "us";
-    };
+    udev.extraRules = ''
+      # HW.1, Nano
+      SUBSYSTEMS=="usb", ATTRS{idVendor}=="2581", ATTRS{idProduct}=="1b7c|2b7c|3b7c|4b7c", TAG+="uaccess", TAG+="udev-acl"
+
+      # Blue, NanoS, Aramis, HW.2, Nano X, NanoSP, Stax, Ledger Test,
+      SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", TAG+="uaccess", TAG+="udev-acl"
+
+      # Same, but with hidraw-based library (instead of libusb)
+      KERNEL=="hidraw*", ATTRS{idVendor}=="2c97", MODE="0666"
+    '';
+
+    vnstat.enable = true;
   };
 }

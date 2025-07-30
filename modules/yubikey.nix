@@ -34,14 +34,6 @@ with pkgs; {
 
   services.pcscd.enable = true;
 
-  environment.systemPackages = [
-    gnupg
-    pinentry
-    paperkey
-    yubioath-flutter
-    yubikey-manager
-  ];
-
   environment.shellInit = ''
     export GPG_TTY="$(tty)"
     # If root, own the tty to allow gpg pinentry

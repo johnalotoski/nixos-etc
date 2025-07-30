@@ -1,3 +1,3 @@
-{pkgs, ...}: {
-  console.font = pkgs.lib.mkForce "latarcyrheb-sun32";
+{lib, ...}: {
+  console.font = lib.mkForce "latarcyrheb-sun32";
 }

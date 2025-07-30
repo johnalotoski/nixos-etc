@@ -95,8 +95,6 @@ with pkgs; let
   defaultGpgKey = "0AE060E71E81FA38";
 in {
   environment.systemPackages = [
-    gnupg
-    pinentry
     gpg-pin
     gpg-reload
     gpg-ssh
@@ -104,7 +102,6 @@ in {
     gpg-switch
     gpg-test
     gpg-tty
-    gpgme.dev
   ];
 
   programs.gnupg.agent.enable = true;
