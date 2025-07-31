@@ -126,7 +126,7 @@
         type = "zpool";
 
         rootFsOptions = {
-          mountpoint = "/storage";
+          mountpoint = "none";
           compression = "zstd";
           "com.sun:auto-snapshot" = "false";
           acltype = "posixacl";
@@ -139,6 +139,13 @@
         options = {
           ashift = "12";
           autotrim = "on";
+        };
+
+        datasets = {
+          main = {
+            type = "zfs_fs";
+            mountpoint = "/storage";
+          };
         };
       };
     };
