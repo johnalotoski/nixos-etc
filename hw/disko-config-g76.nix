@@ -23,6 +23,9 @@
             };
 
             zfs = {
+              # This works but next time prefer 8300 for a Linux compatible filesystem type.
+              # See:
+              #   sgdisk --print-types
               type = "BF01";
               size = "100%";
 
@@ -57,6 +60,9 @@
             };
 
             zfs = {
+              # This works but next time prefer 8300 for a Linux compatible filesystem type.
+              # See:
+              #   sgdisk --print-types
               type = "BF01";
               size = "100%";
 

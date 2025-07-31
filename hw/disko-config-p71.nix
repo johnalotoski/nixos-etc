@@ -18,6 +18,7 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
+                mountOptions = ["umask=0077"];
               };
             };
 
@@ -50,7 +51,7 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/recovery";
-                mountOptions = ["nofail"];
+                mountOptions = ["nofail" "umask=0077"];
               };
             };
 
