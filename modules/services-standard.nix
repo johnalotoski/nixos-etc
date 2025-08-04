@@ -28,6 +28,8 @@ with lib; {
         ServerAliveCountMax 2
     '';
 
+    wavemon.enable = true;
+
     xwayland.enable = true;
 
     zoxide.enable = true;

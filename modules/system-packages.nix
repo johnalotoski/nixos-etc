@@ -108,6 +108,7 @@ in {
     ijq
     inotify-tools
     iotop
+    iw
     jc
     jid
     jiq
