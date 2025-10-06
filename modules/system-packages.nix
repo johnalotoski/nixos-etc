@@ -55,6 +55,7 @@ in {
     brave
     bridge-utils
     btop
+    bwm_ng
     cachix
     ccache
     cfssl
@@ -97,6 +98,7 @@ in {
     gptfdisk
     graphviz
     haskellPackages.aeson-diff
+    hexchat
     hping
     htop
     httpie
@@ -135,10 +137,12 @@ in {
     mutt
     nap
     self.inputs.neovim-flake.packages.${pkgs.system}.neovim
+    nethogs
     ncdu
     nfs-utils
     nftables
     ngrep
+    nix-btm
     nix-diff
     nix-du
     nix-eval-jobs
@@ -152,6 +156,7 @@ in {
     nixfmt-rfc-style
     nmap
     nnn
+    nvd
     nvtopPackages.full
     nushell
     obs-studio
@@ -192,16 +197,13 @@ in {
     smem
     socat
     sops
+    speed-cloudflare-cli
     sqlite
     sqlite-interactive
     sqlitebrowser
     ssh-to-age
     ssh-to-pgp
-
-    # Package this -- looks handy:
-    # https://github.com/palace22/sshm
-    # sshm
-
+    # self.inputs.sshm.packages.${pkgs.system}.sshm
     step-cli
     sublime3
     summon
@@ -235,6 +237,7 @@ in {
     wpa_supplicant_gui
     wget
     wireguard-tools
+    wush
     xclip
     xdotool
     xkcdpass

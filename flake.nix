@@ -8,6 +8,7 @@
 
     capkgs.url = "github:input-output-hk/capkgs";
     neovim-flake.url = "github:johnalotoski/neovim-flake";
+    # sshm = "github:johnalotoski/sshm";
 
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
