@@ -104,6 +104,9 @@
     # Tag
     t = tag -n                        # show tags with <n> lines of each tag message
 
+    # Worktrees
+    wta = "!wta(){ git worktree add -b \"$1\" ../\"$1\" \"$2\"; }; wta"
+
   [format]
     pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
 
