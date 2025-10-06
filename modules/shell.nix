@@ -224,7 +224,11 @@
       };
     };
 
-    zsh.enable = true;
+    zsh = {
+      enable = true;
+      enableCompletion = true;
+      enableBashCompletion = true;
+    };
   };
 
   environment = {
