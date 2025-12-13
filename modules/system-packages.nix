@@ -244,6 +244,7 @@ in {
     xplr
     xsane
     xxd
+    yazi
     ydiff
     yq
     yubico-piv-tool
