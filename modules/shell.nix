@@ -241,6 +241,8 @@
     systemPackages = with pkgs; [
       starship
     ];
+
+    variables.EDITOR = "nvim";
   };
 
   fonts.packages = with pkgs; [
