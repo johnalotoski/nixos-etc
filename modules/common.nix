@@ -57,7 +57,7 @@ with pkgs; {
     sane = {
       enable = true;
       dsseries.enable = true;
-      extraBackends = [hplipWithPlugin sane-airscan];
+      extraBackends = [sane-airscan];
     };
   };
 

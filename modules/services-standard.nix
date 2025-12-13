@@ -38,6 +38,12 @@ with lib; {
   services = {
     atd.enable = true;
 
+    avahi = {
+      enable = true;
+      nssmdns4 = true;
+      openFirewall = true;
+    };
+
     clamav = {
       daemon.enable = true;
       updater.enable = true;
@@ -106,7 +112,7 @@ with lib; {
 
     printing = {
       browsing = true;
-      drivers = [pkgs.hplip];
+      drivers = [];
       enable = true;
       listenAddresses = ["localhost:631"];
     };
