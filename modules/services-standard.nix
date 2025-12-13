@@ -112,7 +112,7 @@ with lib; {
 
     printing = {
       browsing = true;
-      drivers = [];
+      drivers = [(pkgs.callPackage ../pkgs/mfcl3780cdw.nix {}).cupswrapper];
       enable = true;
       listenAddresses = ["localhost:631"];
     };
