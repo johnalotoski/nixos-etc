@@ -36,6 +36,11 @@ with lib; {
   };
 
   services = {
+    angrr = {
+      enable = true;
+      timer.enable = true;
+    };
+
     atd.enable = true;
 
     avahi = {
