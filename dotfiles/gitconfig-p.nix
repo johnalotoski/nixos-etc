@@ -143,4 +143,7 @@
     # Git diff will use (i)ndex, (w)ork tree, (c)ommit and (o)bject
     # instead of a/b/c/d as prefixes for patches
     mnemonicprefix = true
+
+  [tag]
+      gpgSign = true
 ''
