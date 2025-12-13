@@ -52,7 +52,7 @@ in
       gnupg
       openssl
       paperkey
-      pinentry
+      pinentry-all
       pv
       (unixtools.xxd)
       wget

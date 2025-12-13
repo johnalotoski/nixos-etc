@@ -16,7 +16,7 @@
         hostName = "${name}-builder";
 
         systems =
-          [(machine.pkgs.system or machine.nixpkgs.system)]
+          [(machine.pkgs.stdenv.hostPlatform.system or machine.nixpkgs.system)]
           ++ machine.config.nix.settings.extra-platforms or [];
 
         supportedFeatures = ["nixos-test" "benchmark" "big-parallel" "kvm"];

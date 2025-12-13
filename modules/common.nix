@@ -83,7 +83,7 @@ with pkgs; {
   };
 
   nix = {
-    package = self.inputs.nix.packages.${pkgs.system}.nix;
+    package = self.inputs.nix.packages.${pkgs.stdenv.hostPlatform.system}.nix;
 
     settings = {
       builders-use-substitutes = true;

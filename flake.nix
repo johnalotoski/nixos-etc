@@ -2,9 +2,9 @@
   description = "Workstation flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
-    nixpkgs-user.url = "github:NixOS/nixpkgs/nixos-25.05";
-    nix.url = "github:NixOS/nix/2.29-maintenance";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs-user.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nix.url = "github:NixOS/nix/2.32-maintenance";
 
     capkgs.url = "github:input-output-hk/capkgs";
     neovim-flake.url = "github:johnalotoski/neovim-flake";

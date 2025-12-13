@@ -1,22 +1,22 @@
-{ stdenv
-, lib
-, fetchurl
-, dpkg
-, autoPatchelfHook
-, pango
-, gtk3
-, alsa-lib
-, nss
-, libXdamage
-, libdrm
-, mesa
-, libxshmfence
-, makeWrapper
-, wrapGAppsHook
-, gcc-unwrapped
-, udev
+{
+  stdenv,
+  lib,
+  fetchurl,
+  dpkg,
+  autoPatchelfHook,
+  pango,
+  gtk3,
+  alsa-lib,
+  nss,
+  libXdamage,
+  libdrm,
+  mesa,
+  libxshmfence,
+  makeWrapper,
+  wrapGAppsHook3,
+  gcc-unwrapped,
+  udev,
 }:
-
 stdenv.mkDerivation rec {
   pname = "bluemail";
   version = "1.136.21-1884";
@@ -33,7 +33,7 @@ stdenv.mkDerivation rec {
     autoPatchelfHook
     makeWrapper
     dpkg
-    wrapGAppsHook
+    wrapGAppsHook3
   ];
 
   buildInputs = [
@@ -61,8 +61,8 @@ stdenv.mkDerivation rec {
   '';
 
   makeWrapperArgs = [
-    "--prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ gcc-unwrapped.lib gtk3 udev ]}"
-    "--prefix PATH : ${lib.makeBinPath [ stdenv.cc ]}"
+    "--prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [gcc-unwrapped.lib gtk3 udev]}"
+    "--prefix PATH : ${lib.makeBinPath [stdenv.cc]}"
   ];
 
   preFixup = ''
@@ -76,7 +76,7 @@ stdenv.mkDerivation rec {
     homepage = "https://bluemail.me";
     license = licenses.unfree;
     platforms = platforms.linux;
-    sourceProvenance = with sourceTypes; [ binaryNativeCode ];
-    maintainers = with maintainers; [ onny ];
+    sourceProvenance = with sourceTypes; [binaryNativeCode];
+    maintainers = with maintainers; [onny];
   };
 }

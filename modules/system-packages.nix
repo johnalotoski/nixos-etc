@@ -7,7 +7,7 @@
 }: let
   mkPkgs = input:
     import self.inputs.${input} {
-      system = pkgs.system;
+      system = pkgs.stdenv.hostPlatform.system;
       config.allowUnfree = true;
     };
 
@@ -21,7 +21,7 @@
 in {
   nixpkgs.config.allowUnfree = true;
 
-  system.extraSystemBuilderCmds = ''
+  system.systemBuilderCommands = ''
     ln -sv ${pkgs.path} $out/nixpkgs
   '';
 
@@ -48,7 +48,7 @@ in {
     acpi
     age
     alejandra
-    aria
+    aria2
     binutils
     (pkgs.callPackage ../pkgs/bluemail.nix {})
     borgbackup
@@ -90,7 +90,6 @@ in {
     gitFull
     gitui
     glances
-    glxinfo
     gnumake
     gnupg
     gopass
@@ -115,16 +114,17 @@ in {
     jid
     jiq
     jq
+    kdePackages.kate
+    kdePackages.kolourpaint
+    kdePackages.ksystemlog
+    kdePackages.spectacle
     ledger-live-desktop
     ledger-udev-rules
-    libsForQt5.kate
-    libsForQt5.kolourpaint
-    libsForQt5.ksystemlog
-    libsForQt5.spectacle
     lm_sensors
     lsof
     lsd
     manix
+    mesa-demos
     mitmproxy
     mkpasswd
     moreutils
@@ -136,7 +136,7 @@ in {
     mullvad-vpn
     mutt
     nap
-    self.inputs.neovim-flake.packages.${pkgs.system}.neovim
+    self.inputs.neovim-flake.packages.${pkgs.stdenv.hostPlatform.system}.neovim
     nethogs
     ncdu
     nfs-utils
@@ -169,7 +169,7 @@ in {
     pdfarranger
     pdftk
     pdfchain
-    pinentry
+    pinentry-all
     postgresql
     podman
     ps_mem
@@ -210,7 +210,7 @@ in {
     sysstat
     tcpdump
     tcpflow
-    tdesktop
+    telegram-desktop
     tig
     tldr
     tmate
