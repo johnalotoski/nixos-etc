@@ -11,10 +11,6 @@
       config.allowUnfree = true;
     };
 
-  # System nixpkgs pins
-  # stable pin is pkgs as nixpkgs input
-  # unstable = mkPkgs "nixos-unstable";
-  # unstable-nixpkgs = mkPkgs "nixpkgs-unstable";
 
   # User nixpkgs pins
   nixpkgs-user = mkPkgs "nixpkgs-user";
@@ -33,12 +29,6 @@ in {
     formatted = builtins.concatStringsSep "\n" sortedUnique;
   in
     formatted;
-
-  # Used by starship for fonts and nvim
-  # fonts.packages = with pkgs; [
-  #   fira-code-symbols
-  #   nerd-fonts.symbols-only
-  # ];
 
   environment.shellAliases = {
     whereis = "f(){ realpath $(command -v \"$1\"); unset -f f; }; f";
@@ -218,6 +208,7 @@ in {
     tree
     treefmt
     tty-share
+    unixtools.net-tools
     unzip
     usbutils
     vagrant

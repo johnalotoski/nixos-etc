@@ -12,6 +12,8 @@
     ../modules/yubikey.nix
   ];
 
+  services.xserver.videoDrivers = ["nvidia"];
+
   networking = {
     hostId = "d8fcf199";
     hostName = "nixos-serval";
