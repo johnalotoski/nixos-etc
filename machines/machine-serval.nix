@@ -1,6 +1,9 @@
 {...}: {
   imports = [
     ../hw/hw-serval.nix
+    ../modules/ai-claude.nix
+    ../modules/ai-common.nix
+    ../modules/ai-gemini.nix
     ../modules/common.nix
     ../modules/git.nix
     ../modules/gnupg.nix
