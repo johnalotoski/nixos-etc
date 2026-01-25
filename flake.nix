@@ -7,7 +7,11 @@
     nix.url = "github:NixOS/nix/2.32-maintenance";
 
     capkgs.url = "github:input-output-hk/capkgs";
-    neovim-flake.url = "github:johnalotoski/neovim-flake";
+    neovim-flake = {
+      url = "github:johnalotoski/neovim-flake/customize";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # sshm = "github:johnalotoski/sshm";
 
     nix-index-database = {
@@ -50,7 +54,7 @@
       ${name} = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
-          inherit self name;
+          inherit self name system;
         };
         modules =
           if isBootstrap

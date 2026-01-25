@@ -3,14 +3,23 @@
   config,
   pkgs,
   lib,
+  system,
   ...
 }: let
   mkPkgs = input:
     import self.inputs.${input} {
-      system = pkgs.stdenv.hostPlatform.system;
+      inherit system;
       config.allowUnfree = true;
     };
 
+  # A customizable neovim from neovim-flake input
+  my-neovim = self.inputs.neovim-flake.neovimBuilder.${system} {
+    inherit pkgs;
+    config = {
+      config.vim = {
+      };
+    };
+  };
 
   # User nixpkgs pins
   nixpkgs-user = mkPkgs "nixpkgs-user";
@@ -126,7 +135,7 @@ in {
     mullvad-vpn
     mutt
     nap
-    self.inputs.neovim-flake.packages.${pkgs.stdenv.hostPlatform.system}.neovim
+    my-neovim
     nethogs
     ncdu
     nfs-utils
