@@ -1,0 +1,191 @@
+{pkgs, ...}: {
+  _module.args.aiCommon = rec {
+    # "$HOME/${aiHome}"
+    # ├── ${aiShare}                    <--- Content available to all agents as RW mount
+    # │   └── ${aiShareWorkspace}       <--- Agent workspace dir mounted from ${aiHomeWorkspace} below, not readable by other agents
+    # └── ${aiState}
+    #     ├── ${agentHomeName}          <--- Agent home state as RW mount; cannot RW any other agent home state
+    #     │   ├── ${aiHomeWorkspace}    <--- Agent workspace dir is mounted to ${aiShareWorkspace} above, not readable by other agents
+    #     │   └── ...
+    #     └── ...
+    aiHome = "ai";
+    aiShare = "share";
+    aiState = "state";
+    aiWorkspace = "workspace";
+
+    aiToolsCommon = {aiToolsExtra ? [], ...}:
+      pkgs.buildEnv {
+        name = "ai-tools";
+        paths = with pkgs;
+          [
+            bashInteractive
+            coreutils
+            curl
+            findutils
+            gawk
+            git
+            gnugrep
+            gnused
+            jq
+            nix
+            openssh
+            tree
+            which
+          ]
+          ++ aiToolsExtra;
+      };
+
+    mkAgent = {
+      name,
+      aiHomeWorkspace ? ".${name}-${aiWorkspace}",
+      aiShareWorkspace ? ".${name}",
+      aiTools ? aiToolsCommon {},
+      agentApi,
+      agentHomeName ? ".${name}-home",
+      agentPkg,
+      wrappedName ? "${name}-wrapped",
+      ...
+    }: let
+      agentWrapped = pkgs.writeShellApplication {
+        name = wrappedName;
+        runtimeInputs = with pkgs; [
+          agentPkg
+          coreutils
+          curl
+          getent
+        ];
+        text = ''
+          if [ -n "''${DEBUG:-}" ]; then
+            set -x
+
+            echo "Bubblewrap runtime user is:"
+            id
+
+            echo "Agent API resolution:"
+            getent hosts ${agentApi} || true
+
+            echo "IPv6 and IPv6 Agent API connectivity:"
+            curl -6 --connect-timeout 10 https://${agentApi} || echo "IPv6 failed"
+            curl -4 --connect-timeout 10 https://${agentApi} || echo "IPv4 failed"
+          fi
+
+          ${pkgs.lib.getExe agentPkg} "$@"
+        '';
+      };
+    in
+      pkgs.writeShellApplication {
+        inherit name;
+        runtimeInputs = with pkgs; [
+          bubblewrap
+        ];
+        text = ''
+          set -euo pipefail
+
+          AI_ROOT="$HOME/${aiHome}"
+          SHARE="$AI_ROOT/${aiShare}"
+          STATE="$AI_ROOT/${aiState}"
+          AGENT_HOME="$STATE/${agentHomeName}"
+          AGENT_HOME_WS="$AGENT_HOME/${aiHomeWorkspace}"
+
+          mkdir -p "$SHARE" "$AGENT_HOME"/{.config,.cache,.local/share,.local/state} "$AGENT_HOME_WS"
+
+          CACERT="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
+          CACERT_DIR="${pkgs.cacert}/etc/ssl/certs"
+
+          TOOLS="${aiTools}/bin"
+
+          args=()
+
+          # --- Namespace isolation ---
+          args+=( --unshare-user --unshare-pid --unshare-uts --unshare-cgroup )
+          args+=( --die-with-parent )
+
+          # --- Basic FS ---
+          args+=( --proc /proc )
+          args+=( --dev /dev )
+          args+=( --tmpfs /tmp )
+
+          # --- Nix store (binaries + libs) ---
+          args+=( --ro-bind /nix /nix )
+
+          # --- Minimal /etc (start empty) ---
+          args+=( --tmpfs /etc )
+          args+=( --bind-try /etc/hosts /etc/hosts )
+          args+=( --bind-try /etc/resolv.conf /etc/resolv.conf )
+          args+=( --bind-try /etc/nsswitch.conf /etc/nsswitch.conf )
+
+          # --- TLS trust store (robust) ---
+          # Provide hashed cert dir at /cacert (RO)
+          args+=( --ro-bind "$CACERT_DIR" /cacert )
+
+          # Provide common bundle file locations under /etc (writable tmpfs)
+          args+=( --dir /etc/ssl )
+          args+=( --dir /etc/ssl/certs )
+          args+=( --ro-bind "$CACERT" /etc/ssl/cert.pem )
+          args+=( --ro-bind "$CACERT" /etc/ssl/certs/ca-certificates.crt )
+
+          # RHEL-ish location some stacks probe
+          args+=( --dir /etc/pki )
+          args+=( --dir /etc/pki/tls )
+          args+=( --dir /etc/pki/tls/certs )
+          args+=( --ro-bind "$CACERT" /etc/pki/tls/certs/ca-bundle.crt )
+
+          # --- Workspace allowlist ---
+          args+=( --bind "$SHARE" "$SHARE" )
+          args+=( --chdir "$SHARE" )
+
+          # Overlay the agent home workspace into the share workspace
+          args+=( --dir "$SHARE/${aiShareWorkspace}" )
+          args+=( --bind "$AGENT_HOME_WS" "$SHARE/${aiShareWorkspace}" )
+
+          # Per-agent persistent state RW
+          args+=( --bind "$AGENT_HOME" "$AGENT_HOME" )
+
+          # --- Ensure agent home subdirs exist inside sandbox ---
+          args+=( --dir "$AGENT_HOME/.config" )
+          args+=( --dir "$AGENT_HOME/.cache" )
+          args+=( --dir "$AGENT_HOME/.local" )
+          args+=( --dir "$AGENT_HOME/.local/share" )
+          args+=( --dir "$AGENT_HOME/.local/state" )
+
+          # --- Agent tools ---
+          args+=( --setenv SHELL "${pkgs.bashInteractive}/bin/bash" )
+          args+=( --setenv PATH "$TOOLS" )
+          args+=( --symlink "${pkgs.bashInteractive}/bin/bash" /bin/sh )
+
+          # --- Agent persistent home ---
+          args+=( --setenv HOME "$AGENT_HOME" )
+          args+=( --setenv XDG_CONFIG_HOME "$AGENT_HOME/.config" )
+          args+=( --setenv XDG_CACHE_HOME  "$AGENT_HOME/.cache" )
+          args+=( --setenv XDG_DATA_HOME   "$AGENT_HOME/.local/share" )
+          args+=( --setenv XDG_STATE_HOME  "$AGENT_HOME/.local/state" )
+
+          # --- Optional: read-only git config (NO creds) ---
+          # args+=( --ro-bind-try "$HOME/.gitconfig" "$AGENT_HOME/.gitconfig" )
+          # args+=( --ro-bind-try "$HOME/.config/git" "$AGENT_HOME/.config/git" )
+
+          # --- TLS env vars ---
+          # SSL_CERT_DIR points at hashed directory; SSL_CERT_FILE at common file path
+          args+=( --setenv SSL_CERT_DIR /cacert )
+          args+=( --setenv SSL_CERT_FILE /etc/ssl/certs/ca-certificates.crt )
+          args+=( --setenv NODE_EXTRA_CA_CERTS /etc/ssl/certs/ca-certificates.crt )
+
+          # Avoid IPv6 blackhole
+          args+=( --setenv NODE_OPTIONS --dns-result-order=ipv4first )
+
+          exec bwrap "''${args[@]}" ${agentWrapped}/bin/${wrappedName} "$@"
+        '';
+      };
+  };
+
+  environment.systemPackages = with pkgs; [
+    # antigravity
+    bubblewrap
+    socat
+  ];
+
+  nixpkgs.config.allowUnfree = true;
+
+  # Required by bubblewrap in a hardened profile
+  security.unprivilegedUsernsClone = true;
+}
