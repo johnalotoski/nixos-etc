@@ -13,13 +13,7 @@
     };
 
   # A customizable neovim from neovim-flake input
-  my-neovim = self.inputs.neovim-flake.neovimBuilder.${system} {
-    inherit pkgs;
-    config = {
-      config.vim = {
-      };
-    };
-  };
+  my-neovim = self.inputs.neovim-flake.neovimBuilder.${system} {inherit pkgs;};
 
   # User nixpkgs pins
   nixpkgs-user = mkPkgs "nixpkgs-user";

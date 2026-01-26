@@ -595,11 +595,11 @@
         "zig-vim": "zig-vim"
       },
       "locked": {
-        "lastModified": 1769385106,
-        "narHash": "sha256-Qh3q+IIHIXR8tsPS+O3x553PK+m8G1H8ws4xsJIhJCw=",
+        "lastModified": 1769404258,
+        "narHash": "sha256-UnDvrN2fs4SemwG7VFyJwrMLaBU5H7hAvswP/oMIMg8=",
         "owner": "johnalotoski",
         "repo": "neovim-flake",
-        "rev": "5a9ba4a34bac22baded0b927035318b6c2fed095",
+        "rev": "b919d266a0a786104f87736e09c5f6c5d02b0f81",
         "type": "github"
       },
       "original": {
