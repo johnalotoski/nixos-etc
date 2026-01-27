@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs-latest.url = "github:NixOS/nixpkgs";
     nixpkgs-user.url = "github:NixOS/nixpkgs/nixos-25.11";
     nix.url = "github:NixOS/nix/2.32-maintenance";
 
@@ -43,6 +44,17 @@
     overlays = [localOverlay];
     baseModules = [(_: {nixpkgs.overlays = overlays;})];
 
+    mkPkgs = input:
+      import self.inputs.${input} {
+        inherit system;
+        config.allowUnfree = true;
+      };
+
+    myPkgs = {
+      pkgs-latest = mkPkgs "nixpkgs-latest";
+      pkgs-user = mkPkgs "nixpkgs-user";
+    };
+
     mkMachine = {
       name,
       buildVM ? false,
@@ -54,7 +66,7 @@
       ${name} = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
-          inherit self name system;
+          inherit self name system myPkgs;
         };
         modules =
           if isBootstrap

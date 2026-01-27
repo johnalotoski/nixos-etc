@@ -1,6 +1,6 @@
 {
-  pkgs,
   aiCommon,
+  myPkgs,
   ...
 }: let
   inherit (aiCommon) mkAgent;
@@ -18,7 +18,7 @@
   gemini-cli' = mkAgent {
     name = "gemini";
     agentApi = "generativelanguage.googleapis.com";
-    agentPkg = pkgs.gemini-cli;
+    agentPkg = myPkgs.pkgs-latest.gemini-cli;
   };
 in {
   environment.systemPackages = [

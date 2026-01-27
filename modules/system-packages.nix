@@ -4,19 +4,11 @@
   pkgs,
   lib,
   system,
+  myPkgs,
   ...
 }: let
-  mkPkgs = input:
-    import self.inputs.${input} {
-      inherit system;
-      config.allowUnfree = true;
-    };
-
   # A customizable neovim from neovim-flake input
   my-neovim = self.inputs.neovim-flake.neovimBuilder.${system} {inherit pkgs;};
-
-  # User nixpkgs pins
-  nixpkgs-user = mkPkgs "nixpkgs-user";
 in {
   nixpkgs.config.allowUnfree = true;
 
@@ -250,13 +242,13 @@ in {
     zstd
 
     # User packages which require an independent pin bump from system
-    nixpkgs-user.bluemail
-    nixpkgs-user.cointop
-    nixpkgs-user.firefox
-    nixpkgs-user.google-chrome
-    nixpkgs-user.gimp
-    nixpkgs-user.inkscape
-    nixpkgs-user.libreoffice-fresh
-    nixpkgs-user.signal-desktop
+    myPkgs.pkgs-user.bluemail
+    myPkgs.pkgs-user.cointop
+    myPkgs.pkgs-user.firefox
+    myPkgs.pkgs-user.google-chrome
+    myPkgs.pkgs-user.gimp
+    myPkgs.pkgs-user.inkscape
+    myPkgs.pkgs-user.libreoffice-fresh
+    myPkgs.pkgs-user.signal-desktop
   ];
 }

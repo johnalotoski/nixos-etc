@@ -1,6 +1,7 @@
 {
   pkgs,
   aiCommon,
+  myPkgs,
   ...
 }: let
   inherit (aiCommon) aiHome aiState aiToolsCommon mkAgent;
@@ -9,7 +10,7 @@
   # https://github.com/anthropics/claude-code/issues/1455
   claude-monitor' = pkgs.writeShellApplication {
     name = "claude-monitor";
-    runtimeInputs = with pkgs; [claude-monitor];
+    runtimeInputs = with myPkgs.pkgs-latest; [claude-monitor];
     text = ''
       AI_ROOT="$HOME/${aiHome}"
       SANDBOX_HOME="$AI_ROOT/${aiState}/.claude-home"
@@ -23,7 +24,7 @@
     name = "claude";
     aiTools = aiToolsCommon {aiToolsExtra = with pkgs; [bubblewrap socat];};
     agentApi = "api.anthropic.com";
-    agentPkg = pkgs.claude-code;
+    agentPkg = myPkgs.pkgs-latest.claude-code;
   };
 in {
   environment.systemPackages = [
