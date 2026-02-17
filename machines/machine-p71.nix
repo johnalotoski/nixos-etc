@@ -1,6 +1,9 @@
 {...}: {
   imports = [
     ../hw/hw-p71.nix
+    ../modules/ai-claude.nix
+    ../modules/ai-common.nix
+    ../modules/ai-gemini.nix
     ../modules/common.nix
     ../modules/distributed-builds.nix
     ../modules/git.nix

@@ -772,14 +772,17 @@
         "tree-sitter": "tree-sitter"
       },
       "locked": {
-        "lastModified": 1770598833,
-        "narHash": "sha256-6kRZoMEdCZ+0/C9TX/6Jyda2ZOyfVIv9EEu6KN99+H8=",
-        "path": "/home/jlotoski/ai/share/johnalotoski/nix-nvchad",
-        "type": "path"
+        "lastModified": 1770756791,
+        "narHash": "sha256-zVTcoqxy72cNJBhUr0Y1zqchVs1pkhTC2oUsaRa5+/w=",
+        "owner": "johnalotoski",
+        "repo": "nix-nvchad",
+        "rev": "a9b91b179441e518c1d49626fbb48ab6b83b418f",
+        "type": "github"
       },
       "original": {
-        "path": "/home/jlotoski/ai/share/johnalotoski/nix-nvchad",
-        "type": "path"
+        "owner": "johnalotoski",
+        "repo": "nix-nvchad",
+        "type": "github"
       }
     },
     "nixpkgs": {
@@ -1006,11 +1009,11 @@
     },
     "nixpkgs_8": {
       "locked": {
-        "lastModified": 1765311797,
-        "narHash": "sha256-mSD5Ob7a+T2RNjvPvOA1dkJHGVrNVl8ZOrAwBjKBDQo=",
+        "lastModified": 1771208521,
+        "narHash": "sha256-X01Q3DgSpjeBpapoGA4rzKOn25qdKxbPnxHeMLNoHTU=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "09eb77e94fa25202af8f3e81ddc7353d9970ac1b",
+        "rev": "fa56d7d6de78f5a7f997b0ea2bc6efd5868ad9e8",
         "type": "github"
       },
       "original": {

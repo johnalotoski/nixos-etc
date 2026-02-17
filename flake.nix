@@ -13,8 +13,8 @@
       url = "github:johnalotoski/neovim-flake/customize";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # nix-nvchad.url = "github:johnalotoski/nix-nvchad";
-    nix-nvchad.url = "path:/home/jlotoski/ai/share/johnalotoski/nix-nvchad";
+    nix-nvchad.url = "github:johnalotoski/nix-nvchad";
+    # nix-nvchad.url = "path:/home/jlotoski/ai/share/johnalotoski/nix-nvchad";
     neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
 
     sshm.url = "github:johnalotoski/sshm";
