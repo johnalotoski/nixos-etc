@@ -18,7 +18,7 @@
   gemini-cli' = mkAgent {
     name = "gemini";
     agentApi = "generativelanguage.googleapis.com";
-    agentPkg = myPkgs.pkgs-latest.gemini-cli;
+    agentPkg = myPkgs.pkgs-ai.gemini-cli;
   };
 in {
   environment.systemPackages = [

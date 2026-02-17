@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs-ai.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs-latest.url = "github:NixOS/nixpkgs";
     nixpkgs-user.url = "github:NixOS/nixpkgs/nixos-25.11";
     nix.url = "github:NixOS/nix/2.32-maintenance";
@@ -12,8 +13,11 @@
       url = "github:johnalotoski/neovim-flake/customize";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # nix-nvchad.url = "github:johnalotoski/nix-nvchad";
+    nix-nvchad.url = "path:/home/jlotoski/ai/share/johnalotoski/nix-nvchad";
+    neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
 
-    # sshm = "github:johnalotoski/sshm";
+    sshm.url = "github:johnalotoski/sshm";
 
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
@@ -51,6 +55,7 @@
       };
 
     myPkgs = {
+      pkgs-ai = mkPkgs "nixpkgs-ai";
       pkgs-latest = mkPkgs "nixpkgs-latest";
       pkgs-user = mkPkgs "nixpkgs-user";
     };

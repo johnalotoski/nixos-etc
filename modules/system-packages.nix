@@ -7,8 +7,16 @@
   myPkgs,
   ...
 }: let
-  # A customizable neovim from neovim-flake input
   my-neovim = self.inputs.neovim-flake.neovimBuilder.${system} {inherit pkgs;};
+  nix-nvchad = self.inputs.nix-nvchad.lib.mkNixNvchad {
+    inherit pkgs;
+    modules = [
+      {
+        # Options here:
+        # grammars = [...];
+      }
+    ];
+  };
 in {
   nixpkgs.config.allowUnfree = true;
 
@@ -132,6 +140,7 @@ in {
     nix-du
     nix-eval-jobs
     nix-fast-build
+    nix-nvchad
     nix-output-monitor
     nix-top
     nixos-container
@@ -158,6 +167,7 @@ in {
     postgresql
     podman
     ps_mem
+    pv
     pwgen
     python3
     python3Packages.black
@@ -188,7 +198,7 @@ in {
     sqlitebrowser
     ssh-to-age
     ssh-to-pgp
-    # self.inputs.sshm.packages.${pkgs.system}.sshm
+    self.inputs.sshm.packages.${pkgs.stdenv.hostPlatform.system}.sshm
     step-cli
     sublime3
     summon

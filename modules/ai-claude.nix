@@ -10,7 +10,7 @@
   # https://github.com/anthropics/claude-code/issues/1455
   claude-monitor' = pkgs.writeShellApplication {
     name = "claude-monitor";
-    runtimeInputs = with myPkgs.pkgs-latest; [claude-monitor];
+    runtimeInputs = with myPkgs.pkgs-ai; [claude-monitor];
     text = ''
       AI_ROOT="$HOME/${aiHome}"
       SANDBOX_HOME="$AI_ROOT/${aiState}/.claude-home"
@@ -24,7 +24,7 @@
     name = "claude";
     aiTools = aiToolsCommon {aiToolsExtra = with pkgs; [bubblewrap socat];};
     agentApi = "api.anthropic.com";
-    agentPkg = myPkgs.pkgs-latest.claude-code;
+    agentPkg = myPkgs.pkgs-ai.claude-code;
   };
 in {
   environment.systemPackages = [
