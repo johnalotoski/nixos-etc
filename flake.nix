@@ -33,6 +33,8 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    cardano-scope.url = "git+ssh://git@github.com/johnalotoski/cardano-scope";
   };
 
   outputs = {

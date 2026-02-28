@@ -7,6 +7,7 @@
   myPkgs,
   ...
 }: let
+  cardano-scope = self.inputs.cardano-scope.packages.${system}.default;
   my-neovim = self.inputs.neovim-flake.neovimBuilder.${system} {inherit pkgs;};
   nix-nvchad = self.inputs.nix-nvchad.lib.mkNixNvchad {
     inherit pkgs;
@@ -50,6 +51,7 @@ in {
     btop
     bwm_ng
     cachix
+    cardano-scope
     ccache
     cfssl
     crane
@@ -107,6 +109,7 @@ in {
     jid
     jiq
     jq
+    (pkgs.callPackage ../pkgs/jumpcloud.nix {})
     kdePackages.kate
     kdePackages.kolourpaint
     kdePackages.ksystemlog
