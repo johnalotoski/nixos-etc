@@ -117,6 +117,7 @@ in {
     ledger-live-desktop
     ledger-udev-rules
     lm_sensors
+    lnav
     lsof
     lsd
     manix
