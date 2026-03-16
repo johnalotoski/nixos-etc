@@ -2,8 +2,7 @@
   config,
   lib,
   ...
-}:
-{
+}: {
   services.hylafax = {
     enable = true;
     countryCode = "1";
