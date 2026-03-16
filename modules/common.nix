@@ -13,124 +13,190 @@ with pkgs; {
     {programs.nix-index-database.comma.enable = true;}
   ];
 
-  boot = {
-    binfmt.emulatedSystems = ["aarch64-linux" "armv7l-linux"];
+  options = {
+    services.tunnelbroker.enable = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Eanble tunnel broken ipv6 over ipv4 service.";
+    };
+  };
 
-    extraModprobeConfig = ''
-      options kvm_intel nested=1
-      options kvm_intel emulate_invalid_guest_state=0
-      options kvm ignore_msrs=1
-    '';
+  config = let
+    prgCfg = config.programs;
+    svcCfg = config.services;
 
-    kernelModules = ["kvm-intel"];
+    avahiPort = "5353";
+    cupsPort = head (reverseList (split ":" (head svcCfg.printing.listenAddresses)));
+    eternalPort = toString svcCfg.eternal-terminal.port;
+    moshPort = "6000-61000";
+    sshPort = toString (head svcCfg.openssh.ports);
 
-    kernelParams = [
-      "zfs.zfs_arc_max=${toString (1024 * 1024 * 1024 * 10)}"
-    ];
+    hasAvahi = svcCfg.avahi.enable;
+    hasCups = svcCfg.printing.enable;
+    hasEternal = svcCfg.eternal-terminal.enable;
+    hasMosh = prgCfg.mosh.enable;
+    hasSsh = svcCfg.openssh.enable;
+    hasTunnelBroker = svcCfg.tunnelbroker.enable;
+  in {
+    boot = {
+      binfmt.emulatedSystems = ["aarch64-linux" "armv7l-linux"];
 
-    loader = {
-      grub = {
-        enable = true;
-        efiSupport = true;
-        efiInstallAsRemovable = true;
-        devices = ["nodev"];
-        gfxmodeEfi = "1280x1024";
-        memtest86.enable = true;
+      extraModprobeConfig = ''
+        options kvm_intel nested=1
+        options kvm_intel emulate_invalid_guest_state=0
+        options kvm ignore_msrs=1
+      '';
+
+      kernelModules = ["kvm-intel"];
+
+      kernelParams = [
+        "zfs.zfs_arc_max=${toString (1024 * 1024 * 1024 * 10)}"
+      ];
+
+      loader = {
+        grub = {
+          enable = true;
+          efiSupport = true;
+          efiInstallAsRemovable = true;
+          devices = ["nodev"];
+          gfxmodeEfi = "1280x1024";
+          memtest86.enable = true;
+        };
+
+        systemd-boot.enable = false;
       };
 
-      systemd-boot.enable = false;
+      supportedFilesystems = ["zfs"];
     };
 
-    supportedFilesystems = ["zfs"];
-  };
-
-  console = {
-    font = "Lat2-Terminus16";
-    keyMap = "us";
-  };
-
-  hardware = {
-    bluetooth.enable = true;
-    cpu.intel.updateMicrocode = true;
-    enableRedistributableFirmware = true;
-
-    sane = {
-      enable = true;
-      dsseries.enable = true;
-      extraBackends = [sane-airscan];
-    };
-  };
-
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  networking = {
-    firewall = {
-      allowedTCPPorts =
-        optional config.services.printing.enable (toInt (head (reverseList (split ":" (head config.services.printing.listenAddresses)))))
-        ++ optional config.services.eternal-terminal.enable config.services.eternal-terminal.port;
+    console = {
+      font = "Lat2-Terminus16";
+      keyMap = "us";
     };
 
-    # The nat external interface will be set explicitly in the machine-$MACHINE.nix file
-    nat = {
-      enable = true;
-      internalInterfaces = ["ve-+"];
+    hardware = {
+      bluetooth.enable = true;
+      cpu.intel.updateMicrocode = true;
+      enableRedistributableFirmware = true;
+
+      sane = {
+        enable = true;
+        dsseries.enable = true;
+        extraBackends = [sane-airscan];
+      };
     };
 
-    networkmanager.dns = "systemd-resolved";
-    networkmanager.enable = true;
+    i18n.defaultLocale = "en_US.UTF-8";
 
-    useDHCP = false;
-  };
+    networking = let
+      inherit (self.inputs.nixos-private.data) tunnelbroker;
+    in {
+      enableIPv6 = true;
+      nftables.enable = true;
 
-  nix = {
-    package = self.inputs.nix.packages.${pkgs.stdenv.hostPlatform.system}.nix;
+      firewall = {
+        enable = true;
 
-    settings = {
-      builders-use-substitutes = true;
+        # Only allow ping on ipv4 with the rules below
+        allowPing = false;
 
-      extra-sandbox-paths = [
-        config.programs.ccache.cacheDir
-        "/etc/skopeo/auth.json=/etc/nix/skopeo/auth.json"
-      ];
+        extraInputRules = ''
+          # Avoid opening ipv6 ports as these are not behind a router with tunnel broker
+          ${optionalString hasAvahi "ip saddr 192.168.0.0/16 udp dport ${avahiPort} accept"}
+          ${optionalString hasCups "ip saddr 192.168.0.0/16 tcp dport ${cupsPort} accept"}
+          ${optionalString hasEternal "ip protocol tcp tcp dport ${eternalPort} accept"}
+          ${optionalString hasMosh "ip protocol udp udp dport ${moshPort} accept"}
+          ${optionalString hasSsh "ip protocol tcp tcp dport ${sshPort} accept"}
+          ip protocol icmp icmp type echo-request accept
 
-      # Fallback to source builds for failing cache paths
-      fallback = true;
-      max-jobs = 12;
+          ${optionalString hasTunnelBroker "ip protocol 41 accept"}
+          ${optionalString hasTunnelBroker "iifname \"tunnelbroker\" drop"}
+        '';
+      };
 
-      substituters = [
-        "https://cache.iog.io"
-        "https://cache.nixos.org/"
-      ];
+      # The nat external interface will be set explicitly in the machine-$MACHINE.nix file
+      nat = {
+        enable = true;
+        internalInterfaces = ["ve-+"];
+      };
 
-      trusted-public-keys = [
-        "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
-        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-      ];
+      networkmanager.dns = "systemd-resolved";
+      networkmanager.enable = true;
 
-      trusted-users = ["builder" "jlotoski" "root"];
+      # The router doesn't accept protocol 41 via regular fw rules, so using
+      # this will require temporary dmz status.
+      sits.tunnelbroker = mkIf hasTunnelBroker {
+        remote = tunnelbroker.serverIpv4;
+        ttl = 255;
+      };
+
+      interfaces.tunnelbroker = mkIf hasTunnelBroker {
+        ipv6.addresses = [
+          {
+            address = tunnelbroker.clientIpv6;
+            prefixLength = 64;
+          }
+        ];
+      };
+
+      defaultGateway6 = mkIf hasTunnelBroker {
+        address = tunnelbroker.serverIpv6;
+        interface = "tunnelbroker";
+      };
+
+      useDHCP = false;
     };
 
-    extraOptions = ''
-      netrc-file = /etc/nix/netrc
-      experimental-features = nix-command flakes fetch-closure auto-allocate-uids ca-derivations
-      auto-allocate-uids = false
-    '';
-  };
+    nix = {
+      package = self.inputs.nix.packages.${pkgs.stdenv.hostPlatform.system}.nix;
 
-  system = {
-    nixos.tags = ["kde"];
-    rebuild.enableNg = true;
-  };
+      settings = {
+        builders-use-substitutes = true;
 
-  time.timeZone = "America/Chicago";
+        extra-sandbox-paths = [
+          config.programs.ccache.cacheDir
+          "/etc/skopeo/auth.json=/etc/nix/skopeo/auth.json"
+        ];
 
-  virtualisation = {
-    docker.enable = true;
-    libvirtd.enable = true;
+        # Fallback to source builds for failing cache paths
+        fallback = true;
+        max-jobs = 12;
 
-    virtualbox.host = {
-      enable = true;
-      enableExtensionPack = true;
+        substituters = [
+          "https://cache.iog.io"
+          "https://cache.nixos.org/"
+        ];
+
+        trusted-public-keys = [
+          "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
+          "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+        ];
+
+        trusted-users = ["builder" "jlotoski" "root"];
+      };
+
+      extraOptions = ''
+        netrc-file = /etc/nix/netrc
+        experimental-features = nix-command flakes fetch-closure auto-allocate-uids ca-derivations
+        auto-allocate-uids = false
+      '';
+    };
+
+    system = {
+      nixos.tags = ["kde"];
+      rebuild.enableNg = true;
+    };
+
+    time.timeZone = "America/Chicago";
+
+    virtualisation = {
+      docker.enable = true;
+      libvirtd.enable = true;
+
+      virtualbox.host = {
+        enable = true;
+        enableExtensionPack = true;
+      };
     };
   };
 }

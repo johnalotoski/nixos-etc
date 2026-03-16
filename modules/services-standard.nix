@@ -20,7 +20,12 @@ with lib; {
 
     git-worktree-switcher.enable = true;
 
-    mosh.enable = true;
+    mosh = {
+      enable = true;
+
+      # Handle the firewall in the common firewall rules and exclude ipv6
+      openFirewall = false;
+    };
 
     ssh.extraConfig = ''
       Host *
@@ -46,7 +51,10 @@ with lib; {
     avahi = {
       enable = true;
       nssmdns4 = true;
-      openFirewall = true;
+
+      # Handle the firewall in the common firewall rules and exclude ipv6
+      ipv6 = false;
+      openFirewall = false;
     };
 
     clamav = {
@@ -78,7 +86,7 @@ with lib; {
 
     openssh = {
       enable = true;
-
+      openFirewall = false;
       settings = {
         PasswordAuthentication = false;
         PermitRootLogin = "no";

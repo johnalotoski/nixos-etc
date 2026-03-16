@@ -54,15 +54,16 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1771789328,
-        "narHash": "sha256-KZY4MSBDyMZ25BArCdKxRV86wDigzDrJJVUYsY6sJs8=",
-        "ref": "refs/heads/main",
-        "rev": "bf5e837d99271418846965d6fc8fc816c15269a7",
-        "revCount": 131,
+        "lastModified": 1773668247,
+        "narHash": "sha256-i8ByI7jOOdgmts7Ex+HNfvaDxSzIra+xo/7CnDN9WUo=",
+        "ref": "refs/heads/jl/fork-check",
+        "rev": "294bdcc36cf248002d1d49ccd0e47ddf38ab77bc",
+        "revCount": 195,
         "type": "git",
         "url": "ssh://git@github.com/johnalotoski/cardano-scope"
       },
       "original": {
+        "ref": "refs/heads/jl/fork-check",
         "type": "git",
         "url": "ssh://git@github.com/johnalotoski/cardano-scope"
       }
@@ -872,6 +873,21 @@
         "type": "github"
       }
     },
+    "nixos-private": {
+      "locked": {
+        "lastModified": 1773701312,
+        "narHash": "sha256-1Br6R1AOEe7otRUktDryY3S5jteNgjcJMdGGE2doLaw=",
+        "ref": "refs/heads/main",
+        "rev": "d8ae447b2e67b9b96a0ccfe6004a0214ab7ce9c2",
+        "revCount": 1,
+        "type": "git",
+        "url": "ssh://git@github.com/johnalotoski/nixos-private"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/johnalotoski/nixos-private"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1769318308,
@@ -1474,6 +1490,7 @@
         "nix": "nix",
         "nix-index-database": "nix-index-database",
         "nix-nvchad": "nix-nvchad",
+        "nixos-private": "nixos-private",
         "nixpkgs": "nixpkgs_9",
         "nixpkgs-ai": "nixpkgs-ai",
         "nixpkgs-latest": "nixpkgs-latest",

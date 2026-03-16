@@ -17,7 +17,10 @@
     ../modules/yubikey.nix
   ];
 
-  services.xserver.videoDrivers = ["nvidia"];
+  services = {
+    tunnelbroker.enable = true;
+    xserver.videoDrivers = ["nvidia"];
+  };
 
   networking = {
     hostId = "35c02924";
