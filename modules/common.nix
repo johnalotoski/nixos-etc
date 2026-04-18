@@ -47,7 +47,8 @@ with pkgs; {
         options kvm ignore_msrs=1
       '';
 
-      kernelModules = ["kvm-intel"];
+      # Dummy is for a dummy nic
+      kernelModules = ["dummy" "kvm-intel"];
 
       kernelParams = [
         "zfs.zfs_arc_max=${toString (1024 * 1024 * 1024 * 10)}"
@@ -73,6 +74,9 @@ with pkgs; {
       font = "Lat2-Terminus16";
       keyMap = "us";
     };
+
+    # For virtualisation when a fake interface is required for safety
+    environment.variables.HOST_INTERFACE = "dummy0";
 
     hardware = {
       bluetooth.enable = true;
@@ -183,8 +187,24 @@ with pkgs; {
     };
 
     system = {
+      activationScripts.binbash = "ln -sf ${pkgs.bashInteractive}/bin/bash /bin/bash";
       nixos.tags = ["kde"];
       rebuild.enableNg = true;
+    };
+
+    systemd.services.dummy-interface = {
+      description = "Create dummy0 network interface";
+      after = ["network-online.target"];
+      wants = ["network-online.target"];
+      wantedBy = ["multi-user.target"];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        ExecStart = pkgs.writeShellScript "dummy-interface-up" ''
+          ${pkgs.iproute2}/bin/ip link add dummy0 type dummy 2>/dev/null || true
+          ${pkgs.iproute2}/bin/ip link set dummy0 up
+        '';
+      };
     };
 
     time.timeZone = "America/Chicago";

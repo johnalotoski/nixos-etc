@@ -87,6 +87,7 @@ in {
     glances
     gnumake
     gnupg
+    gnutar
     gopass
     gpgme.dev
     gptfdisk
@@ -103,6 +104,7 @@ in {
     iftop
     ijq
     inotify-tools
+    iproute2
     iotop
     iw
     jc
@@ -168,7 +170,7 @@ in {
     pdftk
     pdfchain
     pinentry-all
-    postgresql
+    # postgresql
     podman
     ps_mem
     pv
@@ -246,7 +248,7 @@ in {
     xxd
     yazi
     ydiff
-    yq
+    yq-go
     yubico-piv-tool
     yubikey-manager
     yubioath-flutter

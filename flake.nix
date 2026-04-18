@@ -6,7 +6,7 @@
     nixpkgs-ai.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs-latest.url = "github:NixOS/nixpkgs";
     nixpkgs-user.url = "github:NixOS/nixpkgs/nixos-25.11";
-    nix.url = "github:NixOS/nix/2.32-maintenance";
+    nix.url = "github:NixOS/nix/2.34-maintenance";
     nixos-private.url = "git+ssh://git@github.com/johnalotoski/nixos-private";
 
     capkgs.url = "github:input-output-hk/capkgs";
@@ -35,7 +35,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    cardano-scope.url = "git+ssh://git@github.com/johnalotoski/cardano-scope?ref=refs/heads/jl/fork-check";
+    cardano-scope.url = "git+ssh://git@github.com/johnalotoski/cardano-scope";
   };
 
   outputs = {
