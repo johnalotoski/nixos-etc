@@ -9,7 +9,7 @@
   #
   # Authentication: set OPENAI_API_KEY in your environment before running.
   #   read -s OPENAI_API_KEY; export OPENAI_API_KEY
-  # The key passes through the sandbox (bwrap does not --clearenv) and is
+  # The key is passed into the sandbox if set in the calling environment and is
   # cached in the agent state directory for subsequent runs.
   #
   # Internal sandbox note: codex ships its own codex-linux-sandbox binary for
@@ -21,6 +21,7 @@
   codex' = mkAgent {
     name = "codex";
     agentApi = "api.openai.com";
+    agentEnvVars = ["OPENAI_API_KEY"];
     agentPkg = myPkgs.pkgs-ai.codex;
   };
 in {

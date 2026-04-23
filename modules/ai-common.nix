@@ -29,6 +29,7 @@
             jq
             nix
             openssh
+            ripgrep
             tree
             which
           ]
@@ -41,6 +42,7 @@
       aiShareWorkspace ? ".${name}",
       aiTools ? aiToolsCommon {},
       agentApi,
+      agentEnvVars ? [],
       agentHomeName ? ".${name}-home",
       agentPkg,
       wrappedName ? "${name}-wrapped",
@@ -87,7 +89,7 @@
           AGENT_HOME="$STATE/${agentHomeName}"
           AGENT_HOME_WS="$AGENT_HOME/${aiHomeWorkspace}"
 
-          mkdir -p "$SHARE" "$AGENT_HOME"/{.config,.cache,.local/share,.local/state} "$AGENT_HOME_WS"
+          mkdir -p "$SHARE" "$AGENT_HOME"/{.config,.cache,.local/share,.local/state,.config/nix} "$AGENT_HOME_WS"
 
           CACERT="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
           CACERT_DIR="${pkgs.cacert}/etc/ssl/certs"
@@ -95,6 +97,9 @@
           TOOLS="${aiTools}/bin"
 
           args=()
+
+          # --- Clear inherited environment (all vars must be explicit below) ---
+          args+=( --clearenv )
 
           # --- Namespace isolation ---
           args+=( --unshare-user --unshare-pid --unshare-uts --unshare-cgroup )
@@ -161,8 +166,15 @@
           args+=( --setenv XDG_STATE_HOME  "$AGENT_HOME/.local/state" )
 
           # --- Optional: read-only git config (NO creds) ---
+          # Enables commit authorship inside the sandbox. Ensure your gitconfig
+          # does not embed credentials (use credential helpers instead).
           # args+=( --ro-bind-try "$HOME/.gitconfig" "$AGENT_HOME/.gitconfig" )
           # args+=( --ro-bind-try "$HOME/.config/git" "$AGENT_HOME/.config/git" )
+
+          # --- Nix config ---
+          # netrc left out intentionally: clone from outside the sandbox and push manually.
+          # args+=( --ro-bind-try /etc/nix/netrc "$AGENT_HOME/.config/nix/netrc" )
+          args+=( --ro-bind-try /etc/nix/nix.conf "$AGENT_HOME/.config/nix/nix.conf" )
 
           # --- TLS env vars ---
           # SSL_CERT_DIR points at hashed directory; SSL_CERT_FILE at common file path
@@ -172,6 +184,25 @@
 
           # Avoid IPv6 blackhole
           args+=( --setenv NODE_OPTIONS --dns-result-order=ipv4first )
+
+          # Terminal type for curses/TUI apps
+          args+=( --setenv TERM "''${TERM:-xterm-256color}" )
+
+          # --- Identity (needed by git, ssh, and various tools) ---
+          [ -n "''${USER:-}" ]    && args+=( --setenv USER    "''${USER}" )
+          [ -n "''${LOGNAME:-}" ] && args+=( --setenv LOGNAME "''${LOGNAME}" )
+
+          # --- Optional secrets passthrough ---
+          [ -n "''${GITHUB_PERSONAL_ACCESS_TOKEN:-}" ] && args+=( --setenv GITHUB_PERSONAL_ACCESS_TOKEN "''${GITHUB_PERSONAL_ACCESS_TOKEN}" )
+          [ -z "''${GITHUB_PERSONAL_ACCESS_TOKEN:-}" ] && [ -n "''${GITHUB_TOKEN:-}" ] && args+=( --setenv GITHUB_PERSONAL_ACCESS_TOKEN "''${GITHUB_TOKEN}" )
+
+          # --- Per-agent API key passthrough ---
+          ${pkgs.lib.concatMapStrings (varName: ''
+          [ -n "''${${varName}:-}" ] && args+=( --setenv ${varName} "''${${varName}}" )
+          '') agentEnvVars}
+
+          # Locale support
+          args+=( --setenv LOCALE_ARCHIVE "${pkgs.glibcLocales}/lib/locale/locale-archive" )
 
           exec bwrap "''${args[@]}" ${agentWrapped}/bin/${wrappedName} "$@"
         '';

@@ -2,6 +2,7 @@
   imports = [
     ../hw/hw-serval.nix
     ../modules/ai-claude.nix
+    ../modules/ai-codex.nix
     ../modules/ai-common.nix
     ../modules/ai-gemini.nix
     ../modules/blacklist-dvb.nix

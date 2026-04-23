@@ -14,10 +14,13 @@
   # This will cache the credentials in the agent state dir and be used within the sandbox.
   # The gemini-cli debug panel will inform that system keychain is unavailable, which is due to bubblewrap sandboxing.
   #
+  # Set GEMINI_API_KEY in your shell profile and it will be passed into the sandbox.
+  #
   # Extending the sandboxing to allow browser sessions, dbus, security keychain access, etc, is not preferred.
   gemini-cli' = mkAgent {
     name = "gemini";
     agentApi = "generativelanguage.googleapis.com";
+    agentEnvVars = ["GEMINI_API_KEY"];
     agentPkg = myPkgs.pkgs-ai.gemini-cli;
   };
 in {
