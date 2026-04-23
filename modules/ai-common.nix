@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   _module.args.aiCommon = rec {
     # "$HOME/${aiHome}"
     # ├── ${aiShare}                    <--- Content available to all agents as RW mount
@@ -16,8 +20,8 @@
     aiToolsCommon = {aiToolsExtra ? [], ...}:
       pkgs.buildEnv {
         name = "ai-tools";
-        paths = with pkgs;
-          [
+        paths =
+          (with pkgs; [
             bashInteractive
             coreutils
             curl
@@ -27,12 +31,12 @@
             gnugrep
             gnused
             jq
-            nix
             openssh
             ripgrep
             tree
             which
-          ]
+          ])
+          ++ [config.nix.package]
           ++ aiToolsExtra;
       };
 
