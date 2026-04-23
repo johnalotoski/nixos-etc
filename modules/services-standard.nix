@@ -8,7 +8,7 @@ with lib; {
   programs = {
     bat = {
       enable = true;
-      extraPackages = filter pkgs.lib.isDerivation (map (pkg: pkgs.bat-extras.${pkg}) (attrNames pkgs.bat-extras));
+      extraPackages = [pkgs.bat-extras.core];
     };
 
     ccache = {

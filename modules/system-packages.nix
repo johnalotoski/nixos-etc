@@ -44,7 +44,6 @@ in {
     alejandra
     aria2
     binutils
-    (pkgs.callPackage ../pkgs/bluemail.nix {})
     borgbackup
     brave
     bridge-utils
@@ -150,8 +149,6 @@ in {
     nix-output-monitor
     nix-top
     nixos-container
-    nixos-option
-    nixos-rebuild-ng
     nix-tree
     nixfmt-rfc-style
     nmap
@@ -160,6 +157,7 @@ in {
     nvtopPackages.full
     nushell
     obs-studio
+    ocrmypdf
     openssl
     pkg-config
     paperkey
@@ -199,7 +197,6 @@ in {
     socat
     sops
     speed-cloudflare-cli
-    sqlite
     sqlite-interactive
     sqlitebrowser
     ssh-to-age
