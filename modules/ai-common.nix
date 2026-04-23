@@ -193,8 +193,14 @@
           [ -n "''${LOGNAME:-}" ] && args+=( --setenv LOGNAME "''${LOGNAME}" )
 
           # --- Optional secrets passthrough ---
-          [ -n "''${GITHUB_PERSONAL_ACCESS_TOKEN:-}" ] && args+=( --setenv GITHUB_PERSONAL_ACCESS_TOKEN "''${GITHUB_PERSONAL_ACCESS_TOKEN}" )
-          [ -z "''${GITHUB_PERSONAL_ACCESS_TOKEN:-}" ] && [ -n "''${GITHUB_TOKEN:-}" ] && args+=( --setenv GITHUB_PERSONAL_ACCESS_TOKEN "''${GITHUB_TOKEN}" )
+          github_token_in_use=0
+          [ -n "''${GITHUB_PERSONAL_ACCESS_TOKEN:-}" ] && github_token_in_use=1 && args+=( --setenv GITHUB_PERSONAL_ACCESS_TOKEN "''${GITHUB_PERSONAL_ACCESS_TOKEN}" )
+          [ -z "''${GITHUB_PERSONAL_ACCESS_TOKEN:-}" ] && [ -n "''${GITHUB_TOKEN:-}" ] && github_token_in_use=1 && args+=( --setenv GITHUB_PERSONAL_ACCESS_TOKEN "''${GITHUB_TOKEN}" )
+
+          if [ "$github_token_in_use" -eq 1 ]; then
+            echo "Warning: a GitHub token is being passed into the AI bubblewrap container as GITHUB_PERSONAL_ACCESS_TOKEN." >&2
+            sleep 3
+          fi
 
           # --- Per-agent API key passthrough ---
           ${pkgs.lib.concatMapStrings (varName: ''
