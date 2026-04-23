@@ -4,7 +4,6 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-ai.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nixpkgs-latest.url = "github:NixOS/nixpkgs";
     nixpkgs-user.url = "github:NixOS/nixpkgs/nixos-25.11";
     nix.url = "github:NixOS/nix/2.34-maintenance";
     nixos-private.url = "git+ssh://git@github.com/johnalotoski/nixos-private";
@@ -18,7 +17,10 @@
     # nix-nvchad.url = "path:/home/jlotoski/ai/share/johnalotoski/nix-nvchad";
     neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
 
-    sshm.url = "github:johnalotoski/sshm";
+    sshm = {
+      url = "github:johnalotoski/sshm";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
@@ -35,7 +37,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    cardano-scope.url = "git+ssh://git@github.com/johnalotoski/cardano-scope";
+    cardano-scope = {
+      url = "git+ssh://git@github.com/johnalotoski/cardano-scope";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -59,7 +64,6 @@
 
     myPkgs = {
       pkgs-ai = mkPkgs "nixpkgs-ai";
-      pkgs-latest = mkPkgs "nixpkgs-latest";
       pkgs-user = mkPkgs "nixpkgs-user";
     };
 
@@ -95,17 +99,17 @@
       # Machine VMs for testing: `nixos-rebuild build-vm [-L] [-v] [--flake .#$MACHINE]`
       (mkMachine {
         name = "nixos-g76-vm";
-        buildVm = true;
+        buildVM = true;
       })
 
       (mkMachine {
         name = "nixos-p71-vm";
-        buildVm = true;
+        buildVM = true;
       })
 
       (mkMachine {
         name = "nixos-serval-vm";
-        buildVm = true;
+        buildVM = true;
       })
 
       # Machine ISOs for bootstrap `nix build [-L] [-v] .#nixosConfigurations.$ISO.config.system.build.isoImage`
