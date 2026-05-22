@@ -17,6 +17,59 @@
     aiState = "state";
     aiWorkspace = "workspace";
 
+    # Wrapped nix package that blocks GC operations inside the sandbox.
+    # GC requests go to the host daemon which operates on the entire host
+    # store — safe from a root-visibility standpoint (daemon sees all roots),
+    # but an accidental `nix-collect-garbage -d` would delete the host user's
+    # profile generations and could GC store paths the host still wants.
+    nixSandboxed = let
+      nix = config.nix.package;
+
+      wrapperNix = pkgs.writeShellScriptBin "nix" ''
+        case "''${1:-}" in
+          store)
+            case "''${2:-}" in
+              gc|delete)
+                echo "ERROR: 'nix store ''${2}' is blocked inside the AI sandbox." >&2
+                exit 1
+                ;;
+            esac
+            ;;
+          collect-garbage)
+            echo "ERROR: 'nix collect-garbage' is blocked inside the AI sandbox." >&2
+            exit 1
+            ;;
+        esac
+        exec ${nix}/bin/nix "$@"
+      '';
+
+      wrapperCollectGarbage = pkgs.writeShellScriptBin "nix-collect-garbage" ''
+        echo "ERROR: nix-collect-garbage is blocked inside the AI sandbox." >&2
+        exit 1
+      '';
+
+      wrapperNixStore = pkgs.writeShellScriptBin "nix-store" ''
+        for arg in "$@"; do
+          case "$arg" in
+            --gc|--delete)
+              echo "ERROR: 'nix-store $arg' is blocked inside the AI sandbox." >&2
+              exit 1
+              ;;
+          esac
+        done
+        exec ${nix}/bin/nix-store "$@"
+      '';
+    in
+      pkgs.symlinkJoin {
+        name = "nix-sandboxed";
+        paths = [
+          wrapperNix
+          wrapperCollectGarbage
+          wrapperNixStore
+          nix
+        ];
+      };
+
     aiToolsCommon = {aiToolsExtra ? [], ...}:
       pkgs.buildEnv {
         name = "ai-tools";
@@ -36,7 +89,7 @@
             tree
             which
           ])
-          ++ [config.nix.package]
+          ++ [nixSandboxed]
           ++ aiToolsExtra;
       };
 
@@ -213,6 +266,11 @@
 
           # Locale support
           args+=( --setenv LOCALE_ARCHIVE "${pkgs.glibcLocales}/lib/locale/locale-archive" )
+
+          if [ "''${1:-}" = "--bash" ]; then
+            shift
+            exec bwrap "''${args[@]}" ${pkgs.bashInteractive}/bin/bash "$@"
+          fi
 
           exec bwrap "''${args[@]}" ${agentWrapped}/bin/${wrappedName} "$@"
         '';
