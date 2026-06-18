@@ -106,6 +106,7 @@
 
     # Worktrees
     wta = "!wta(){ git worktree add -b \"$1\" ../\"$1\" \"$2\"; }; wta"
+    wtas = "!wtas(){ git worktree add -b \"$1\" ../\"$1\" origin/\"$1\"; }; wtas"
 
   [format]
     pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
