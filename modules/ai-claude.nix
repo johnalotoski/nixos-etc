@@ -44,7 +44,7 @@
     };
     agentApi = "api.anthropic.com";
     agentEnvVars = ["ANTHROPIC_API_KEY"];
-    agentPkg = myPkgs.pkgs-ai.claude-code;
+    agentPkg = myPkgs.pkgs-llm.claude-code;
   };
 in {
   environment.systemPackages = [

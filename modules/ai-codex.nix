@@ -22,7 +22,7 @@
     name = "codex";
     agentApi = "api.openai.com";
     agentEnvVars = ["OPENAI_API_KEY"];
-    agentPkg = myPkgs.pkgs-ai.codex;
+    agentPkg = myPkgs.pkgs-llm.codex;
   };
 in {
   environment.systemPackages = [

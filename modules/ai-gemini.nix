@@ -21,7 +21,7 @@
     name = "gemini";
     agentApi = "generativelanguage.googleapis.com";
     agentEnvVars = ["GEMINI_API_KEY"];
-    agentPkg = myPkgs.pkgs-ai.gemini-cli;
+    agentPkg = myPkgs.pkgs-llm.gemini-cli;
   };
 in {
   environment.systemPackages = [
