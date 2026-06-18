@@ -41,6 +41,8 @@
       url = "git+ssh://git@github.com/johnalotoski/cardano-scope";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    llm-agents.url = "github:numtide/llm-agents.nix";
   };
 
   outputs = {
@@ -65,6 +67,7 @@
     myPkgs = {
       pkgs-ai = mkPkgs "nixpkgs-ai";
       pkgs-user = mkPkgs "nixpkgs-user";
+      pkgs-llm = self.inputs.llm-agents.packages.${system};
     };
 
     mkMachine = {
