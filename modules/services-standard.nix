@@ -5,6 +5,12 @@
 }:
 with builtins;
 with lib; {
+  # Hint Electron/Chromium apps (Slack, Zoom, Brave, jumpcloud, ...) to run
+  # natively on Wayland instead of XWayland. Note: native-Wayland windows are
+  # not reachable by xdotool/XTEST, so use the ydotool typing backend for tools
+  # that inject keystrokes (e.g. Handy dictation).
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
   programs = {
     bat = {
       enable = true;
@@ -36,6 +42,8 @@ with lib; {
     wavemon.enable = true;
 
     xwayland.enable = true;
+
+    ydotool.enable = true;
 
     zoxide.enable = true;
   };

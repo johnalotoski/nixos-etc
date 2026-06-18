@@ -8,6 +8,8 @@
   ...
 }: let
   cardano-scope = self.inputs.cardano-scope.packages.${system}.default;
+  handy = self.inputs.llm-agents.packages.${system}.handy;
+  herdr = self.inputs.llm-agents.packages.${system}.herdr;
   my-neovim = self.inputs.neovim-flake.neovimBuilder.${system} {inherit pkgs;};
   nix-nvchad = self.inputs.nix-nvchad.lib.mkNixNvchad {
     inherit pkgs;
@@ -91,7 +93,9 @@ in {
     gpgme.dev
     gptfdisk
     graphviz
+    handy
     haskellPackages.aeson-diff
+    herdr
     hexchat
     hping
     htop
@@ -230,6 +234,8 @@ in {
     vnstat
     vopono
     wayland-utils
+    wev
+    wl-clipboard
     wine
     wireshark
     wpa_supplicant
