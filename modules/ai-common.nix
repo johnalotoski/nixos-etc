@@ -215,6 +215,15 @@
           args+=( --setenv PATH "$TOOLS" )
           args+=( --symlink "${pkgs.bashInteractive}/bin/bash" /bin/sh )
 
+          # Provide /usr/bin/env so portable `#!/usr/bin/env <tool>` shebangs work
+          # inside the sandbox (resolves the interpreter via the PATH set above,
+          # e.g. `env bash`, `env python3`). Without this, exec of such scripts
+          # fails with ENOENT ("No such file or directory").
+          args+=( --symlink "${pkgs.coreutils}/bin/env" /usr/bin/env )
+
+          # --- Agent secrets ---
+          # args+=( --ro-bind-try "$HOME/.age-ai" "$AGENT_HOME/.age-ai" )
+          #
           # --- Agent persistent home ---
           args+=( --setenv HOME "$AGENT_HOME" )
           args+=( --setenv XDG_CONFIG_HOME "$AGENT_HOME/.config" )
