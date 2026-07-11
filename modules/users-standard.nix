@@ -17,7 +17,7 @@
     ${user} = {
       inherit hashedPassword;
       isNormalUser = true;
-      extraGroups = ["docker" "lxd" "networkmanager" "scanner" "lp" "wheel" "vboxusers" "libvirtd" "plugdev"];
+      extraGroups = ["docker" "lxd" "networkmanager" "scanner" "lp" "wheel" "vboxusers" "libvirtd" "plugdev" "uinput"];
       openssh.authorizedKeys.keys = sshKeys;
       shell = pkgs.bash;
     };

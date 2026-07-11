@@ -88,6 +88,8 @@ with pkgs; {
         dsseries.enable = true;
         extraBackends = [sane-airscan];
       };
+
+      uinput.enable = true;
     };
 
     i18n.defaultLocale = "en_US.UTF-8";

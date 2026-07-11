@@ -222,8 +222,8 @@
           args+=( --symlink "${pkgs.coreutils}/bin/env" /usr/bin/env )
 
           # --- Agent secrets ---
-          # args+=( --ro-bind-try "$HOME/.age-ai" "$AGENT_HOME/.age-ai" )
-          #
+          args+=( --ro-bind-try "$HOME/.age-ai" "$AGENT_HOME/.age-ai" )
+
           # --- Agent persistent home ---
           args+=( --setenv HOME "$AGENT_HOME" )
           args+=( --setenv XDG_CONFIG_HOME "$AGENT_HOME/.config" )

@@ -68,6 +68,7 @@ in {
       name = "dog-dns";
       text = ''${lib.getExe pkgs.dogdns} "''$@"'';
     })
+    dotool
     dnsutils
     docker-compose
     duf
