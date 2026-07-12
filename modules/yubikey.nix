@@ -43,6 +43,12 @@ with pkgs; {
       echo "Chowning tty $GPG_TTY as root for gpg pinentry"
       chown root "$GPG_TTY"
     fi
+    # Over SSH, signal pinentry-auto to use curses (see gnupg.nix) and point
+    # the agent at this tty so ssh-agent-triggered prompts land here too
+    if [ -n "''${SSH_CONNECTION:-}" ]; then
+      export PINENTRY_USER_DATA=USE_CURSES=1
+      gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1 || true
+    fi
     gpg-connect-agent /bye
     export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
   '';

@@ -81,6 +81,20 @@ with pkgs; let
     '';
   };
 
+  pinentry-auto = writeShellApplication {
+    name = "pinentry-auto";
+    text = ''
+      # SSH sessions export PINENTRY_USER_DATA=USE_CURSES=1, see yubikey.nix
+      # shellInit, which gpg-agent forwards with each client request; local
+      # sessions get the qt flavor, which itself falls back to curses if no
+      # display is reachable.
+      case "''${PINENTRY_USER_DATA:-}" in
+        *USE_CURSES*) exec ${pinentry-curses}/bin/pinentry-curses "$@" ;;
+        *) exec ${pinentry-qt}/bin/pinentry-qt "$@" ;;
+      esac
+    '';
+  };
+
   scdaemonConf = ''
     # Uncomment below to allow non-exclusive smartcard sharing
     # This will allow yubikey re-use across multiple users but will also prompt for unlock on every use
@@ -114,7 +128,7 @@ in {
   environment.etc."per-user/root/scdaemon.conf".text = scdaemonConf;
 
   environment.etc."per-user/jlotoski/gpg-agent.conf".text = ''
-    # pinentry-program ${pinentry-all}/bin/pinentry
+    pinentry-program ${pinentry-auto}/bin/pinentry-auto
     enable-ssh-support
   '';
   environment.etc."per-user/jlotoski/gpg.conf".text = "default-key ${defaultGpgKey}";
