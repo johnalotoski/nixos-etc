@@ -15,7 +15,5 @@
 
   networking = {
     hostName = "nixos-m4800";
-    nat.externalInterface = "wlp0s20f3";
-    wireless.interfaces = ["wlp0s20f3" "wifi-tplink"];
   };
 }

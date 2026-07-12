@@ -16,8 +16,6 @@
   networking = {
     hostId = "d4a77fc1";
     hostName = "nixos-g76";
-    nat.externalInterface = "wlp0s20f3";
-    wireless.interfaces = ["wlp0s20f3" "wifi-tplink"];
   };
 
   system.stateVersion = "25.05";

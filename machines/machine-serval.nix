@@ -4,7 +4,7 @@
     ../modules/ai-claude.nix
     ../modules/ai-codex.nix
     ../modules/ai-common.nix
-    ../modules/ai-gemini.nix
+    # ../modules/ai-gemini.nix
     ../modules/blacklist-dvb.nix
     ../modules/cardano-ignite.nix
     ../modules/common.nix
@@ -23,8 +23,6 @@
   networking = {
     hostId = "d8fcf199";
     hostName = "nixos-serval";
-    nat.externalInterface = "wlp0s20f3";
-    wireless.interfaces = ["wlp0s20f3" "wifi-tplink"];
   };
 
   system.stateVersion = "23.05";

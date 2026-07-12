@@ -68,6 +68,7 @@ with pkgs; {
       };
 
       supportedFilesystems = ["zfs"];
+      zfs.forceImportRoot = false;
     };
 
     console = {
@@ -120,7 +121,6 @@ with pkgs; {
         '';
       };
 
-      # The nat external interface will be set explicitly in the machine-$MACHINE.nix file
       nat = {
         enable = true;
         internalInterfaces = ["ve-+"];
@@ -192,7 +192,6 @@ with pkgs; {
     system = {
       activationScripts.binbash = "ln -sf ${pkgs.bashInteractive}/bin/bash /bin/bash";
       nixos.tags = ["kde"];
-      rebuild.enableNg = true;
     };
 
     systemd.services.dummy-interface = {

@@ -1,44 +1,56 @@
 {
-  lib,
-  stdenv,
-  fetchurl,
-  makeShellWrapper,
-  binutils,
-  zstd,
-  dpkg,
-  # Runtime dependencies
   alsa-lib,
+  atk,
   at-spi2-atk,
   at-spi2-core,
-  atk,
+  binutils,
   cairo,
   cups,
   dbus,
+  dpkg,
   expat,
+  fetchurl,
   fontconfig,
   freetype,
   gdk-pixbuf,
   glib,
   gtk3,
-  libGL,
+  lib,
   libappindicator-gtk3,
   libdrm,
   libgbm,
+  libGL,
   libnotify,
   libpulseaudio,
   libsecret,
+  libx11,
   libxcb,
+  libxcomposite,
+  libxcursor,
+  libxdamage,
+  libxext,
+  libxfixes,
+  libxi,
   libxkbcommon,
+  libxkbfile,
+  libxrandr,
+  libxrender,
+  libxscrnsaver,
+  libxshmfence,
   libxslt,
+  libxtst,
+  makeShellWrapper,
   nspr,
   nss,
   pango,
   pipewire,
+  # Runtime dependencies
+  stdenv,
   systemdLibs,
   udev,
   wayland,
   xdg-utils,
-  xorg,
+  zstd,
 }:
 stdenv.mkDerivation {
   pname = "jumpcloud-password-manager";
@@ -58,9 +70,9 @@ stdenv.mkDerivation {
 
   buildInputs = [
     alsa-lib
+    atk
     at-spi2-atk
     at-spi2-core
-    atk
     cairo
     cups
     dbus
@@ -70,16 +82,29 @@ stdenv.mkDerivation {
     gdk-pixbuf
     glib
     gtk3
-    libGL
     libappindicator-gtk3
     libdrm
     libgbm
+    libGL
     libnotify
     libpulseaudio
     libsecret
+    libx11
     libxcb
+    libxcomposite
+    libxcursor
+    libxdamage
+    libxext
+    libxfixes
+    libxi
     libxkbcommon
+    libxkbfile
+    libxrandr
+    libxrender
+    libxscrnsaver
+    libxshmfence
     libxslt
+    libxtst
     nspr
     nss
     pango
@@ -88,19 +113,6 @@ stdenv.mkDerivation {
     systemdLibs
     udev
     wayland
-    xorg.libX11
-    xorg.libXScrnSaver
-    xorg.libXcomposite
-    xorg.libXcursor
-    xorg.libXdamage
-    xorg.libXext
-    xorg.libXfixes
-    xorg.libXi
-    xorg.libXrandr
-    xorg.libXrender
-    xorg.libXtst
-    xorg.libxkbfile
-    xorg.libxshmfence
   ];
 
   dontUnpack = true;
@@ -110,9 +122,9 @@ stdenv.mkDerivation {
     rpath =
       lib.makeLibraryPath [
         alsa-lib
+        atk
         at-spi2-atk
         at-spi2-core
-        atk
         cairo
         cups
         dbus
@@ -122,15 +134,28 @@ stdenv.mkDerivation {
         gdk-pixbuf
         glib
         gtk3
-        libGL
         libappindicator-gtk3
         libdrm
         libgbm
+        libGL
         libnotify
         libpulseaudio
         libsecret
+        libx11
         libxcb
+        libxcomposite
+        libxcursor
+        libxdamage
+        libxext
+        libxfixes
+        libxi
         libxkbcommon
+        libxkbfile
+        libxrandr
+        libxrender
+        libxscrnsaver
+        libxshmfence
+        libxtst
         nspr
         nss
         pango
@@ -139,19 +164,6 @@ stdenv.mkDerivation {
         systemdLibs
         udev
         wayland
-        xorg.libX11
-        xorg.libXScrnSaver
-        xorg.libXcomposite
-        xorg.libXcursor
-        xorg.libXdamage
-        xorg.libXext
-        xorg.libXfixes
-        xorg.libXi
-        xorg.libXrandr
-        xorg.libXrender
-        xorg.libXtst
-        xorg.libxkbfile
-        xorg.libxshmfence
       ]
       + ":${lib.getLib stdenv.cc.cc}/lib64";
   in ''

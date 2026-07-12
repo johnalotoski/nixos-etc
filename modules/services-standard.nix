@@ -12,10 +12,7 @@ with lib; {
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   programs = {
-    bat = {
-      enable = true;
-      extraPackages = [pkgs.bat-extras.core];
-    };
+    bat.enable = true;
 
     ccache = {
       enable = true;

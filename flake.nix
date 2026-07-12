@@ -2,19 +2,23 @@
   description = "Workstation flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-ai.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nixpkgs-user.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs-user.url = "github:NixOS/nixpkgs/nixos-26.05";
     nix.url = "github:NixOS/nix/2.34-maintenance";
     nixos-private.url = "git+ssh://git@github.com/johnalotoski/nixos-private";
 
+    llm-agents.url = "github:numtide/llm-agents.nix";
+
     capkgs.url = "github:input-output-hk/capkgs";
+
     neovim-flake = {
       url = "github:johnalotoski/neovim-flake/customize";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     nix-nvchad.url = "github:johnalotoski/nix-nvchad";
-    # nix-nvchad.url = "path:/home/jlotoski/ai/share/johnalotoski/nix-nvchad";
+
     neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
 
     sshm = {
@@ -41,8 +45,6 @@
       url = "git+ssh://git@github.com/johnalotoski/cardano-scope";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    llm-agents.url = "github:numtide/llm-agents.nix";
   };
 
   outputs = {

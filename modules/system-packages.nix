@@ -10,7 +10,6 @@
   cardano-scope = self.inputs.cardano-scope.packages.${system}.default;
   handy = self.inputs.llm-agents.packages.${system}.handy;
   herdr = self.inputs.llm-agents.packages.${system}.herdr;
-  my-neovim = self.inputs.neovim-flake.neovimBuilder.${system} {inherit pkgs;};
   nix-nvchad = self.inputs.nix-nvchad.lib.mkNixNvchad {
     inherit pkgs;
     modules = [
@@ -27,7 +26,7 @@ in {
     ln -sv ${pkgs.path} $out/nixpkgs
   '';
 
-  documentation.man.generateCaches = true;
+  documentation.man.cache.enable = true;
 
   environment.etc."system-packages".text = let
     packages = builtins.map (p: "${p.name}") config.environment.systemPackages;
@@ -64,10 +63,7 @@ in {
     difftastic
     dive
     dog
-    (pkgs.writeShellApplication {
-      name = "dog-dns";
-      text = ''${lib.getExe pkgs.dogdns} "''$@"'';
-    })
+    doggo
     dotool
     dnsutils
     docker-compose
@@ -139,7 +135,6 @@ in {
     mullvad-vpn
     mutt
     nap
-    my-neovim
     nethogs
     ncdu
     nfs-utils
@@ -155,7 +150,7 @@ in {
     nix-top
     nixos-container
     nix-tree
-    nixfmt-rfc-style
+    nixfmt
     nmap
     nnn
     nvd
