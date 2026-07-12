@@ -58,7 +58,7 @@ stdenv.mkDerivation {
 
   src = fetchurl {
     url = "https://cdn.pwm.jumpcloud.com/DA/release/x64/JumpCloud-Password-Manager-latest.deb";
-    hash = "sha256-XhWAqMQS/Q1O+9SICq/TMLiZjBjOPAjb5HO/FAoQJmo=";
+    hash = "sha256-j52Ur9RBv5m54chGNa0K1/+1dpdh+cJBtlit7wBBT98=";
   };
 
   nativeBuildInputs = [
