@@ -5,6 +5,9 @@
     ../modules/ai-codex.nix
     ../modules/ai-common.nix
     ../modules/ai-gemini.nix
+
+    # Quadro P3000 is Pascal, compute capability 6.1
+    (import ../modules/ai-llama-server.nix {cudaArchitectures = "61";})
     ../modules/cardano-ignite.nix
     ../modules/common.nix
     ../modules/distributed-builds.nix

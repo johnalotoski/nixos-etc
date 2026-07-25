@@ -5,6 +5,10 @@
     ../modules/ai-codex.nix
     ../modules/ai-common.nix
     # ../modules/ai-gemini.nix
+
+    # RTX 40-series laptop GPU is Ada, compute capability 8.9
+    (import ../modules/ai-llama-server.nix {cudaArchitectures = "89";})
+
     ../modules/blacklist-dvb.nix
     ../modules/cardano-ignite.nix
     ../modules/common.nix
