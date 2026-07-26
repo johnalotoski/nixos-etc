@@ -242,7 +242,14 @@
       starship
     ];
 
-    variables.EDITOR = "nvim";
+    # `nvim` here is the nix-nvchad launcher, aliased in system-packages.nix.
+    # Git deliberately resolves via core.editor in dotfiles/gitconfig-*.nix
+    # rather than GIT_EDITOR here, so per-repo overrides still win.
+    variables = {
+      EDITOR = "nvim";
+      VISUAL = "nvim";
+      SUDO_EDITOR = "nvim";
+    };
   };
 
   fonts.packages = with pkgs; [
