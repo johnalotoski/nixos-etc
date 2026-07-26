@@ -86,6 +86,13 @@ with pkgs; {
       cpu.intel.updateMicrocode = true;
       enableRedistributableFirmware = true;
 
+      # VA-API for the Intel iGPU. Without a libva backend, brave://gpu reports
+      # `vaInitialize failed` and video calls fall back to CPU decode. The iHD
+      # driver (intel-media-driver, non-free build) covers Gen9+ through Arrow
+      # Lake. Harmless on the NVIDIA-only machine (p71); the driver just isn't
+      # loaded where there's no compatible Intel GPU.
+      graphics.extraPackages = [intel-media-driver];
+
       sane = {
         enable = true;
         dsseries.enable = true;

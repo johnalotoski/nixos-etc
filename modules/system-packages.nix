@@ -120,6 +120,7 @@ in {
     iftop
     ijq
     inotify-tools
+    intel-gpu-tools # provides intel_gpu_top
     iproute2
     iotop
     iw
