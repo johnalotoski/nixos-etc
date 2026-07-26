@@ -19,6 +19,7 @@
     ../modules/blacklist-dvb.nix
     ../modules/cardano-ignite.nix
     ../modules/common.nix
+    ../modules/distributed-builds.nix
     ../modules/git.nix
     ../modules/gnupg.nix
     ../modules/screen.nix
