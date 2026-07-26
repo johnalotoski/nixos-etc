@@ -171,7 +171,9 @@ with pkgs; {
 
         extra-sandbox-paths = [
           config.programs.ccache.cacheDir
-          "/etc/skopeo/auth.json=/etc/nix/skopeo/auth.json"
+          # Trailing `?` marks the source optional: machines that have no
+          # registry credentials placed yet still build.
+          "/etc/skopeo/auth.json=/etc/nix/skopeo/auth.json?"
         ];
 
         # Fallback to source builds for failing cache paths
