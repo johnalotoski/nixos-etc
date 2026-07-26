@@ -30,10 +30,18 @@
   };
 in
   with pkgs; {
-    imports = [(self.inputs.nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-graphical-plasma5.nix")];
+    # nixpkgs 26.05 replaced the plasma5 graphical installer with a Plasma 6
+    # (calamares) image. This image inherits the default (ZFS-compatible) kernel
+    # rather than the latest one the official ISO ships, so `supportedFilesystems
+    # = ["zfs"]` below actually yields a usable ZFS installer.
+    imports = [(self.inputs.nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares-plasma6.nix")];
 
     boot.supportedFilesystems = ["zfs"];
     boot.kernelParams = ["console=ttyS0,115200n8"];
+
+    # Silences the ZFS eval warning; the installed systems set this in
+    # modules/common.nix, which the ISO does not import.
+    boot.zfs.forceImportRoot = false;
 
     nixpkgs.config.allowUnfree = true;
 
