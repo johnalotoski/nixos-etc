@@ -11,6 +11,7 @@ with pkgs; {
   imports = [
     self.inputs.nix-index-database.nixosModules.nix-index
     {programs.nix-index-database.comma.enable = true;}
+    ./command-not-found.nix
   ];
 
   options = {
@@ -155,6 +156,14 @@ with pkgs; {
 
     nix = {
       package = self.inputs.nix.packages.${pkgs.stdenv.hostPlatform.system}.nix;
+
+      # Point `nixpkgs` at this system's own pin. Without these, NIX_PATH
+      # defaults to `nixpkgs=flake:nixpkgs`, which resolves through the global
+      # registry to nixpkgs-unstable -- so every suggestion command-not-found
+      # prints, and every `,` invocation, fetches an unrelated nixpkgs over the
+      # network instead of using the already-substituted 26.05 closure.
+      registry.nixpkgs.flake = self.inputs.nixpkgs;
+      nixPath = ["nixpkgs=${self.inputs.nixpkgs}"];
 
       settings = {
         builders-use-substitutes = true;
