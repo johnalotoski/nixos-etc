@@ -29,7 +29,8 @@ with pkgs; {
     avahiPort = "5353";
     cupsPort = head (reverseList (split ":" (head svcCfg.printing.listenAddresses)));
     eternalPort = toString svcCfg.eternal-terminal.port;
-    moshPort = "6000-61000";
+    # Mosh's own default range; a dropped zero here opens ~55k extra UDP ports.
+    moshPort = "60000-61000";
     sshPort = toString (head svcCfg.openssh.ports);
 
     hasAvahi = svcCfg.avahi.enable;
