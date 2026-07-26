@@ -6,8 +6,15 @@
     ../modules/ai-common.nix
     # ../modules/ai-gemini.nix
 
-    # RTX 40-series laptop GPU is Ada, compute capability 8.9
-    (import ../modules/ai-llama-server.nix {cudaArchitectures = "89";})
+    # RTX 40-series laptop GPU is Ada, compute capability 8.9.
+    # 8 GB of VRAM, same budget as p16.
+    (import ../modules/ai-llama-server.nix {
+      cudaArchitectures = "89";
+      cudaPackages = "cudaPackages_13";
+      ctxSize = 32768;
+      quantizeKvCache = true;
+      heavyModel = true;
+    })
 
     ../modules/blacklist-dvb.nix
     ../modules/cardano-ignite.nix

@@ -6,8 +6,14 @@
     ../modules/ai-common.nix
     ../modules/ai-gemini.nix
 
-    # Quadro P3000 is Pascal, compute capability 6.1
-    (import ../modules/ai-llama-server.nix {cudaArchitectures = "61";})
+    # Quadro P3000 is Pascal, compute capability 6.1. Pinned to CUDA 12
+    # explicitly: 12.9 is Pascal's last supported release, so this cannot
+    # follow the other machines up to 13.
+    (import ../modules/ai-llama-server.nix {
+      cudaArchitectures = "61";
+      cudaPackages = "cudaPackages_12";
+    })
+
     ../modules/cardano-ignite.nix
     ../modules/common.nix
     ../modules/distributed-builds.nix
