@@ -98,6 +98,17 @@
           disabled = false;
         };
 
+        # Renders only while a sudo credential is cached, and disappears once
+        # sudo's timestamp_timeout expires. Starship detects this by running
+        # `sudo -n true` on every prompt draw. `$sudo` is already positioned in
+        # the format list below.
+        sudo = {
+          disabled = false;
+          format = "[$symbol]($style)";
+          symbol = "sudo ";
+          style = "bold red";
+        };
+
         custom = {
           open_bracket = {
             command = "echo '['";
