@@ -150,7 +150,10 @@ in {
     moreutils
     (pkgs.writeShellApplication {
       name = "mount-nas";
-      text = ''sudo mount.nfs "$(dig +short @192.168.86.1 homenas.)":/data/Backup /mnt/nas'';
+      text = ''
+        sudo mkdir -p /mnt/nas
+        sudo mount.nfs "$(dig +short @192.168.86.1 homenas.)":/data/Backup /mnt/nas
+      '';
     })
     mtr
     mullvad-vpn
