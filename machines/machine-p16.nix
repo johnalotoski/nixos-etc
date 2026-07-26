@@ -5,6 +5,7 @@
     ../modules/ai-codex.nix
     ../modules/ai-common.nix
     ../modules/ai-gemini.nix
+    ../modules/bitwarden-extension.nix
 
     # RTX PRO 1000 Blackwell (GB207GLM) is Blackwell, compute capability 12.0.
     # 8 GB of VRAM: q8_0 KV halves the cache, and 32k fits in roughly 5 GB

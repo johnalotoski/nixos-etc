@@ -16,6 +16,7 @@
       heavyModel = true;
     })
 
+    ../modules/bitwarden-extension.nix
     ../modules/blacklist-dvb.nix
     ../modules/cardano-ignite.nix
     ../modules/common.nix

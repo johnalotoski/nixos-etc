@@ -1,6 +1,7 @@
 {...}: {
   imports = [
     ../hw/hw-g76.nix
+    ../modules/bitwarden-extension.nix
     ../modules/common.nix
     ../modules/distributed-builds.nix
     ../modules/git.nix

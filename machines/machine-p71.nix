@@ -5,6 +5,7 @@
     ../modules/ai-codex.nix
     ../modules/ai-common.nix
     ../modules/ai-gemini.nix
+    ../modules/bitwarden-extension.nix
 
     # Quadro P3000 is Pascal, compute capability 6.1. Pinned to CUDA 12
     # explicitly: 12.9 is Pascal's last supported release, so this cannot
