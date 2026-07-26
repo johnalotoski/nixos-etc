@@ -17,7 +17,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-nvchad.url = "github:johnalotoski/nix-nvchad";
+    nix-nvchad.url = "github:johnalotoski/nix-nvchad/jl/treesitter-spell";
 
     neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
 
@@ -26,6 +26,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # `follows` only shares the nixpkgs this is *built* against; the prebuilt
+    # file index is a release artifact of this input, generated from whatever
+    # nixpkgs revision its CI used. So the two pins drift independently and
+    # command-not-found starts describing a nixpkgs that is not the installed
+    # one. Update them together:
+    #   nix flake update nixpkgs nixpkgs-user nix-index-database
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -98,12 +104,18 @@
     nixosConfigurations = foldl' recursiveUpdate {} [
       # Machines: `nixos-rebuild [switch|boot|...] [-L] [-v] [--flake .#$MACHINE]`
       (mkMachine {name = "nixos-g76";})
+      (mkMachine {name = "nixos-p16";})
       (mkMachine {name = "nixos-p71";})
       (mkMachine {name = "nixos-serval";})
 
       # Machine VMs for testing: `nixos-rebuild build-vm [-L] [-v] [--flake .#$MACHINE]`
       (mkMachine {
         name = "nixos-g76-vm";
+        buildVM = true;
+      })
+
+      (mkMachine {
+        name = "nixos-p16-vm";
         buildVM = true;
       })
 
