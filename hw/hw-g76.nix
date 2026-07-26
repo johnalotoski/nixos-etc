@@ -7,7 +7,9 @@
 
   boot = {
     # Auto-generated during the initial nixos install via nixos-generate-config -> hardware-configuration.nix
-    initrd.availableKernelModules = ["xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
+    # usbhid is added on top of that scan so an external USB keyboard can enter
+    # the ZFS passphrase in initrd.
+    initrd.availableKernelModules = ["xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
 
     loader.grub.mirroredBoots = [
       {

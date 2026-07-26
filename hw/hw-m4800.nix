@@ -5,7 +5,9 @@
 
   boot = {
     # Auto-generated during the initial nixos install via nixos-generate-config -> hardware-configuration.nix
-    initrd.availableKernelModules = ["xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" "sr_mod" "sdhci_pci"];
+    # usbhid is added on top of that scan so an external USB keyboard can enter
+    # the disk passphrase in initrd.
+    initrd.availableKernelModules = ["xhci_pci" "ehci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "sr_mod" "sdhci_pci"];
 
     loader = {
       grub = {

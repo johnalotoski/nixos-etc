@@ -7,7 +7,9 @@
 
   boot = {
     # Auto-generated during the initial nixos install via nixos-generate-config -> hardware-configuration.nix
-    initrd.availableKernelModules = ["xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" "sdhci_pci"];
+    # usbhid is added on top of that scan so an external USB keyboard can enter
+    # the ZFS passphrase in initrd.
+    initrd.availableKernelModules = ["xhci_pci" "thunderbolt" "nvme" "usbhid" "usb_storage" "sd_mod" "sdhci_pci"];
 
     # Prevents power state related system freezes
     kernelParams = ["intel_idle.max_cstate=1"];
