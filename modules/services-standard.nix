@@ -76,6 +76,12 @@ with lib; {
       port = 2022;
     };
 
+    # Vendor firmware updates via LVFS. Lenovo (p16, p71), Dell (m4800) and
+    # System76 (g76, serval) all publish there. This only runs the daemon and
+    # provides fwupdmgr; nothing is applied automatically -- refresh and update
+    # are manual. Machines with no LVFS entries just report nothing to do.
+    fwupd.enable = true;
+
     libinput.enable = true;
 
     locate.enable = true;
