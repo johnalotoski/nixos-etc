@@ -120,7 +120,7 @@
     tool = splice
 
   [mergetool "splice"]
-    cmd = "vim -f $BASE $LOCAL $REMOTE $MERGED -c 'SpliceInit'"
+    cmd = "nvim -f $BASE $LOCAL $REMOTE $MERGED -c 'SpliceInit'"
     trustExitCode = true
 
   [apply]
@@ -134,7 +134,7 @@
 
   [core]
     autocrlf = false
-    editor = vim
+    editor = nvim
     excludesfile = ~/.gitignore
 
   [advice]

@@ -10,15 +10,31 @@
   cardano-scope = self.inputs.cardano-scope.packages.${system}.default;
   handy = self.inputs.llm-agents.packages.${system}.handy;
   herdr = self.inputs.llm-agents.packages.${system}.herdr;
-  nix-nvchad = self.inputs.nix-nvchad.lib.mkNixNvchad {
-    inherit pkgs;
-    modules = [
-      {
-        # Options here:
-        # grammars = [...];
-      }
-    ];
-  };
+  nix-nvchad = let
+    nvchad = self.inputs.nix-nvchad.lib.mkNixNvchad {
+      inherit pkgs;
+      modules = [
+        {
+          # Options here:
+          # grammars = [...];
+        }
+      ];
+    };
+  in
+    # Upstream only installs bin/nix-nvchad, so nothing that looks for a
+    # conventionally named editor finds it. Expose it as vi/vim/nvim too, which
+    # is what EDITOR, git's `core.editor`, sudoedit and muscle memory all reach
+    # for. The launcher execs nvim and does not dispatch on argv[0], so the
+    # extra names are safe.
+    pkgs.symlinkJoin {
+      name = "nix-nvchad-aliased";
+      paths = [nvchad];
+      postBuild = ''
+        for alias in vi vim nvim; do
+          ln -s $out/bin/nix-nvchad $out/bin/$alias
+        done
+      '';
+    };
 in {
   nixpkgs.config.allowUnfree = true;
 
@@ -115,6 +131,11 @@ in {
     kdePackages.kate
     kdePackages.kolourpaint
     kdePackages.ksystemlog
+
+    # qdbus6, for querying KWin at runtime, e.g.
+    #   qdbus6 org.kde.KWin /KWin supportInformation
+    kdePackages.qttools
+
     kdePackages.spectacle
     ledger-live-desktop
     ledger-udev-rules
