@@ -14,12 +14,12 @@
 {pkgs, ...}: let
   # Pinned deliberately; confirm the browser still authenticates before moving
   # it. Changing this without the matching hash fails the build.
-  version = "2026.3.0";
+  version = "2025.11.1";
 
   extension = pkgs.runCommand "bitwarden-browser-extension-${version}" {
     src = pkgs.fetchurl {
       url = "https://github.com/bitwarden/clients/releases/download/browser-v${version}/dist-chrome-${version}.zip";
-      hash = "sha256-sbYPZetU37dGMxKjmaqJ0+salgaWKK6wUu/CX3pfHvk=";
+      hash = "sha256-6eru5UTAAbu+/JhWat+djNJT27ERDAZNSfKUW8I55os=";
     };
     nativeBuildInputs = [pkgs.unzip];
   } ''
