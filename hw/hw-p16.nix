@@ -1,4 +1,8 @@
-{self, ...}: {
+{
+  self,
+  config,
+  ...
+}: {
   imports = [
     (self.inputs.nixpkgs + "/nixos/modules/installer/scan/not-detected.nix")
     (self.inputs.disko.nixosModules.disko)
@@ -42,10 +46,24 @@
 
     nvidia = {
       # Blackwell (RTX PRO 1000, GB207GLM) requires the open kernel modules.
-      # If the nixos-26.05 default driver does not probe the GPU (machine drops
-      # to Intel-only / simpledrm), pin a newer package here, e.g.
-      #   package = config.boot.kernelPackages.nvidiaPackages.beta;
       open = true;
+
+      # nixos-26.05's newest nvidia driver is 595.71.05 (production == stable;
+      # its `beta`/`latest` are actually OLDER), and this Blackwell GPU keeps
+      # faulting on it (Xid 13 FECS, Xid 13 shader, Xid 31 MMU -> reboot
+      # required). Pull the 610.43.03 new_feature-branch driver from nixpkgs
+      # master by version+hashes and build it against the local kernel via
+      # mkDriver. A whole series newer, so much more mature Blackwell support.
+      # Hashes from nixpkgs master at:
+      # pkgs/os-specific/linux/nvidia-x11/default.nix (new_feature block).
+      package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
+        version = "610.43.03";
+        sha256_64bit = "sha256-ReLUwTSiPDXlDyU6SqY+fl6NF+PRhdSgfIpY6WEu05I=";
+        sha256_aarch64 = "sha256-jSdlXo60ilXLKWKvZfgbBnVqVYuw6zhnGuiDgwxYz94=";
+        openSha256 = "sha256-QCXmqo2xNyIwjGv0da2MUC8ex641Mmc5DUI+uRFVwgE=";
+        settingsSha256 = "sha256-z/t+SdEQdVJPwjKIRHO02d264Kt47eWiOwwsaxmh4xQ=";
+        persistencedSha256 = "sha256-sOKUsAFHh0/COH+nNgbH9+7hWgivOzq4YmTuk9MOFfI=";
+      };
 
       # NOTE: sync is an X11 mechanism -- NixOS implements it via Xorg config
       # and xrandr provider commands in the display manager's setupCommands,
