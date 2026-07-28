@@ -82,6 +82,10 @@ with lib; {
     # are manual. Machines with no LVFS entries just report nothing to do.
     fwupd.enable = true;
 
+    # Thunderbolt device manager; provides boltctl (and the boltd daemon it
+    # talks to -- the bare `bolt` package alone can't query devices).
+    hardware.bolt.enable = true;
+
     libinput.enable = true;
 
     locate.enable = true;
