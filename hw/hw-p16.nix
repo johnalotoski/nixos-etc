@@ -12,6 +12,18 @@
     # enter the ZFS passphrase in initrd, matching hw-p71.nix.
     initrd.availableKernelModules = ["xhci_pci" "thunderbolt" "nvme" "usbhid" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
 
+    # ACPI GPE storm on USB-C/Thunderbolt DP-alt monitors: gpe46 + gpe6E flood
+    # the SCI handler (irq/9-acpi + a kacpid kworker peg a core, fan spins up).
+    # Experienced on an older Blackwell driver.  Kept in case of re-occurrence.
+    #
+    # If a hot-plug or another event does trigger a storm, mask at runtime
+    # (reversible with "enable"); watch which GPE climbs with:
+    #   watch -n1 'grep -H . /sys/firmware/acpi/interrupts/* | grep -vE ":\s*0\b" | sort -t: -k2 -rn | head'
+    #   echo disable | sudo tee /sys/firmware/acpi/interrupts/gpe46
+    #   echo disable | sudo tee /sys/firmware/acpi/interrupts/gpe6E
+    # Uncomment to mask from boot if the storm becomes a nuisance:
+    # kernelParams = ["acpi_mask_gpe=0x46" "acpi_mask_gpe=0x6E"];
+
     # Single ESP for now. When the second NVMe is added and converted to a
     # mirror, add a second entry (disk-zroot2-recovery -> /recovery), matching
     # the p71 config.
