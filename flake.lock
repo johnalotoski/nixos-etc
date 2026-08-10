@@ -654,6 +654,27 @@
         "type": "github"
       }
     },
+    "microvm": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "spectrum": "spectrum"
+      },
+      "locked": {
+        "lastModified": 1785843289,
+        "narHash": "sha256-H/0YgQ+3BtNbdeSVuqjU7ElneBzPPuIKcuWOi0ZUktQ=",
+        "owner": "microvm-nix",
+        "repo": "microvm.nix",
+        "rev": "e615e23267bf10d483fb44f759d4e61c354cc0f4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "microvm-nix",
+        "repo": "microvm.nix",
+        "type": "github"
+      }
+    },
     "mini-icons": {
       "flake": false,
       "locked": {
@@ -1530,6 +1551,7 @@
         "cardano-scope": "cardano-scope",
         "disko": "disko",
         "llm-agents": "llm-agents",
+        "microvm": "microvm",
         "neovim-flake": "neovim-flake",
         "neovim-nightly": "neovim-nightly",
         "nix": "nix",
@@ -1617,6 +1639,22 @@
         "owner": "Mic92",
         "repo": "sops-nix",
         "type": "github"
+      }
+    },
+    "spectrum": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1785761586,
+        "narHash": "sha256-MWOMVqJJERwjQGgRIv8d6rlEBqbLM3VZWxHkNKIIZNw=",
+        "ref": "refs/heads/main",
+        "rev": "a7762d6f54b40560dd5255ce902e6e6a5d980fe9",
+        "revCount": 1416,
+        "type": "git",
+        "url": "https://spectrum-os.org/git/spectrum"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://spectrum-os.org/git/spectrum"
       }
     },
     "splice": {

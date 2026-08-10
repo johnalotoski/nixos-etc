@@ -20,6 +20,7 @@
       heavyModel = true;
     })
 
+    ../modules/ai-microvm.nix
     ../modules/cardano-ignite.nix
     ../modules/common.nix
     ../modules/distributed-builds.nix

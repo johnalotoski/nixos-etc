@@ -10,6 +10,13 @@
 
     llm-agents.url = "github:numtide/llm-agents.nix";
 
+    # Self-owned microVM path (writable /nix store, full nix eval). Follows our
+    # nixpkgs so the guest closure lives in the shared host store.
+    microvm = {
+      url = "github:microvm-nix/microvm.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     capkgs.url = "github:input-output-hk/capkgs";
 
     neovim-flake = {
@@ -135,6 +142,27 @@
         name = "bootstrap";
         isBootstrap = true;
       })
+
+      # Self-owned microVM agent sandbox with a writable nix store. Launch with
+      # the `ai-microvm` command from modules/ai-microvm.nix, or `nix run
+      # .#ai-microvm` for a quick test.
+      {
+        ai-microvm = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = {inherit self system myPkgs;};
+          modules =
+            baseModules
+            ++ [
+              self.inputs.microvm.nixosModules.microvm
+              ./microvm/ai-guest.nix
+            ];
+        };
+      }
     ];
+
+    apps.${system}.ai-microvm = {
+      type = "app";
+      program = "${self.nixosConfigurations.ai-microvm.config.microvm.declaredRunner}/bin/microvm-run";
+    };
   };
 }
