@@ -1,18 +1,28 @@
 # Host side of the ai-microvm sandbox: kvm access plus an `ai-microvm` launcher.
-# The guest itself is the nixosConfigurations.ai-microvm output (see flake.nix
+# The guest is the nixosConfigurations.ai-microvm{,-isolated} output (flake.nix
 # and microvm/ai-guest.nix). A writable-store microVM for running coding agents.
 #
 # Usage:
-#   ai-microvm            # boot the VM, autologin console drops into ~/workspace
+#   ai-microvm [shared|full|isolated] [--reset]
+#     shared    (default) host store shared read-only, only the system closure
+#               registered; the guest fetches its own deps from caches
+#     full      shared, plus the whole host store registered at boot so host
+#               built deps are reused in place; slower boot from the load-db
+#     isolated  no host store shared, a built store image of just the guest
+#     --reset   wipe this mode's overlay upper before booting
+#
 # claude and codex reuse host OAuth via mounted ~/.claude and ~/.codex. For
-# gemini, export GEMINI_API_KEY before running and the launcher stages it into
-# the secrets share. The writable-store overlay volume persists under
+# gemini, export GEMINI_API_KEY before running; the launcher stages it into the
+# secrets share. State (overlay images, secrets, host db dump) lives under
 # ~/.local/share/ai-microvm.
 {
   self,
   pkgs,
   ...
-}: {
+}: let
+  sharedRunner = self.nixosConfigurations.ai-microvm.config.microvm.declaredRunner;
+  isolatedRunner = self.nixosConfigurations.ai-microvm-isolated.config.microvm.declaredRunner;
+in {
   # kvm for the hypervisor.
   users.users.jlotoski.extraGroups = ["kvm"];
   users.users.backup.extraGroups = ["kvm"];
@@ -20,26 +30,67 @@
   environment.systemPackages = [
     (pkgs.writeShellApplication {
       name = "ai-microvm";
-      runtimeInputs = [pkgs.coreutils];
+      runtimeInputs = [pkgs.coreutils pkgs.nix];
       text = ''
-        # Run from a persistent state dir so the overlay volume image lives
-        # across runs rather than in the current directory.
+        mode=shared
+        reset=0
+        for a in "$@"; do
+          case "$a" in
+            shared | full | isolated) mode="$a" ;;
+            --reset) reset=1 ;;
+            -h | --help)
+              echo "usage: ai-microvm [shared|full|isolated] [--reset]"
+              echo "  shared    (default) host store shared read-only, system closure registered"
+              echo "  full      shared, plus the whole host store registered at boot (slower boot)"
+              echo "  isolated  no host store shared, built store image only"
+              echo "  --reset   wipe this mode's overlay upper before booting"
+              exit 0
+              ;;
+            *)
+              echo "ai-microvm: unknown arg '$a'" >&2
+              exit 1
+              ;;
+          esac
+        done
+
         state="$HOME/.local/share/ai-microvm"
-        mkdir -p "$state/secrets"
+        mkdir -p "$state/secrets" "$state/hostdb" "$HOME/mvm"
         chmod 700 "$state/secrets"
 
-        # Dedicated writable workspace shared into the VM. Put code here.
-        mkdir -p "$HOME/mvm"
-
-        # Stage the gemini key from the host env into the secrets share, kept
-        # out of the nix store. claude and codex use mounted OAuth instead.
+        # gemini key (all modes); claude and codex use mounted OAuth
         if [ -n "''${GEMINI_API_KEY:-}" ]; then
           printf '%s' "$GEMINI_API_KEY" > "$state/secrets/gemini-key"
           chmod 600 "$state/secrets/gemini-key"
         fi
 
+        # host store db: full registers everything, other modes register nothing
+        reg="$state/hostdb/registration"
+        if [ "$mode" = full ]; then
+          if ! nix-store --dump-db > "$reg" 2>/dev/null; then
+            echo "ai-microvm: reading the host nix db needs root; using sudo" >&2
+            sudo ${pkgs.nix}/bin/nix-store --dump-db > "$reg"
+          fi
+        else
+          : > "$reg"
+        fi
+
+        # pick the runner and this mode's overlay upper
+        if [ "$mode" = isolated ]; then
+          runner=${isolatedRunner}
+          img=nix-rw-store-isolated.img
+        else
+          runner=${sharedRunner}
+          img=nix-rw-store.img
+        fi
+
+        if [ "$reset" = 1 ]; then
+          rm -f "$state/$img"
+          echo "ai-microvm: reset removed $img"
+        fi
+
         cd "$state"
-        exec ${self.nixosConfigurations.ai-microvm.config.microvm.declaredRunner}/bin/microvm-run "$@"
+        echo "ai-microvm: booting [store=$mode]"
+        exec "$runner/bin/microvm-run"
       '';
     })
   ];

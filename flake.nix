@@ -107,6 +107,21 @@
             ++ optional buildVM ./modules/build-vm.nix;
       };
     };
+
+    # ai-microvm guest. shareHostStore true shares the host /nix/store as the
+    # overlay lower (shared + full launcher modes); false builds an isolated
+    # store image with no host store (isolated mode).
+    mkAiGuest = shareHostStore:
+      nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = {inherit self system myPkgs shareHostStore;};
+        modules =
+          baseModules
+          ++ [
+            self.inputs.microvm.nixosModules.microvm
+            ./microvm/ai-guest.nix
+          ];
+      };
   in {
     nixosConfigurations = foldl' recursiveUpdate {} [
       # Machines: `nixos-rebuild [switch|boot|...] [-L] [-v] [--flake .#$MACHINE]`
@@ -144,25 +159,11 @@
       })
 
       # Self-owned microVM agent sandbox with a writable nix store. Launch with
-      # the `ai-microvm` command from modules/ai-microvm.nix, or `nix run
-      # .#ai-microvm` for a quick test.
-      {
-        ai-microvm = nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = {inherit self system myPkgs;};
-          modules =
-            baseModules
-            ++ [
-              self.inputs.microvm.nixosModules.microvm
-              ./microvm/ai-guest.nix
-            ];
-        };
-      }
+      # the `ai-microvm` command (modules/ai-microvm.nix):
+      #   ai-microvm [shared|full|isolated] [--reset]
+      # shared and full both use ai-microvm; isolated uses ai-microvm-isolated.
+      {ai-microvm = mkAiGuest true;}
+      {ai-microvm-isolated = mkAiGuest false;}
     ];
-
-    apps.${system}.ai-microvm = {
-      type = "app";
-      program = "${self.nixosConfigurations.ai-microvm.config.microvm.declaredRunner}/bin/microvm-run";
-    };
   };
 }

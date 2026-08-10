@@ -3,12 +3,19 @@
 # cannot. qemu + user-mode slirp gives egress with no host networking, and a
 # console autologin avoids ssh and taps.
 #
+# shareHostStore true shares the host /nix/store as the overlay lower (launcher
+# modes shared and full); false builds an isolated store image with no host store
+# (mode isolated). The ai-microvm launcher picks the mode.
+#
 # Auth: claude and codex reuse host OAuth via mounted ~/.claude and ~/.codex;
 # gemini uses GEMINI_API_KEY staged by the ai-microvm launcher into a secrets
 # share.
 {
   pkgs,
+  lib,
+  config,
   myPkgs,
+  shareHostStore,
   ...
 }: let
   # Host paths shared in. workspaceSource is a dedicated writable dir kept off
@@ -20,6 +27,10 @@
 
   # The launcher writes the gemini key here before boot; kept out of the store.
   secretsSource = "/home/jlotoski/.local/share/ai-microvm/secrets";
+
+  # "full" mode: the launcher dumps the host nix db here for the guest to load at
+  # boot; empty in other modes so the load-db service is skipped.
+  hostdbSource = "/home/jlotoski/.local/share/ai-microvm/hostdb";
 
   # Runtime egress toggle, run inside the guest. Boot default is on (no rule).
   # "off" installs an nftables output drop keeping only loopback; "on" removes
@@ -64,62 +75,78 @@ in {
     vcpu = 6;
     mem = 12288;
 
-    # Read-only host store as the overlay lower, writable upper on a volume so
-    # nix can write drvs and copied flake sources. This writable store is the
-    # whole point of this VM.
+    # Writable /nix/store = overlay of a read-only lower + a writable upper on a
+    # volume, so nix can write drvs and copied flake sources. This is the whole
+    # point of the VM. When shareHostStore, the lower is the host store shared
+    # over 9p; otherwise microvm builds a store image of just the guest closure.
     #
     # 9p not virtiofs: virtiofs needs the virtiofsd helper daemon, which did not
     # come up here, its userns sandbox cannot set up id maps unprivileged. 9p is
     # in-process in qemu, no daemon. Slower store I/O but fine for eval and
     # review; revisit virtiofs if it drags.
-    shares = [
-      {
-        proto = "9p";
-        tag = "ro-store";
-        source = "/nix/store";
-        mountPoint = "/nix/.ro-store";
-        # Overlay only ever reads the lower; export it read-only too so the guest
-        # cannot even attempt writes back to the host store over 9p.
-        readOnly = true;
-      }
-      # 9p over an unprivileged qemu cannot map host ownership to the guest user
-      # (passthrough/none need qemu as root), so these show as root:root and the
-      # guest runs as root to reach them. Mounted under /root, root's home.
-      {
-        proto = "9p";
-        tag = "claude";
-        source = claudeSource;
-        mountPoint = "/root/.claude";
-      }
-      {
-        proto = "9p";
-        tag = "codex";
-        source = codexSource;
-        mountPoint = "/root/.codex";
-      }
-      {
-        proto = "9p";
-        tag = "workspace";
-        source = workspaceSource;
-        mountPoint = "/root/workspace";
-      }
-      {
-        proto = "9p";
-        tag = "secrets";
-        source = secretsSource;
-        mountPoint = "/run/agent-secrets";
-        readOnly = true;
-      }
-    ];
+    #
+    # 9p over an unprivileged qemu cannot map host ownership to the guest user
+    # (passthrough/none need qemu as root), so the mounts show as root:root and
+    # the guest runs as root to reach them.
+    shares =
+      (
+        if shareHostStore
+        then [
+          {
+            proto = "9p";
+            tag = "ro-store";
+            source = "/nix/store";
+            mountPoint = "/nix/.ro-store";
+            readOnly = true;
+          }
+          {
+            proto = "9p";
+            tag = "hostdb";
+            source = hostdbSource;
+            mountPoint = "/run/host-nix-db";
+            readOnly = true;
+          }
+        ]
+        else []
+      )
+      ++ [
+        {
+          proto = "9p";
+          tag = "claude";
+          source = claudeSource;
+          mountPoint = "/root/.claude";
+        }
+        {
+          proto = "9p";
+          tag = "codex";
+          source = codexSource;
+          mountPoint = "/root/.codex";
+        }
+        {
+          proto = "9p";
+          tag = "workspace";
+          source = workspaceSource;
+          mountPoint = "/root/workspace";
+        }
+        {
+          proto = "9p";
+          tag = "secrets";
+          source = secretsSource;
+          mountPoint = "/run/agent-secrets";
+          readOnly = true;
+        }
+      ];
 
     writableStoreOverlay = "/nix/.rw-store";
-    # The overlay upper holds only paths the host store lower does not already
-    # have, so devShells already built on the host cost nothing here. Sized large
-    # for the fresh closures a branch review can pull in. Sparse image on the big
-    # /home; delete ~/.local/share/ai-microvm/nix-rw-store.img to reset it.
+    # Upper holds only paths not already in the lower. Per-mode image so shared
+    # and isolated do not mix layers. Sparse on the big /home; delete it to reset
+    # (or use the launcher --reset).
     volumes = [
       {
-        image = "nix-rw-store.img";
+        image =
+          if shareHostStore
+          then "nix-rw-store.img"
+          else "nix-rw-store-isolated.img";
         mountPoint = "/nix/.rw-store";
         size = 131072;
       }
@@ -155,6 +182,22 @@ in {
   systemd.network.networks."10-usernet" = {
     matchConfig.Type = "ether";
     networkConfig.DHCP = "yes";
+  };
+
+  # full mode: register the whole host store db the launcher dumped in. Skipped
+  # when the file is empty (shared mode) via ConditionFileNotEmpty. Only present
+  # when the host store is shared.
+  systemd.services.import-host-store-db = lib.mkIf shareHostStore {
+    description = "Register the host store db when provided (full store mode)";
+    wantedBy = ["multi-user.target"];
+    before = ["multi-user.target"];
+    unitConfig = {
+      ConditionFileNotEmpty = "/run/host-nix-db/registration";
+      RequiresMountsFor = "/run/host-nix-db /nix/store";
+    };
+    path = [config.nix.package];
+    serviceConfig.Type = "oneshot";
+    script = "nix-store --load-db < /run/host-nix-db/registration";
   };
 
   nixpkgs.config.allowUnfree = true;
