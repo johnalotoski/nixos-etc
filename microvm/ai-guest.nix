@@ -134,9 +134,11 @@ in {
       ];
 
     writableStoreOverlay = "/nix/.rw-store";
-    # Upper holds only paths not already in the lower. Per-mode image so shared
-    # and isolated do not mix layers. Sparse on the big /home; delete it to reset
-    # (or use the launcher --reset).
+    # Two persistent volumes, per-mode so shared/full and isolated never mix:
+    #  - the store overlay upper: paths the guest builds or fetches
+    #  - /nix/var: the nix db, gcroots, profiles, so registrations survive
+    #    reboots, prior builds are reused not rebuilt, and GC can see them
+    # The two must be reset together (launcher --reset) to stay consistent.
     volumes = [
       {
         image =
@@ -145,6 +147,14 @@ in {
           else "nix-rw-store-isolated.img";
         mountPoint = "/nix/.rw-store";
         size = 131072;
+      }
+      {
+        image =
+          if shareHostStore
+          then "nix-var.img"
+          else "nix-var-isolated.img";
+        mountPoint = "/nix/var";
+        size = 4096;
       }
     ];
 
@@ -158,6 +168,11 @@ in {
       }
     ];
   };
+
+  # /nix/var (db, gcroots, profiles) must mount in the initrd, before the boot
+  # regInfo seeds the db, so the seed lands in the persistent volume instead of
+  # the tmpfs it would otherwise shadow.
+  fileSystems."/nix/var".neededForBoot = true;
 
   # 9p over the unprivileged qemu maps the shares to root:root, so the console
   # runs as root to reach them. claude allows --dangerously-skip-permissions as
@@ -189,7 +204,7 @@ in {
     before = ["multi-user.target"];
     unitConfig = {
       ConditionFileNotEmpty = "/run/host-nix-db/registration";
-      RequiresMountsFor = "/run/host-nix-db /nix/store";
+      RequiresMountsFor = "/run/host-nix-db /nix/store /nix/var";
     };
     path = [config.nix.package pkgs.coreutils];
     serviceConfig = {
@@ -199,10 +214,20 @@ in {
       StandardOutput = "journal+console";
       StandardError = "journal+console";
     };
+    # /nix/var persists, so skip load-db when the dumped host db is unchanged
+    # since the last register; only re-register when the launcher dumped a
+    # different db.
     script = ''
+      marker=/nix/var/.ai-microvm-hostdb-sha
+      want="$(sha256sum /run/host-nix-db/registration | cut -d' ' -f1)"
+      if [ -r "$marker" ] && [ "$(cat "$marker")" = "$want" ]; then
+        echo "ai-microvm: host store db unchanged, already registered"
+        exit 0
+      fi
       echo "ai-microvm: registering full host store db, this can take a few seconds..."
       sleep 1
       nix-store --load-db < /run/host-nix-db/registration
+      printf '%s' "$want" > "$marker"
       echo "ai-microvm: host store db registration complete"
       sleep 1
     '';

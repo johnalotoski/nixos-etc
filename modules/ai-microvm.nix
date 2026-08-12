@@ -76,18 +76,21 @@ in {
           : > "$reg"
         fi
 
-        # pick the runner and this mode's overlay upper
+        # pick the runner and this mode's persistent volumes
         if [ "$mode" = isolated ]; then
           runner=${isolatedRunner}
-          img=nix-rw-store-isolated.img
+          storeimg=nix-rw-store-isolated.img
+          varimg=nix-var-isolated.img
         else
           runner=${sharedRunner}
-          img=nix-rw-store.img
+          storeimg=nix-rw-store.img
+          varimg=nix-var.img
         fi
 
+        # reset wipes the store upper and its db together to keep them consistent
         if [ "$reset" = 1 ]; then
-          rm -f "$state/$img"
-          echo "ai-microvm: reset removed $img"
+          rm -f "$state/$storeimg" "$state/$varimg"
+          echo "ai-microvm: reset removed $storeimg and $varimg"
         fi
 
         cd "$state"
