@@ -90,6 +90,12 @@
             which
           ])
           ++ [nixSandboxed]
+          # nvidia-smi, matching the loaded driver. AI_GPU=1 passes the GPU
+          # through to the sandbox. Guarded so a machine without the driver
+          # doesn't pull it or break.
+          ++ pkgs.lib.optional
+          (pkgs.lib.elem "nvidia" config.services.xserver.videoDrivers)
+          (pkgs.lib.getBin config.hardware.nvidia.package)
           ++ aiToolsExtra;
       };
 
@@ -166,6 +172,23 @@
           args+=( --proc /proc )
           args+=( --dev /dev )
           args+=( --tmpfs /tmp )
+
+          # --- NVIDIA / CUDA, opt-in with AI_GPU=1 ---
+          # Off by default: the GPU driver is a large kernel attack surface and
+          # exposing these nodes weakens the sandbox boundary. -try makes it a
+          # no-op on machines with no GPU.
+          if [ -n "''${AI_GPU:-}" ]; then
+            args+=( --dev-bind-try /dev/nvidiactl /dev/nvidiactl )
+            args+=( --dev-bind-try /dev/nvidia-uvm /dev/nvidia-uvm )
+            args+=( --dev-bind-try /dev/nvidia-uvm-tools /dev/nvidia-uvm-tools )
+            for d in /dev/nvidia[0-9]*; do
+              [ -e "$d" ] && args+=( --dev-bind "$d" "$d" )
+            done
+            # Driver libs live here; nixpkgs cuda apps find libcuda via their
+            # runpath. Non-nix cuda binaries also need LD_LIBRARY_PATH set to
+            # /run/opengl-driver/lib, left out to avoid shadowing other libs.
+            args+=( --ro-bind-try /run/opengl-driver /run/opengl-driver )
+          fi
 
           # --- Nix store (binaries + libs) ---
           args+=( --ro-bind /nix /nix )
