@@ -68,7 +68,7 @@ in {
         if [ "$mode" = full ]; then
           if ! nix-store --dump-db > "$reg" 2>/dev/null; then
             echo "ai-microvm: reading the host nix db needs root; using sudo" >&2
-            sudo ${pkgs.nix}/bin/nix-store --dump-db > "$reg"
+            sudo ${pkgs.nix}/bin/nix-store --dump-db | tee "$reg" > /dev/null
           fi
         else
           : > "$reg"
