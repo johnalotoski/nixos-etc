@@ -7,9 +7,9 @@
 # modes shared and full); false builds an isolated store image with no host store
 # (mode isolated). The ai-microvm launcher picks the mode.
 #
-# Auth: claude and codex reuse host OAuth via mounted ~/.claude and ~/.codex;
-# gemini uses GEMINI_API_KEY staged by the ai-microvm launcher into a secrets
-# share.
+# Auth: the VM's /root home is a dedicated host dir, so claude/codex logins and
+# config persist across reboots and never touch your host ~/.claude or ~/.codex;
+# gemini uses GEMINI_API_KEY staged by the launcher into a secrets share.
 {
   pkgs,
   lib,
@@ -18,11 +18,13 @@
   shareHostStore,
   ...
 }: let
-  # Host paths shared in. workspaceSource is a dedicated writable dir kept off
-  # ~/ai/share so the VM cannot reach ssh masters or other secrets there. Put
-  # or clone the code you want the agent to work on into ~/mvm on the host.
-  claudeSource = "/home/jlotoski/.claude";
-  codexSource = "/home/jlotoski/.codex";
+  # Host paths shared in. homeSource is the VM's whole /root home on a dedicated
+  # host dir, so all agent config and logins (.claude, .codex, .claude.json, ...)
+  # persist across reboots and stay off your host ~/.claude / ~/.codex.
+  # workspaceSource is a dedicated writable dir kept off ~/ai/share so the VM
+  # cannot reach ssh masters or other secrets there; put the code you want the
+  # agent to work on into ~/mvm.
+  homeSource = "/home/jlotoski/.local/share/ai-microvm/home";
   workspaceSource = "/home/jlotoski/mvm";
 
   # The launcher writes the gemini key here before boot; kept out of the store.
@@ -112,21 +114,15 @@ in {
       ++ [
         {
           proto = "9p";
-          tag = "claude";
-          source = claudeSource;
-          mountPoint = "/root/.claude";
-        }
-        {
-          proto = "9p";
-          tag = "codex";
-          source = codexSource;
-          mountPoint = "/root/.codex";
+          tag = "home";
+          source = homeSource;
+          mountPoint = "/root";
         }
         {
           proto = "9p";
           tag = "workspace";
           source = workspaceSource;
-          mountPoint = "/root/workspace";
+          mountPoint = "/workspace";
         }
         {
           proto = "9p";
@@ -172,7 +168,7 @@ in {
 
   environment.loginShellInit = ''
     [ -r /run/agent-secrets/gemini-key ] && export GEMINI_API_KEY="$(cat /run/agent-secrets/gemini-key)"
-    cd ~/workspace 2>/dev/null || true
+    cd /workspace 2>/dev/null || true
     echo "egress toggle: netguard {on|off|status} (default on)"
   '';
 

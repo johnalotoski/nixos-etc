@@ -11,10 +11,12 @@
 #     isolated  no host store shared, a built store image of just the guest
 #     --reset   wipe this mode's overlay upper before booting
 #
-# claude and codex reuse host OAuth via mounted ~/.claude and ~/.codex. For
-# gemini, export GEMINI_API_KEY before running; the launcher stages it into the
-# secrets share. State (overlay images, secrets, host db dump) lives under
-# ~/.local/share/ai-microvm.
+# The VM's whole home (/root) is a dedicated host dir (state/home), so all agent
+# config and logins (.claude, .codex, .claude.json) persist across reboots and
+# stay off your host ~/.claude / ~/.codex; log in once inside the VM and it
+# sticks. Workspace is /workspace (~/mvm). For gemini, export GEMINI_API_KEY
+# before running; the launcher stages it into the secrets share. All state lives
+# under ~/.local/share/ai-microvm.
 {
   self,
   pkgs,
@@ -54,8 +56,8 @@ in {
         done
 
         state="$HOME/.local/share/ai-microvm"
-        mkdir -p "$state/secrets" "$state/hostdb" "$HOME/mvm"
-        chmod 700 "$state/secrets"
+        mkdir -p "$state/secrets" "$state/hostdb" "$state/home" "$HOME/mvm"
+        chmod 700 "$state/secrets" "$state/home"
 
         # gemini key (all modes); claude and codex use mounted OAuth
         if [ -n "''${GEMINI_API_KEY:-}" ]; then
