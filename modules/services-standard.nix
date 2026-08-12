@@ -5,13 +5,22 @@
 }:
 with builtins;
 with lib; {
-  # Hint Electron/Chromium apps (Slack, Zoom, Brave, jumpcloud, ...) to run
+  # Hint Electron/Chromium apps (Slack, Zoom, Brave, 1password, ...) to run
   # natively on Wayland instead of XWayland. Note: native-Wayland windows are
   # not reachable by xdotool/XTEST, so use the ydotool typing backend for tools
   # that inject keystrokes (e.g. Handy dictation).
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   programs = {
+    # CLI gets the setgid `op` wrapper for GUI integration; GUI gets the polkit
+    # policy and browser-support helper. Both modules install their package, so
+    # no systemPackages entry is needed.
+    _1password.enable = true;
+    _1password-gui = {
+      enable = true;
+      polkitPolicyOwners = ["jlotoski"];
+    };
+
     bat.enable = true;
 
     ccache = {
