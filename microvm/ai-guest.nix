@@ -191,9 +191,21 @@ in {
       ConditionFileNotEmpty = "/run/host-nix-db/registration";
       RequiresMountsFor = "/run/host-nix-db /nix/store";
     };
-    path = [config.nix.package];
-    serviceConfig.Type = "oneshot";
-    script = "nix-store --load-db < /run/host-nix-db/registration";
+    path = [config.nix.package pkgs.coreutils];
+    serviceConfig = {
+      Type = "oneshot";
+      # oneshot output goes only to the journal by default; also show it on the
+      # console so the registration start/end are visible during boot.
+      StandardOutput = "journal+console";
+      StandardError = "journal+console";
+    };
+    script = ''
+      echo "ai-microvm: registering full host store db, this can take a few seconds..."
+      sleep 1
+      nix-store --load-db < /run/host-nix-db/registration
+      echo "ai-microvm: host store db registration complete"
+      sleep 1
+    '';
   };
 
   nixpkgs.config.allowUnfree = true;
