@@ -128,7 +128,6 @@ in {
     jid
     jiq
     jq
-    (pkgs.callPackage ../pkgs/jumpcloud.nix {})
     kdePackages.kate
     kdePackages.kolourpaint
     kdePackages.ksystemlog
