@@ -23,6 +23,7 @@
     ../modules/distributed-builds.nix
     ../modules/git.nix
     ../modules/gnupg.nix
+    ../modules/nvidia-driver.nix
     ../modules/screen.nix
     ../modules/services-standard.nix
     ../modules/shell.nix

@@ -31,6 +31,7 @@
       # From machine eval:
       #   You must configure `hardware.nvidia.open` on NVIDIA driver versions >= 560.
       #   It is suggested to use the open source kernel modules on Turing or later GPUs (RTX series, GTX 16xx), and the closed source modules otherwise.
+      # The 610 driver package comes from modules/nvidia-driver.nix.
       open = true;
 
       prime = {
