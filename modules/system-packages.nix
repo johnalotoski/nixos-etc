@@ -91,6 +91,7 @@ in {
     eza
     fd
     file
+    frogmouth
     fx
     fzf
     gcc
@@ -99,6 +100,7 @@ in {
     gitFull
     gitui
     glances
+    glow
     gnumake
     gnupg
     gnutar
@@ -144,6 +146,7 @@ in {
     lsof
     lsd
     manix
+    mdcat
     mesa-demos
     mitmproxy
     mkpasswd
@@ -206,6 +209,7 @@ in {
     (lib.lowPrio remarshal)
     remmina
     ranger
+    rich-cli
     ripgrep
     ruby
     sane-airscan
