@@ -958,16 +958,16 @@
         "tree-sitter": "tree-sitter"
       },
       "locked": {
-        "lastModified": 1783826284,
-        "narHash": "sha256-btoCepuix2HzBgshjYGBnIWExrm/QaF/5XKSpg2DtMM=",
+        "lastModified": 1787522485,
+        "narHash": "sha256-pfeDaCnTSnoSFhAASefGcc9wFC0jW9X7KebT21daw9g=",
         "owner": "johnalotoski",
         "repo": "nix-nvchad",
-        "rev": "8b715524656cc5dc23aa0c1590d8900ff65dfb4f",
+        "rev": "09d10d18d49cf127769ea6888d4484b665cd5752",
         "type": "github"
       },
       "original": {
         "owner": "johnalotoski",
-        "ref": "jl/treesitter-spell",
+        "ref": "jl/osc-52",
         "repo": "nix-nvchad",
         "type": "github"
       }

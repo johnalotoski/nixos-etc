@@ -24,7 +24,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-nvchad.url = "github:johnalotoski/nix-nvchad/jl/treesitter-spell";
+    nix-nvchad.url = "github:johnalotoski/nix-nvchad/jl/osc-52";
 
     neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
 
