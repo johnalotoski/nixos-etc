@@ -113,6 +113,9 @@ with pkgs; {
       firewall = {
         enable = true;
 
+        # incus bridge: let containers reach host DHCP/DNS and each other.
+        trustedInterfaces = ["incusbr0"];
+
         # Only allow ping on ipv4 with the rules below
         allowPing = false;
 
@@ -232,6 +235,7 @@ with pkgs; {
 
     virtualisation = {
       docker.enable = true;
+      incus.enable = true;
       libvirtd.enable = true;
 
       virtualbox.host = {
