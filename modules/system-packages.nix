@@ -60,6 +60,7 @@ in {
     age
     alejandra
     aria2
+    bc
     binutils
     borgbackup
     brave
