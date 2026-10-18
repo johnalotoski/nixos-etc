@@ -959,11 +959,11 @@
         "tree-sitter": "tree-sitter"
       },
       "locked": {
-        "lastModified": 1787522485,
-        "narHash": "sha256-pfeDaCnTSnoSFhAASefGcc9wFC0jW9X7KebT21daw9g=",
+        "lastModified": 1791497849,
+        "narHash": "sha256-L4wj/TN/lspEy15jLGHYY2O0EtQPBWCIvLQgJqnjotU=",
         "owner": "johnalotoski",
         "repo": "nix-nvchad",
-        "rev": "09d10d18d49cf127769ea6888d4484b665cd5752",
+        "rev": "4ae908c6a67aec2f81542a49db1da886f9aac6d5",
         "type": "github"
       },
       "original": {
