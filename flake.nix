@@ -24,7 +24,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-nvchad.url = "github:johnalotoski/nix-nvchad/jl/osc-52";
+    nix-nvchad.url = "github:johnalotoski/nix-nvchad/jl/err-yank";
 
     neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
 
@@ -123,6 +123,38 @@
           ];
       };
   in {
+    # Native dependencies for mise-managed Python/Node source builds.
+    # This uses the host flake's existing nixpkgs pin; no system rebuild needed.
+    devShells.${system}.mise-build = let
+      pkgs = mkPkgs "nixpkgs";
+    in
+      pkgs.mkShell {
+        nativeBuildInputs = with pkgs; [
+          pkg-config
+          gnumake
+          patch
+          git
+          curl
+          gnutar
+          unzip
+          python3
+        ];
+        buildInputs = with pkgs; [
+          zlib
+          bzip2
+          xz
+          openssl
+          readline
+          ncurses
+          sqlite
+          libffi
+          expat
+          libuuid
+          tcl
+          tk
+        ];
+      };
+
     nixosConfigurations = foldl' recursiveUpdate {} [
       # Machines: `nixos-rebuild [switch|boot|...] [-L] [-v] [--flake .#$MACHINE]`
       (mkMachine {name = "nixos-g76";})
