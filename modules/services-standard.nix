@@ -46,6 +46,23 @@ with lib; {
       openFirewall = false;
     };
 
+    # Run generic Linux binaries downloaded by mise and other developer tools.
+    # nixpkgs already supplies the C/C++ runtime, OpenSSL, compression and other
+    # base libraries. Extend that set for Python extensions and Tcl/Tk; these
+    # are runtime libraries, not a replacement for the mise-build devShell.
+    nix-ld = {
+      enable = true;
+      libraries = with pkgs; [
+        libffi
+        sqlite
+        readline
+        ncurses
+        expat
+        tcl
+        tk
+      ];
+    };
+
     ssh.extraConfig = ''
       Host *
         ServerAliveInterval 300
