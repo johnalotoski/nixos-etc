@@ -235,6 +235,12 @@ with pkgs; {
 
     virtualisation = {
       docker.enable = true;
+      # Keep Podman separate so both engines can be tested on the same host.
+      podman = {
+        enable = true;
+        dockerCompat = false;
+        dockerSocket.enable = false;
+      };
       incus.enable = true;
       libvirtd.enable = true;
 

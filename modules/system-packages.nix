@@ -197,7 +197,6 @@ in {
     pdfchain
     pinentry-all
     # postgresql
-    podman
     ps_mem
     pv
     pwgen
