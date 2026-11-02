@@ -5,6 +5,13 @@
 }:
 with builtins;
 with lib; {
+  # Disable Baloo indexing for every user, including existing Plasma profiles.
+  # KDE's immutable key prevents per-user settings from re-enabling it.
+  environment.etc."xdg/baloofilerc".text = ''
+    [Basic Settings]
+    Indexing-Enabled[$i]=false
+  '';
+
   # Hint Electron/Chromium apps (Slack, Zoom, Brave, 1password, ...) to run
   # natively on Wayland instead of XWayland. Note: native-Wayland windows are
   # not reachable by xdotool/XTEST, so use the ydotool typing backend for tools
