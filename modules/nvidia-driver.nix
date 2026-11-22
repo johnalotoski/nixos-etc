@@ -1,7 +1,4 @@
-# 610.43.03 nvidia driver from nixpkgs master, newer than the 595 that
-# nixos-26.05 ships. That 595 default faults on this fleet's recent GPUs,
-# Blackwell on p16 and Ada on serval. Built against the local kernel via
-# mkDriver. Imported only by those machines; p71 stays on legacy for Pascal.
+# Serval's Ada GPU uses 610.43.03 because the nixos-26.05 595 default faulted.
 # Hashes from nixpkgs master nvidia-x11 default.nix, new_feature block.
 {config, ...}: {
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.mkDriver {

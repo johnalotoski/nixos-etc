@@ -1,4 +1,8 @@
-{self, ...}: {
+{
+  config,
+  self,
+  ...
+}: {
   imports = [
     (self.inputs.nixpkgs + "/nixos/modules/installer/scan/not-detected.nix")
     (self.inputs.disko.nixosModules.disko)
@@ -42,8 +46,16 @@
 
     nvidia = {
       # Blackwell (RTX PRO 1000, GB207GLM) requires the open kernel modules.
-      # The 610 driver package comes from modules/nvidia-driver.nix.
       open = true;
+      # Production R620 for the P16, using the nvidia-x11 production hashes from nixpkgs.
+      package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
+        version = "620.73.04";
+        sha256_64bit = "sha256-tfLi1dqENbMlOTBAFbib9+si/grsjNaQW3puip+bjxs=";
+        sha256_aarch64 = "sha256-45QZFS3Hs9hN4tKRrfmripADVpZQqksB7pAEZaS+XkA=";
+        openSha256 = "sha256-+GPU2bXC/QWZTt0eH3dTvI0bMAta1GCdU2WFI4E4LWE=";
+        settingsSha256 = "sha256-Wrv0F7Eo9X/0Xv5DclI9aIe3FcRtbu9okQJuWBjL8es=";
+        persistencedSha256 = "sha256-QOndl1q7veD5aB6AfEe0/K2QHR8+ftLsei/aQrUCN3Q=";
+      };
 
       # NOTE: sync is an X11 mechanism -- NixOS implements it via Xorg config
       # and xrandr provider commands in the display manager's setupCommands,

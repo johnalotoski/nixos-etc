@@ -239,7 +239,6 @@ in {
     telegram-desktop
     tig
     tldr
-    tmate
     tmux
     tree
     treefmt
