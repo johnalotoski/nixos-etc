@@ -24,7 +24,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-nvchad.url = "github:johnalotoski/nix-nvchad/jl/err-yank";
+    nix-nvchad.url = "github:johnalotoski/nix-nvchad";
 
     neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
 
