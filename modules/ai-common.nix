@@ -188,6 +188,23 @@
             # runpath. Non-nix cuda binaries also need LD_LIBRARY_PATH set to
             # /run/opengl-driver/lib, left out to avoid shadowing other libs.
             args+=( --ro-bind-try /run/opengl-driver /run/opengl-driver )
+
+            # Bind individual attributes through their host class symlinks.
+            # The sandbox only needs sensor readings and laptop power state.
+            for sensor in /sys/class/hwmon/hwmon*; do
+              if [[ -r "$sensor/name" ]]; then
+                case "$(<"$sensor/name")" in
+                  coretemp|k10temp)
+                    for attr in "$sensor"/name "$sensor"/temp*_label "$sensor"/temp*_input; do
+                      [[ -r "$attr" ]] && args+=( --ro-bind "$attr" "$attr" )
+                    done
+                    ;;
+                esac
+              fi
+            done
+            for attr in /sys/class/power_supply/*/{type,online,status} /sys/firmware/acpi/platform_profile; do
+              [[ -r "$attr" ]] && args+=( --ro-bind "$attr" "$attr" )
+            done
           fi
 
           # --- Nix store (binaries + libs) ---
